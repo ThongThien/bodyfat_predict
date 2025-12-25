@@ -127,10 +127,11 @@ if st.session_state.page == 'home':
             
             prediction = model.predict(input_data)[0]
             
-            # --- XỬ LÝ KHÔN NGOAN SAI SỐ ---
-            low_bf = max(3.0, prediction - 3.85)
-            high_bf = min(45.0, prediction + 3.85)
-
+            # --- XỬ LÝ RANGE (Model là trung tâm) ---
+            error_margin = 3.85
+            low_range = max(3.0, prediction - error_margin)
+            high_range = min(45.0, prediction + error_margin)
+            
             # Tính toán các chỉ số phụ
             bmi = weight / ((height/100)**2)
             fat_kg = (prediction / 100) * weight
@@ -144,8 +145,14 @@ if st.session_state.page == 'home':
                 st.markdown(get_human_svg(prediction), unsafe_allow_html=True)
 
             with res_c2:
-                st.markdown("<p class='metric-label'>TỶ LỆ MỠ DỰ BÁO (Sai số 3.85%)</p>", unsafe_allow_html=True)
-                st.markdown(f"<p class='big-value'>{prediction:.1f}%</p>", unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div class='result-box'>
+                        <p class='metric-label' style='font-size:15px; color:#9CA3AF;'>TỶ LỆ MỠ</p>
+                        <p class='big-value'>{prediction:.1f}%</p>
+                        <p class='range-label'>KHOẢNG BIẾN THIÊN THỰC TẾ (±3.85%)</p>
+                        <p class='range-text'>{low_range:.1f}% — {high_range:.1f}%</p>
+                    </div>
+                """, unsafe_allow_html=True)
                 # Hiển thị khoảng sai số để tăng tính tin cậy
                 st.write("")
                 st.markdown(f"<div class='metric-item'><span class='metric-label'>Khối lượng mỡ:</span><span class='metric-val'>{fat_kg:.1f} kg</span></div>", unsafe_allow_html=True)
@@ -157,11 +164,11 @@ if st.session_state.page == 'home':
             with res_c3:
                 st.subheader("💡 Nhận xét chuyên gia")
                 if prediction < 14:
-                    st.success("🎉 **TRẠNG THÁI VĐV!** Bạn có lượng mỡ cực thấp. Hãy giữ vững kỷ luật nạp đủ Protein.")
+                    st.success("Bạn có lượng mỡ cực thấp. Hãy giữ vững kỷ luật nạp đủ Protein.")
                 elif prediction < 22:
-                    st.info("👏 **SĂN CHẮC!** Cơ thể ở mức lý tưởng để duy trì sức khỏe và thẩm mỹ lâu dài.")
+                    st.info("Cơ thể ở mức lý tưởng để duy trì sức khỏe và thẩm mỹ lâu dài.")
                 else:
-                    st.warning("🔥 **TIỀM NĂNG LỚN!** Hãy bắt đầu hành trình Recomp (giảm mỡ tăng cơ) để thấy sự khác biệt.")
+                    st.warning(" Hãy bắt đầu hành trình giảm mỡ tăng cơ để thấy sự khác biệt.")
                 
                 st.markdown("""
                 <div class='expert-note'>
@@ -176,16 +183,13 @@ if st.session_state.page == 'home':
         st.write("Sử dụng các hình ảnh này để đối chiếu trực quan với kết quả dự báo của AI.")
         
         # Chia làm 3 cột để hiển thị 3 ảnh nằm ngang
-        col_img1, col_img2, col_img3 = st.columns([1, 1, 1])
+        col_img1, col_img2, col_img3 = st.columns([1, 1])
         
         with col_img1:
             st.image("anh_1.jpg", caption="Tham khảo 1", use_container_width=True)
 
         with col_img2:
             st.image("anh_2.jpg", caption="Tham khảo 2", use_container_width=True)
-
-        with col_img3:
-            st.image("anh_3.jpg", caption="Tham khảo 3", use_container_width=True)
 
     st.divider()
 
