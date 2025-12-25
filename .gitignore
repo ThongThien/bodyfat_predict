@@ -7,4 +7,3 @@ venv/
 ENV/
 env/
 .env
-tuned_xgboost_k7_final.pkl

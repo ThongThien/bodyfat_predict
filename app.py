@@ -183,7 +183,7 @@ if st.session_state.page == 'home':
         st.write("Sử dụng các hình ảnh này để đối chiếu trực quan với kết quả dự báo của AI.")
         
         # Chia làm 3 cột để hiển thị 3 ảnh nằm ngang
-        col_img1, col_img2, col_img3 = st.columns([1, 1])
+        col_img1, col_img2 = st.columns([1, 1])
         
         with col_img1:
             st.image("anh_1.jpg", caption="Tham khảo 1", use_container_width=True)
