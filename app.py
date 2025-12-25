@@ -49,14 +49,16 @@ except:
 
 # --- HÀM VẼ BIỂU ĐỒ HÌNH NGƯỜI SVG ---
 def get_human_svg(bf):
-    # Chiều cao đổ vàng dựa trên BF (tối đa 40% là đầy người)
+    unique_id = str(uuid.uuid4())[:8] # Tạo ID duy nhất cho mỗi lần render
     fill_h = max(0, min(100, (bf / 40) * 100))
+    y_pos = 210 - (fill_h * 2.1)
+    
     svg = f"""
     <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
         <svg width="140" height="300" viewBox="0 0 100 220">
             <path d="M50,10 C55,10 60,15 60,20 C60,25 55,30 50,30 C45,30 40,25 40,20 C40,15 45,10 50,10 M40,32 L60,32 L65,80 L75,130 L70,210 L55,210 L50,140 L45,210 L30,210 L25,130 L35,80 Z" fill="#2D3748" />
-            <clipPath id="cp"><rect x="0" y="{210 - (fill_h * 2.1)}" width="100" height="210" /></clipPath>
-            <path d="M50,10 C55,10 60,15 60,20 C60,25 55,30 50,30 C45,30 40,25 40,20 C40,15 45,10 50,10 M40,32 L60,32 L65,80 L75,130 L70,210 L55,210 L50,140 L45,210 L30,210 L25,130 L35,80 Z" fill="#FBBF24" clip-path="url(#cp)" />
+            <defs><clipPath id="cp_{unique_id}"><rect x="0" y="{y_pos}" width="100" height="210" /></clipPath></defs>
+            <path d="M50,10 C55,10 60,15 60,20 C60,25 55,30 50,30 C45,30 40,25 40,20 C40,15 45,10 50,10 M40,32 L60,32 L65,80 L75,130 L70,210 L55,210 L50,140 L45,210 L30,210 L25,130 L35,80 Z" fill="#FBBF24" clip-path="url(#cp_{unique_id})" />
             <path d="M50,10 C55,10 60,15 60,20 C60,25 55,30 50,30 C45,30 40,25 40,20 C40,15 45,10 50,10 M40,32 L60,32 L65,80 L75,130 L70,210 L55,210 L50,140 L45,210 L30,210 L25,130 L35,80 Z" fill="none" stroke="#4A5568" stroke-width="2" />
         </svg>
         <p style="color: #FBBF24; font-weight: bold; margin-top: 5px;">Mức phủ mỡ: {bf:.1f}%</p>
@@ -125,6 +127,10 @@ if st.session_state.page == 'home':
             
             prediction = model.predict(input_data)[0]
             
+            # --- XỬ LÝ KHÔN NGOAN SAI SỐ ---
+            low_bf = max(3.0, prediction - 3.85)
+            high_bf = min(45.0, prediction + 3.85)
+
             # Tính toán các chỉ số phụ
             bmi = weight / ((height/100)**2)
             fat_kg = (prediction / 100) * weight
@@ -139,7 +145,8 @@ if st.session_state.page == 'home':
 
             with res_c2:
                 st.markdown("<p class='metric-label'>TỶ LỆ MỠ DỰ BÁO (Sai số 3.85%)</p>", unsafe_allow_html=True)
-                st.markdown(f"<p class='big-value'>{prediction:.2f}%</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='big-value'>{prediction:.1f}%</p>", unsafe_allow_html=True)
+                # Hiển thị khoảng sai số để tăng tính tin cậy
                 st.write("")
                 st.markdown(f"<div class='metric-item'><span class='metric-label'>Khối lượng mỡ:</span><span class='metric-val'>{fat_kg:.1f} kg</span></div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='metric-item'><span class='metric-label'>Khối lượng nạc (LBM):</span><span class='metric-val'>{lbm:.1f} kg</span></div>", unsafe_allow_html=True)
@@ -148,15 +155,19 @@ if st.session_state.page == 'home':
                 st.markdown(f"<div class='metric-item'><span class='metric-label'>Chỉ số BMI:</span><span class='metric-val'>{bmi:.1f}</span></div>", unsafe_allow_html=True)
 
             with res_c3:
-                st.subheader("💡 Nhận xét chuyên môn")
+                st.subheader("💡 Nhận xét chuyên gia")
                 if prediction < 14:
-                    st.success("🎉 **TRẠNG THÁI VĐV!** Hình thể của bạn cực kỳ sắc nét. Hãy chú trọng giữ cơ bằng cách nạp đủ Protein (2g/kg trọng lượng).")
+                    st.success("🎉 **TRẠNG THÁI VĐV!** Bạn có lượng mỡ cực thấp. Hãy giữ vững kỷ luật nạp đủ Protein.")
                 elif prediction < 22:
-                    st.info("👏 **TUYỆT VỜI!** Bạn đang ở mức hình thể săn chắc, cân đối. Hãy duy trì lịch tập kháng lực hiện tại!")
+                    st.info("👏 **SĂN CHẮC!** Cơ thể ở mức lý tưởng để duy trì sức khỏe và thẩm mỹ lâu dài.")
                 else:
-                    st.warning("🔥 **QUYẾT TÂM LÊN!** Bạn có tiềm năng lớn. Hãy bắt đầu hành trình thâm hụt calo nhẹ để thấy sự thay đổi rõ rệt.")
+                    st.warning("🔥 **TIỀM NĂNG LỚN!** Hãy bắt đầu hành trình Recomp (giảm mỡ tăng cơ) để thấy sự khác biệt.")
                 
-                st.write("\n*Kỷ luật là sức mạnh. ThongThien Fitness luôn đồng hành cùng bạn!*")
+                st.markdown("""
+                <div class='expert-note'>
+                <b>Mẹo:</b> Kết quả AI là tham khảo. Hãy quan trọng <b>SỰ THAY ĐỔI</b> qua từng tuần khi đo cùng một thời điểm thay vì quá ám ảnh về con số tuyệt đối hôm nay.
+                </div>
+                """, unsafe_allow_html=True)
         else:
             st.info("Nhấn nút 'PHÂN TÍCH' để xem kết quả chi tiết.")
 
