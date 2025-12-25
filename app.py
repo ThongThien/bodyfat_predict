@@ -1,7 +1,7 @@
 import streamlit as st
 import joblib
 import pandas as pd
-
+import uuid  # Thêm để fix lỗi render SVG
 # --- CẤU HÌNH TRANG ---
 st.set_page_config(page_title="ThongThien Fitness AI", layout="wide", page_icon="⚡")
 
