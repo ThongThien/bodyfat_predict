@@ -289,7 +289,7 @@ else:
         <div class='info-card'>
         <h4>2. Cơ chế "Hybrid Adjustment"</h4>
         AI có thể "mù" trước chất lượng cơ bắp. Đó là lý do Survey Visual ra đời:<br><br>
-        Final = (AI x 0.3) + (Survey x 0.7)<br><br>
+        Final = (AI x 0.4) + (Survey x 0.6)<br><br>
         Trọng số này được áp dụng khi có sự lệch biệt lớn (Outlier), giúp kết quả không bị lố khi bạn có khung xương to nhưng mỡ cực thấp hoặc ngược lại.
         </div>
         """, unsafe_allow_html=True)
