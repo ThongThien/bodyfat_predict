@@ -3,3 +3,6 @@ xgboost
 joblib
 pandas
 scikit-learn
+opencv-python-headless
+mediapipe
+mysql-connector-python
