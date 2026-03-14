@@ -1,21 +1,30 @@
 import numpy as np
 import cv2
 import streamlit as st
-import os
+import importlib
 
 def get_data(img_bgr):
     if img_bgr is None: return None, None
     
+    # SỬ DỤNG IMPORTLIB ĐỂ ÉP NẠP MODULE
     try:
-        from mediapipe.python.solutions import pose as mp_pose
-        from mediapipe.solutions import selfie_segmentation as mp_segmentation
-    except Exception:
-        import mediapipe as mp
-        mp_pose = mp.solutions.pose
-        mp_segmentation = mp.solutions.selfie_segmentation
+        # Thử nạp Pose
+        spec_pose = importlib.util.find_spec("mediapipe.solutions.pose")
+        mp_pose = importlib.util.module_from_spec(spec_pose)
+        spec_pose.loader.exec_module(mp_pose)
+        
+        # Thử nạp Segmentation
+        spec_seg = importlib.util.find_spec("mediapipe.solutions.selfie_segmentation")
+        mp_segmentation = importlib.util.module_from_spec(spec_seg)
+        spec_seg.loader.exec_module(mp_segmentation)
     except Exception as e:
-        st.error(f"MediaPipe cực kỳ lỗi: {e}")
-        return None, None
+        # Nếu vẫn lỗi, thử đường dẫn dự phòng cuối cùng
+        try:
+            import mediapipe.solutions.pose as mp_pose
+            import mediapipe.solutions.selfie_segmentation as mp_segmentation
+        except Exception as final_e:
+            st.error(f"MediaPipe sập hoàn toàn: {final_e}")
+            return None, None
 
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     
