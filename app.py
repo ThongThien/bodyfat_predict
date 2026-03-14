@@ -1,106 +1,222 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import cv2
+import numpy as np
+import time
+import os
+
+# Core imports
 from core.predictor import load_model, predict_body_fat
-from core.visualizer import get_human_svg, get_custom_css
+from core.visualizer import get_human_svg
 from core.info_content import show_info_page
+from core.cv_engine import process_body_measurements 
 
-# 1. CẤU HÌNH & CSS
-st.set_page_config(page_title="ThongThien Fitness AI - Elite", layout="wide", page_icon="⚡")
-st.markdown(get_custom_css(), unsafe_allow_html=True)
+# --- 1. CONFIG & STYLE ---
+st.set_page_config(page_title="Predict Body Fat Free", layout="wide")
 
-# 2. DATA PRESETS (Bạn có thể tách tiếp ra file JSON nếu muốn)
-PRESETS = {
-    "Chỉ số của tôi":[22,64,163,92,86,88,51,36],
-    "Vận động viên":[25,70,175,100,72,90,55,40],
-    "Gym Lean":[22,62,163,90,78,88,52,36],
-    "Người bình thường":[30,80,175,95,88,95,53,33],
-    "Người thừa mỡ":[35,95,175,105,105,110,62,31]
-}
+st.markdown("""
+    <style>
+    .block-container {padding-top: 1rem;}
+    .stButton>button {width: 100%; border-radius: 5px;}
+    .copyright {position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: gray; z-index: 100;}
+    * {font-family: 'Segoe UI', sans-serif;}
+    </style>
+""", unsafe_allow_html=True)
 
-# 3. INITIALIZATION
-if 'page' not in st.session_state: st.session_state.page='home'
-if 'vals' not in st.session_state: st.session_state.vals=PRESETS["Chỉ số của tôi"]
+# --- 2. SESSION STATE ---
+if 'logged_in' not in st.session_state: st.session_state.logged_in = False
+if 'vals' not in st.session_state: st.session_state.vals = [None]*7 # age, w, h, chest, abd, hip, thigh
+if 'step' not in st.session_state: st.session_state.step = 1 
+if 'is_editing' not in st.session_state: st.session_state.is_editing = False
+if 'analysis_done' not in st.session_state: st.session_state.analysis_done = False
+if 'prediction' not in st.session_state: st.session_state.prediction = 0.0
+if 'pipeline_front' not in st.session_state: st.session_state.pipeline_front = None
+if 'pipeline_side' not in st.session_state: st.session_state.pipeline_side = None
 
-model = load_model("models/xgboost_bodyfat_model_k8.pkl")
+model = load_model("models/bodyfat_xgboost_model_final.pkl")
 
-# 4. HEADER UI
-col_h1, col_h2 = st.columns([0.8, 0.2])
-with col_h1:
-    st.markdown("<h1 style='color:#3B82F6;'>THONGTHIEN FITNESS AI</h1>", unsafe_allow_html=True)
-    st.caption("Công nghệ phân tích tỷ lệ mỡ cơ thể bằng Machine Learning")
-with col_h2:
-    if st.button("ℹ️ THÔNG TIN KHOA HỌC", use_container_width=True):
-        st.session_state.page = 'info' if st.session_state.page == 'home' else 'home'
-        st.rerun()
+# --- 3. SIDEBAR MENU ---
+with st.sidebar:
+    st.title("Predict Body Fat Free")
+    st.markdown("---")
+    selection = st.radio("MENU", ["Measure Body Fat", "Scientific Info", "Body Fat Samples", "Your History", "Settings"])
+    
+    st.markdown("---")
+    # Login/Logout
+    if st.session_state.logged_in:
+        st.write("Status: Logged In")
+        if st.button("LOGOUT"):
+            st.session_state.logged_in = False
+            st.rerun()
+    else:
+        st.write("Status: Guest")
+        if st.button("LOGIN"):
+            st.session_state.logged_in = True
+            st.rerun()
 
-# 5. PAGE ROUTING
-if st.session_state.page == 'home':
-    # --- UI PHẦN NHẬP LIỆU ---
-    st.markdown("### 📏 Nhập chỉ số cơ thể")
-    choice = st.selectbox("Chọn mẫu:", list(PRESETS.keys()))
-    if st.button("ÁP DỤNG MẪU", key="btn_apply_preset"):
-        st.session_state.vals = PRESETS[choice]
-        st.rerun()
-
-    v = st.session_state.vals
-    c1, c2, c3, c4 = st.columns(4)
-    age = c1.number_input("Tuổi", 1, 100, int(v[0]))
-    weight = c2.number_input("Nặng (kg)", 30.0, 200.0, float(v[1]))
-    height = c3.number_input("Cao (cm)", 100.0, 250.0, float(v[2]))
-    chest = c4.number_input("Ngực (cm)", 50.0, 150.0, float(v[3]))
-
-    c5, c6, c7, c8 = st.columns(4)
-    abdomen = c5.number_input("Bụng (cm)", 40.0, 150.0, float(v[4]))
-    hip = c6.number_input("Mông (cm)", 50.0, 150.0, float(v[5]))
-    thigh = c7.number_input("Đùi (cm)", 30.0, 100.0, float(v[6]))
-    biceps = c8.number_input("Bắp tay (cm)", 15.0, 60.0, float(v[7]))
-
-    btn = st.button("🔥 PHÂN TÍCH BODY FAT", type="primary", use_container_width=True, key="btn_main_analyze")
-
-    # --- KẾT QUẢ ---
-    tab1, tab2 = st.tabs(["📊 Kết quả phân tích", "📷 Hình mẫu tham khảo"])
-    with tab1:
-        if btn:
-            if model:
-                data = {"Age":age, "Weight":weight, "Height":height, "Chest":chest, 
-                        "Abdomen":abdomen, "Hip":hip, "Thigh":thigh, "Biceps":biceps}
-                prediction = predict_body_fat(model, data)
+    st.markdown("---")
+    # LOAD SAMPLE DATA with REAL CV PROCESSING
+    if st.button("LOAD SAMPLE DATA"):
+        with st.spinner('AI processing sample images...'):
+            # Load sample files
+            img_f = cv2.imread("assets/front_Lap.jpg")
+            img_s = cv2.imread("assets/side_Lap.jpg")
+            
+            if img_f is not None and img_s is not None:
+                # Set initial known metrics
+                age_s, w_s, h_s = 22, 59.0, 169.0
+                # Process via your CV engine
+                res_cv, pipe_f, pipe_s = process_body_measurements(img_f, img_s, h_s, age_s, w_s)
                 
-                # Logic tính toán phụ
-                bmi = weight / ((height/100)**2)
-                fat_kg = (prediction/100) * weight
-                lbm = weight - fat_kg
-
-                res_c1, res_c2, res_c3 = st.columns([0.8, 1.2, 1.2])
-                with res_c1:
-                    components.html(get_human_svg(prediction), height=340)
-                with res_c2:
-                    st.markdown(f"<div class='result-box'><p class='big-value'>{prediction:.1f}%</p></div>", unsafe_allow_html=True)
-                    st.markdown(f"<div class='metric-item'>Fat Mass: {fat_kg:.1f} kg</div>", unsafe_allow_html=True)
-                    st.markdown(f"<div class='metric-item'>Lean Mass: {lbm:.1f} kg</div>", unsafe_allow_html=True)
-                    st.markdown(f"<div class='metric-item'>BMI: {bmi:.1f}</div>", unsafe_allow_html=True)
-                with res_c3:
-                    st.subheader("💡 Đánh giá AI")
-                    status = "VĐV thi đấu" if prediction < 8 else "Lean / Fitness" if prediction < 15 else "Bình thường" if prediction < 22 else "Thừa mỡ"
-                    st.success(status)
-                    st.markdown("<div class='expert-note'>Tip: Tập trung phát triển cơ bụng để tăng độ nét.</div>", unsafe_allow_html=True)
+                if res_cv:
+                    st.session_state.vals = [age_s, w_s, h_s, res_cv['Chest'], res_cv['Abdomen'], res_cv['Hip'], res_cv['Thigh']]
+                    st.session_state.pipeline_front = pipe_f
+                    st.session_state.pipeline_side = pipe_s
+                    st.session_state.step = 2
+                    st.rerun()
             else:
-                st.error("Model chưa được load!")
-    with tab2:
-        st.image(["assets/anh_1.jpg", "assets/anh_2.jpg"], use_container_width=True)
-
-else:
-    # --- PAGE INFO --- (Giữ nguyên logic của bạn nhưng bọc trong hàm hoặc file riêng nếu cần)
-    st.markdown("## 📋 Giải mã Thuật toán & Khoa học")
-    # ... Copy phần code info của bạn vào đây ...
-    if st.button("⬅️ QUAY LẠI MÁY TÍNH", key="btn_info_back"):
-        st.session_state.page = 'home'
+                st.error("Sample images not found in assets folder.")
+    
+    if st.button("RESET ALL"):
+        for key in list(st.session_state.keys()): del st.session_state[key]
         st.rerun()
 
-# 5. PAGE ROUTING (Phần cuối file app.py)
-if st.session_state.page == 'home':
-    # (Toàn bộ code trang Home đã viết ở phản hồi trước)
-    pass 
-else:
-    # Gọi hàm từ module đã tách
+# --- 4. MAIN CONTENT ---
+
+if selection == "Measure Body Fat":
+    is_locked = st.session_state.analysis_done
+    
+    col_inputs, col_display = st.columns([1, 1.2])
+    
+    with col_inputs:
+        st.subheader("1. Fundamental Metrics & AI Scan")
+        age = st.number_input("Age", 10, 100, st.session_state.vals[0], disabled=is_locked)
+        weight = st.number_input("Weight (kg)", 30.0, 200.0, st.session_state.vals[1], disabled=is_locked)
+        height = st.number_input("Height (cm)", 120.0, 230.0, st.session_state.vals[2], disabled=is_locked)
+        up_f = st.file_uploader("Front View Image", type=['jpg', 'png'], disabled=is_locked)
+        up_s = st.file_uploader("Side View Image", type=['jpg', 'png'], disabled=is_locked)
+        is_loose_clothing = st.checkbox("Mặc quần đùi/đồ rộng", value=False, help="Tích chọn nếu bạn mặc quần đùi hoặc đồ không bó sát để AI trừ hao chính xác hơn.")
+        if st.button("RUN AI SCAN", disabled=is_locked):
+            if up_f and up_s and height:
+                with st.spinner('AI Scanning Body...'):
+                    # Convert uploaded files to OpenCV
+                    file_bytes_f = np.asarray(bytearray(up_f.read()), dtype=np.uint8)
+                    file_bytes_s = np.asarray(bytearray(up_s.read()), dtype=np.uint8)
+                    img_f = cv2.imdecode(file_bytes_f, 1)
+                    img_s = cv2.imdecode(file_bytes_s, 1)
+                    
+                    # Call your CV engine
+                    res_cv, pipe_f, pipe_s = process_body_measurements(img_f, img_s, height, age, weight, is_loose_clothing)
+                    
+                    if res_cv:
+                        st.session_state.vals = [age, weight, height, res_cv['Chest'], res_cv['Abdomen'], res_cv['Hip'], res_cv['Thigh']]
+                        st.session_state.pipeline_front = pipe_f
+                        st.session_state.pipeline_side = pipe_s
+                        st.session_state.step = 2
+                        st.rerun()
+            else:
+                st.warning("Please fill height and upload both photos.")
+    with col_display:
+        if st.session_state.pipeline_front is not None:
+            st.write("AI ANALYSIS PIPELINE")
+            tab1, tab2 = st.tabs(["FRONT VIEW SCAN", "SIDE VIEW SCAN"])
+            with tab1:
+                # Streamlit tự động hỗ trợ click để zoom (Fullscreen)
+                st.image(st.session_state.pipeline_front, use_container_width=True, caption="Front: Original - Mask - Skeleton - Scan")
+            
+            with tab2:
+                st.image(st.session_state.pipeline_side, use_container_width=True, caption="Side: Original - Mask - Skeleton - Scan")
+        else:
+            st.info("AI Analysis result will appear here after scanning.")
+
+    # SECTION 2: CONFIRMATION
+    if st.session_state.step >= 2:
+        st.markdown("---")
+        st.subheader("2. Confirm Girth Measurements (cm)")
+        
+        # Edit Toggle Logic
+        btn_label = "Done" if st.session_state.is_editing else "Edit"
+        if st.button(btn_label):
+            st.session_state.is_editing = not st.session_state.is_editing
+            st.rerun()
+
+        input_disabled = not st.session_state.is_editing or is_locked
+        v = st.session_state.vals
+        
+        g1, g2, g3, g4 = st.columns(4)
+        c_v = g1.number_input("Chest", 40.0, 200.0, v[3], disabled=input_disabled)
+        a_v = g2.number_input("Abdomen", 40.0, 200.0, v[4], disabled=input_disabled)
+        h_v = g3.number_input("Hip", 40.0, 200.0, v[5], disabled=input_disabled)
+        t_v = g4.number_input("Thigh", 20.0, 150.0, v[6], disabled=input_disabled)
+        
+        # Save values back to state if edited
+        st.session_state.vals[3:7] = [c_v, a_v, h_v, t_v]
+
+        if st.button("ANALYZE", type="primary", disabled=is_locked):
+            with st.spinner('Calculating Body Fat...'):
+                data = {"Age": age, "Weight": weight, "Height": height, 
+                        "Chest": c_v, "Abdomen": a_v, "Hip": h_v, "Thigh": t_v}
+                st.session_state.prediction = predict_body_fat(model, data)
+                st.session_state.analysis_done = True
+                st.session_state.is_editing = False
+                st.rerun()
+
+    # SECTION 3: RESULTS
+    if st.session_state.analysis_done:
+        st.markdown("---")
+        st.subheader("3. Results")
+        pred = st.session_state.prediction
+        r1, r2 = st.columns([1, 1])
+        with r1:
+            st.metric("Body Fat Percentage", f"{pred:.1f}%")
+            components.html(get_human_svg(pred), height=350)
+        with r2:
+            st.write("Health Category")
+            if pred < 14: st.success("Athletic / Underfat")
+            elif pred < 18: st.success("Fitness")
+            elif pred < 25: st.warning("Average")
+            else: st.error("Overweight")
+            
+            if st.session_state.logged_in:
+                if st.button("Save Progress"): st.toast("Saved!")
+
+elif selection == "Scientific Info":
     show_info_page()
+
+elif selection == "Body Fat Samples":
+    st.subheader("Compare your body fat visually")
+    st.image("assets/anh_1.jpg", use_container_width=True)
+
+elif selection == "Settings":
+    st.subheader("Settings")
+    st.selectbox("App Language", ["English", "Vietnamese"])
+    st.radio("Interface Theme", ["Light", "Dark"])
+
+st.markdown("""
+    <style>
+    /* Đẩy nội dung xuống để không bị Menu che và tạo khoảng trống phía dưới */
+    .block-container {
+        padding-top: 3.5rem;
+        padding-bottom: 5rem;
+    }
+    /* Ẩn dòng chữ "Made with Streamlit" ở dưới cùng nếu muốn */
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
+    .stButton>button {width: 100%; border-radius: 5px;}
+    .copyright {
+        position: fixed; 
+        bottom: 0; 
+        left: 0; 
+        width: 100%; 
+        background-color: white; 
+        text-align: center; 
+        padding: 5px; 
+        font-size: 12px; 
+        color: gray; 
+        z-index: 1000;
+        border-top: 1px solid #ddd;
+    }
+    * {font-family: 'Segoe UI', sans-serif;}
+    </style>
+""", unsafe_allow_html=True)

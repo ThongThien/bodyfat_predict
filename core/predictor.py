@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 
 @st.cache_resource
-def load_model(model_path="models/xgboost_bodyfat_model_k8.pkl"):
+def load_model(model_path="models/bodyfat_xgboost_model_final.pkl"):
     try:
         return joblib.load(model_path)
     except Exception as e:
