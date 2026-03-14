@@ -20,11 +20,13 @@ def get_data(img_bgr):
     except Exception as e:
         # Nếu vẫn lỗi, thử đường dẫn dự phòng cuối cùng
         try:
-            import mediapipe.solutions.pose as mp_pose
-            import mediapipe.solutions.selfie_segmentation as mp_segmentation
-        except Exception as final_e:
-            st.error(f"MediaPipe sập hoàn toàn: {final_e}")
-            return None, None
+            import mediapipe.python.solutions.hands as mp_hands
+            import mediapipe.python.solutions.drawing_utils as mp_drawing
+            import mediapipe.python.solutions.drawing_styles as mp_drawing_styles
+        except ImportError:
+            import mediapipe.solutions.hands as mp_hands
+            import mediapipe.solutions.drawing_utils as mp_drawing
+            import mediapipe.solutions.drawing_styles as mp_drawing_styles
 
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     
