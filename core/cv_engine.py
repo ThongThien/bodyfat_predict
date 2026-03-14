@@ -4,23 +4,23 @@ import streamlit as st
 import os
 
 def get_data(img_bgr):
-    """
-    Khởi tạo MediaPipe cục bộ bên trong hàm để bypass lỗi nạp module trên Cloud
-    """
     if img_bgr is None: return None, None
     
     try:
-        import mediapipe as mp
-        # Ép nạp trực tiếp solutions
-        mp_pose = mp.solutions.pose
-        mp_segmentation = mp.solutions.selfie_segmentation
+        # Ép Python nạp thẳng từ module gốc
+        import mediapipe.python.solutions.pose as mp_pose
+        import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
+    except ImportError:
+        # Nếu cách trên vẫn lỗi, dùng cách này
+        from mediapipe.solutions import pose as mp_pose
+        from mediapipe.solutions import selfie_segmentation as mp_segmentation
     except Exception as e:
-        st.error(f"Lỗi khởi tạo MediaPipe: {e}")
+        st.error(f"MediaPipe cực kỳ lỗi: {e}")
         return None, None
 
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     
-    # Khởi tạo và xử lý ngay trong context để giải phóng RAM
+    # Khởi tạo model
     with mp_segmentation.SelfieSegmentation(model_selection=1) as seg:
         res_seg = seg.process(img_rgb)
         mask = res_seg.segmentation_mask > 0.5
