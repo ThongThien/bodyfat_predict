@@ -2,13 +2,22 @@ import cv2
 import numpy as np
 import mediapipe as mp
 
-from mediapipe.python.solutions import pose as mp_pose
-from mediapipe.python.solutions import selfie_segmentation as mp_segmentation
-from mediapipe.python.solutions import drawing_utils as mp_drawing
-
-if not hasattr(mp, 'solutions'):
-    import mediapipe.python.solutions as solutions
-    mp.solutions = solutions
+# Cách 1: Thử import chuẩn
+try:
+    from mediapipe.solutions import pose as mp_pose
+    from mediapipe.solutions import selfie_segmentation as mp_segmentation
+    from mediapipe.solutions import drawing_utils as mp_drawing
+except (ImportError, AttributeError):
+    # Cách 2: Nếu lỗi, ép hệ thống load lại module
+    try:
+        import mediapipe.python.solutions.pose as mp_pose
+        import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
+        import mediapipe.python.solutions.drawing_utils as mp_drawing
+    except:
+        # Cách 3: Dự phòng cuối cùng
+        mp_pose = mp.solutions.pose
+        mp_segmentation = mp.solutions.selfie_segmentation
+        mp_drawing = mp.solutions.drawing_utils
 
 def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
     """
