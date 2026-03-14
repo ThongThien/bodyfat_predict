@@ -2,7 +2,9 @@ import numpy as np
 import sys
 import streamlit as st
 import os
-
+mp_pose = None
+mp_segmentation = None
+mp_drawing = None
 # 1. Kiểm tra OpenCV an toàn
 try:
     import cv2
@@ -10,20 +12,14 @@ except ImportError as e:
     st.error(f"Lỗi nạp OpenCV: {e}")
     cv2 = None
 
-# 2. Import MediaPipe trực tiếp từ các module con
-# Cách này tránh được lỗi 'module has no attribute solutions'
 try:
     import mediapipe.python.solutions.pose as mp_pose
     import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
     import mediapipe.python.solutions.drawing_utils as mp_drawing
 except ImportError:
-    # Nếu đường dẫn trên lỗi, thử lại đường dẫn phổ thông
-    try:
-        from mediapipe.solutions import pose as mp_pose
-        from mediapipe.solutions import selfie_segmentation as mp_segmentation
-        from mediapipe.solutions import drawing_utils as mp_drawing
-    except Exception as e:
-        st.error(f"Lỗi nạp MediaPipe: {e}")
+    import mediapipe.solutions.pose as mp_pose
+    import mediapipe.solutions.selfie_segmentation as mp_segmentation
+    import mediapipe.solutions.drawing_utils as mp_drawing
 
 # 3. Khởi tạo các đối tượng (Ví dụ)
 if 'mp_pose' in locals():
@@ -36,12 +32,7 @@ if 'mp_pose' in locals():
 
 print("MediaPipe components loaded successfully!")
 
-def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
-    """
-    Xử lý đo cơ thể: Sửa lỗi thiếu hụt vòng ngực, chống dính tay và hiệu chỉnh đồ rộng.
-    """
-    
-    def get_data(img_bgr):
+def get_data(img_bgr):
         # THÊM DÒNG NÀY ĐỂ TRÁNH NAMEERROR
         global mp_segmentation, mp_pose
         
@@ -59,6 +50,13 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
         with mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5) as pose:
             res_pose = pose.process(img_rgb)
         return mask, res_pose
+
+def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
+    """
+    Xử lý đo cơ thể: Sửa lỗi thiếu hụt vòng ngực, chống dính tay và hiệu chỉnh đồ rộng.
+    """
+    
+
 
     # 1. Thu thập dữ liệu Mask và Pose
     mask_f_raw, res_f = get_data(front_img)
