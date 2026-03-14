@@ -1,26 +1,40 @@
 import numpy as np
 import sys
 import streamlit as st
+import os
 
-# Kiểm tra OpenCV
+# 1. Kiểm tra OpenCV an toàn
 try:
     import cv2
 except ImportError as e:
-    st.error(f"Không thể tải OpenCV: {e}")
+    st.error(f"Lỗi nạp OpenCV: {e}")
     cv2 = None
 
-import mediapipe as mp
+# 2. Import MediaPipe trực tiếp từ các module con
+# Cách này tránh được lỗi 'module has no attribute solutions'
 try:
-    from mediapipe.solutions import pose as mp_pose
-    from mediapipe.solutions import selfie_segmentation as mp_segmentation
-    from mediapipe.solutions import drawing_utils as mp_drawing
-except Exception:
-    mp_pose = mp.solutions.pose
-    mp_segmentation = mp.solutions.selfie_segmentation
-    mp_drawing = mp.solutions.drawing_utils
+    import mediapipe.python.solutions.pose as mp_pose
+    import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
+    import mediapipe.python.solutions.drawing_utils as mp_drawing
+except ImportError:
+    # Nếu đường dẫn trên lỗi, thử lại đường dẫn phổ thông
+    try:
+        from mediapipe.solutions import pose as mp_pose
+        from mediapipe.solutions import selfie_segmentation as mp_segmentation
+        from mediapipe.solutions import drawing_utils as mp_drawing
+    except Exception as e:
+        st.error(f"Lỗi nạp MediaPipe: {e}")
 
+# 3. Khởi tạo các đối tượng (Ví dụ)
+if 'mp_pose' in locals():
+    pose_engine = mp_pose.Pose(
+        static_image_mode=False,
+        model_complexity=1,
+        enable_segmentation=True,
+        min_detection_confidence=0.5
+    )
 
-print("MediaPipe loaded successfully!")
+print("MediaPipe components loaded successfully!")
 
 def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
     """
