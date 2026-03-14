@@ -1,11 +1,9 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-
-# Khởi tạo Mediapipe
-mp_pose = mp.solutions.pose
-mp_segmentation = mp.solutions.selfie_segmentation
-mp_drawing = mp.solutions.drawing_utils
+from mediapipe.python.solutions import pose as mp_pose
+from mediapipe.python.solutions import selfie_segmentation as mp_segmentation
+from mediapipe.python.solutions import drawing_utils as mp_drawing
 
 def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
     """
