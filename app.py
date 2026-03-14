@@ -117,7 +117,7 @@ if selection == "Measure Body Fat":
                     img_s = cv2.imdecode(file_bytes_s, 1)
                     
                     # Call your CV engine
-                    res_cv, pipe_f,pipe_s, _ = process_body_measurements(img_f, img_s, height, age, weight, is_loose_clothing)
+                    res_cv, pipe_f, pipe_s= process_body_measurements(img_f, img_s, height, age, weight, is_loose_clothing)
                     
                     if res_cv:
                         st.session_state.vals = [age, weight, height, res_cv['Chest'], res_cv['Abdomen'], res_cv['Hip'], res_cv['Thigh']]
