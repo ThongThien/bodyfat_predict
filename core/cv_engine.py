@@ -1,64 +1,40 @@
 import numpy as np
 import cv2
 import streamlit as st
-import importlib
+import os
 
 def get_data(img_bgr):
     if img_bgr is None: return None, None
     
-    # --- PHẦN NẠP MODULE AN TOÀN ---
-    mp_pose_mod = None
-    mp_seg_mod = None
-
     try:
-        # Cách 1: Thử nạp trực tiếp qua importlib (dành cho môi trường Cloud khắt khe)
-        spec_pose = importlib.util.find_spec("mediapipe.solutions.pose")
-        if spec_pose:
-            mp_pose_mod = importlib.util.module_from_spec(spec_pose)
-            spec_pose.loader.exec_module(mp_pose_mod)
-        
-        spec_seg = importlib.util.find_spec("mediapipe.solutions.selfie_segmentation")
-        if spec_seg:
-            mp_seg_mod = importlib.util.module_from_spec(spec_seg)
-            spec_seg.loader.exec_module(mp_seg_mod)
-    except:
-        pass
+        from mediapipe.python.solutions import pose as mp_pose
+        from mediapipe.solutions import selfie_segmentation as mp_segmentation
+    except Exception:
+        import mediapipe as mp
+        mp_pose = mp.solutions.pose
+        mp_segmentation = mp.solutions.selfie_segmentation
+    except Exception as e:
+        st.error(f"MediaPipe cực kỳ lỗi: {e}")
+        return None, None
 
-    # Cách 2: Dự phòng nếu Cách 1 thất bại
-    if mp_pose_mod is None or mp_seg_mod is None:
-        try:
-            import mediapipe.solutions.pose as mp_pose_mod
-            import mediapipe.solutions.selfie_segmentation as mp_seg_mod
-        except:
-            st.error("Không thể nạp MediaPipe. Hãy kiểm tra requirements.txt")
-            return None, None
-
-    # --- XỬ LÝ ẢNH ---
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     
-    # Khởi tạo model với module đã nạp
-    mask = None
-    res_pose = None
-    
-    try:
-        with mp_seg_mod.SelfieSegmentation(model_selection=1) as seg:
-            res_seg = seg.process(img_rgb)
-            mask = res_seg.segmentation_mask > 0.5
-            
-        with mp_pose_mod.Pose(static_image_mode=True, min_detection_confidence=0.5) as pose:
-            res_pose = pose.process(img_rgb)
-    except Exception as e:
-        st.error(f"Lỗi xử lý AI: {e}")
+    # Khởi tạo model
+    with mp_segmentation.SelfieSegmentation(model_selection=1) as seg:
+        res_seg = seg.process(img_rgb)
+        mask = res_seg.segmentation_mask > 0.5
+        
+    with mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5) as pose:
+        res_pose = pose.process(img_rgb)
         
     return mask, res_pose
 
 def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
-    # Nạp drawing utils cục bộ để vẽ skeleton
-    mp_drawing = None
-    mp_pose_vars = None
+    # Import drawing utils cục bộ
     try:
-        import mediapipe.solutions.drawing_utils as mp_drawing
-        import mediapipe.solutions.pose as mp_pose_vars
+        import mediapipe as mp
+        mp_drawing = mp.solutions.drawing_utils
+        mp_pose = mp.solutions.pose
     except:
         pass
 
@@ -66,8 +42,9 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
     mask_f_raw, res_f = get_data(front_img)
     mask_s_raw, res_s = get_data(side_img)
 
+    # Kiểm tra an toàn trước khi truy cập landmark
     if res_f is None or res_f.pose_landmarks is None or res_s is None or res_s.pose_landmarks is None:
-        st.warning("AI không nhận diện được vóc dáng. Hãy đứng rõ trước camera và chụp lại.")
+        st.warning("Không tìm thấy người trong ảnh. Hãy đứng rõ trước camera.")
         return None, None, None
 
     # --- BƯỚC 1: LÀM SẠCH MASK ---
@@ -90,7 +67,7 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
     def get_dim_v9(mask, y_norm, lm_list, part_name, view='front'):
         curr_h, curr_w = mask.shape
         y_pixel = int(y_norm * curr_h)
-        y_pixel = np.clip(y_pixel, 0, curr_h - 1)
+        if y_pixel >= curr_h: y_pixel = curr_h - 1
         
         shoulder_w = abs(lm_list[12].x - lm_list[11].x) * curr_w
         x_limit_min = int(min(lm_list[11].x, lm_list[12].x) * curr_w - shoulder_w * 0.2)
@@ -119,8 +96,8 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
     # --- BƯỚC 4: TỌA ĐỘ Y ---
     y_map = {
         'Chest': lm_f[11].y + (lm_f[23].y - lm_f[11].y) * 0.3, 
-        'Abdomen': lm_f[23].y - 0.02, 
-        'Hip': lm_f[23].y + 0.08,     
+        'Abdomen': lm_f[23].y - 0.02, # Rốn (đã hạ xuống so với bản cũ để chuẩn hơn)
+        'Hip': lm_f[23].y + 0.08,     # Mông (tăng nhẹ độ sâu)
         'Thigh': lm_f[23].y + (lm_f[25].y - lm_f[23].y) * 0.3
     }
 
@@ -134,8 +111,10 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
         a, b = w_v / 2, d_v / 2
         if a > 0 and b > 0:
             h_el = ((a - b)**2) / ((a + b)**2)
+            # Công thức Ramanujan
             circum = np.pi * (a + b) * (1 + (3 * h_el) / (10 + np.sqrt(4 - 3 * h_el)))
-            raw_results[part] = circum * 1.08 # Hệ số hiệu chỉnh người Việt
+            # HIỆU CHỈNH ELIP CHO NGƯỜI VIỆT (Bù hụt 10-15cm)
+            raw_results[part] = circum * 1.08 
         else: raw_results[part] = 0
             
         cv2.line(viz_f, (int(x1f), int(y*h_img)), (int(x2f), int(y*h_img)), (0, 255, 0), 3)
@@ -162,9 +141,9 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
         cv2.line(viz_s, (int(x1s), int(y*h_s)), (int(x2s), int(y*h_s)), (0, 255, 0), 3)
 
     skel_f, skel_s = front_img.copy(), side_img.copy()
-    if mp_drawing and mp_pose_vars:
-        mp_drawing.draw_landmarks(skel_f, res_f.pose_landmarks, mp_pose_vars.POSE_CONNECTIONS)
-        mp_drawing.draw_landmarks(skel_s, res_s.pose_landmarks, mp_pose_vars.POSE_CONNECTIONS)
+    if 'mp_drawing' in locals():
+        mp_drawing.draw_landmarks(skel_f, res_f.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        mp_drawing.draw_landmarks(skel_s, res_s.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
     mask_f_viz = cv2.cvtColor((mask_f.astype(np.uint8)*255), cv2.COLOR_GRAY2BGR)
     mask_s_viz = cv2.cvtColor((mask_s.astype(np.uint8)*255), cv2.COLOR_GRAY2BGR)
