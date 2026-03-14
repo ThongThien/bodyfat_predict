@@ -42,8 +42,17 @@ def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose
     """
     
     def get_data(img_bgr):
+        # THÊM DÒNG NÀY ĐỂ TRÁNH NAMEERROR
+        global mp_segmentation, mp_pose
+        
         if img_bgr is None: return None, None
         img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+        
+        # Kiểm tra xem các module đã được load chưa
+        if mp_segmentation is None or mp_pose is None:
+            st.error("Thư viện MediaPipe chưa được nạp đúng cách.")
+            return None, None
+            
         with mp_segmentation.SelfieSegmentation(model_selection=1) as seg:
             res_seg = seg.process(img_rgb)
             mask = res_seg.segmentation_mask > 0.5
