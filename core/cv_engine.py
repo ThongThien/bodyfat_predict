@@ -7,13 +7,12 @@ def get_data(img_bgr):
     if img_bgr is None: return None, None
     
     try:
-        # Ép Python nạp thẳng từ module gốc
-        import mediapipe.python.solutions.pose as mp_pose
-        import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
-    except ImportError:
-        # Nếu cách trên vẫn lỗi, dùng cách này
-        from mediapipe.solutions import pose as mp_pose
+        from mediapipe.python.solutions import pose as mp_pose
         from mediapipe.solutions import selfie_segmentation as mp_segmentation
+    except Exception:
+        import mediapipe as mp
+        mp_pose = mp.solutions.pose
+        mp_segmentation = mp.solutions.selfie_segmentation
     except Exception as e:
         st.error(f"MediaPipe cực kỳ lỗi: {e}")
         return None, None
