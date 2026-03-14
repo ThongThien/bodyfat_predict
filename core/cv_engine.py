@@ -1,15 +1,10 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-try:
-    from mediapipe.solutions import pose as mp_pose
-    from mediapipe.solutions import selfie_segmentation as mp_segmentation
-    from mediapipe.solutions import drawing_utils as mp_drawing
-except ImportError:
-    # Nếu vẫn lỗi, dùng cách dự phòng cho một số bản build Linux
-    import mediapipe.python.solutions.pose as mp_pose
-    import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
-    import mediapipe.python.solutions.drawing_utils as mp_drawing
+# Sử dụng proxy để gọi giải pháp
+mp_pose = mp.solutions.pose
+mp_segmentation = mp.solutions.selfie_segmentation
+mp_drawing = mp.solutions.drawing_utils
 
 def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
     """
