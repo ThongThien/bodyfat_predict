@@ -1,16 +1,22 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import cv2
-import numpy as np
+
+# Thay vì import cv2 trực tiếp, hãy bọc nó để tránh sập App
+try:
+    import cv2
+    import numpy as np
+except ImportError as e:
+    st.error(f"Lỗi khởi tạo OpenCV: {e}")
+    st.info("Hệ thống đang thiếu thư viện đồ họa. Kiểm tra lại packages.txt và requirements.txt.")
+
 import time
 import os
 
-# Core imports
+# Các import từ core
 from core.predictor import load_model, predict_body_fat
 from core.visualizer import get_human_svg
 from core.info_content import show_info_page
-from core.cv_engine import process_body_measurements 
-
+from core.cv_engine import process_body_measurements
 # --- 1. CONFIG & STYLE ---
 st.set_page_config(page_title="Predict Body Fat Free", layout="wide")
 
@@ -106,7 +112,7 @@ if selection == "Measure Body Fat":
                     img_s = cv2.imdecode(file_bytes_s, 1)
                     
                     # Call your CV engine
-                    res_cv, pipe_f, pipe_s = process_body_measurements(img_f, img_s, height, age, weight, is_loose_clothing)
+                    res_cv, pipe_f, _ = process_body_measurements(img_f, img_s, height, age, weight, is_loose_clothing)
                     
                     if res_cv:
                         st.session_state.vals = [age, weight, height, res_cv['Chest'], res_cv['Abdomen'], res_cv['Hip'], res_cv['Thigh']]

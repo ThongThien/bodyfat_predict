@@ -1,8 +1,14 @@
-import cv2
 import numpy as np
 import mediapipe as mp
 import sys
+try:
+    import cv2
+    print(f"OpenCV version: {cv2.__version__}")
+except ImportError as e:
+    print(f"Critical Error: {e}")
 
+import numpy as np
+import mediapipe as mp
 # Bước 1: Ép hệ thống kiểm tra lại danh mục module
 try:
     import mediapipe.python.solutions.pose as mp_pose
