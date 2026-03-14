@@ -1,22 +1,27 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import os
+import sys
 
-# Thay vì import cv2 trực tiếp, hãy bọc nó để tránh sập App
+# Thử import OpenCV một cách an toàn
 try:
     import cv2
     import numpy as np
 except ImportError as e:
     st.error(f"Lỗi khởi tạo OpenCV: {e}")
-    st.info("Hệ thống đang thiếu thư viện đồ họa. Kiểm tra lại packages.txt và requirements.txt.")
+    st.info("Hệ thống đang thiếu thư viện đồ họa (.so). Đang kiểm tra cấu hình...")
+    # Không dùng os.system(apt-get) ở đây vì sẽ bị chặn quyền
 
 import time
-import os
 
-# Các import từ core
-from core.predictor import load_model, predict_body_fat
-from core.visualizer import get_human_svg
-from core.info_content import show_info_page
-from core.cv_engine import process_body_measurements
+# Các import từ dự án của bạn
+try:
+    from core.predictor import load_model, predict_body_fat
+    from core.visualizer import get_human_svg
+    from core.info_content import show_info_page
+    from core.cv_engine import process_body_measurements 
+except ImportError as e:
+    st.warning(f"Lỗi nạp module nội bộ: {e}")
 # --- 1. CONFIG & STYLE ---
 st.set_page_config(page_title="Predict Body Fat Free", layout="wide")
 

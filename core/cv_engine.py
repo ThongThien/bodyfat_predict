@@ -1,30 +1,24 @@
 import numpy as np
-import mediapipe as mp
 import sys
+import streamlit as st
+
+# Kiểm tra OpenCV
 try:
     import cv2
-    print(f"OpenCV version: {cv2.__version__}")
 except ImportError as e:
-    print(f"Critical Error: {e}")
+    st.error(f"Không thể tải OpenCV: {e}")
+    cv2 = None
 
-import numpy as np
 import mediapipe as mp
-# Bước 1: Ép hệ thống kiểm tra lại danh mục module
 try:
-    import mediapipe.python.solutions.pose as mp_pose
-    import mediapipe.python.solutions.selfie_segmentation as mp_segmentation
-    import mediapipe.python.solutions.drawing_utils as mp_drawing
-except (ImportError, AttributeError):
-    try:
-        # Bước 2: Thử đường dẫn phổ thông
-        from mediapipe.solutions import pose as mp_pose
-        from mediapipe.solutions import selfie_segmentation as mp_segmentation
-        from mediapipe.solutions import drawing_utils as mp_drawing
-    except (ImportError, AttributeError):
-        # Bước 3: Giải pháp cuối cùng - Truy cập trực tiếp qua module gốc
-        mp_pose = mp.solutions.pose
-        mp_segmentation = mp.solutions.selfie_segmentation
-        mp_drawing = mp.solutions.drawing_utils
+    from mediapipe.solutions import pose as mp_pose
+    from mediapipe.solutions import selfie_segmentation as mp_segmentation
+    from mediapipe.solutions import drawing_utils as mp_drawing
+except Exception:
+    mp_pose = mp.solutions.pose
+    mp_segmentation = mp.solutions.selfie_segmentation
+    mp_drawing = mp.solutions.drawing_utils
+
 
 print("MediaPipe loaded successfully!")
 

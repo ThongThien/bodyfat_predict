@@ -1,7 +1,6 @@
 streamlit
 opencv-python-headless
-mediapipe-silicon; platform_system=='Darwin'
-mediapipe; platform_system!='Darwin'
+mediapipe
 numpy
 pandas
 xgboost
