@@ -1,10 +1,14 @@
 import cv2
-import mediapipe as mp
 import numpy as np
-# Sử dụng proxy để gọi giải pháp
-mp_pose = mp.solutions.pose
-mp_segmentation = mp.solutions.selfie_segmentation
-mp_drawing = mp.solutions.drawing_utils
+import mediapipe as mp
+
+from mediapipe.python.solutions import pose as mp_pose
+from mediapipe.python.solutions import selfie_segmentation as mp_segmentation
+from mediapipe.python.solutions import drawing_utils as mp_drawing
+
+if not hasattr(mp, 'solutions'):
+    import mediapipe.python.solutions as solutions
+    mp.solutions = solutions
 
 def process_body_measurements(front_img, side_img, real_h, age, weight, is_loose=False):
     """
