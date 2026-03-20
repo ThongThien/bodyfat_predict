@@ -6,3 +6,4 @@ pandas
 xgboost
 joblib
 mysql-connector-python
+supabase==2.4.0
