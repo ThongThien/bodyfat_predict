@@ -14,7 +14,7 @@ from core.database import (
 from core.visualizer import get_custom_css, get_human_svg
 from core.predictor import load_model, predict_body_fat
 from core.info_content import show_info_page
-from core.cv_engine import process_body_measurements
+from core.cv_engine_new_ver import process_body_measurements
 
 # --- 1. CONFIG & INITIALIZATION ---
 st.set_page_config(page_title="Predict Body Fat Free", layout="wide")
@@ -30,14 +30,20 @@ st.markdown("""
     .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #3B82F6; color: white; }
 """, unsafe_allow_html=True)
     
-# Session State Initialization
+# --- Session State Initialization (Updated for 3 AI Modes) ---
 for key, default in {
-    'active_mode': None, 'vals': [22, 60.0, 167.0],  # Sample Age, Weight, Height
-    'res_tab1': None, 'res_tab2_scan': None, 'res_tab2_final': None,
-    'res_tab3_scan': None, 'res_tab3_final': None,
-    'pipe2': (None, None), 'pipe3': (None, None)
+    'active_mode': None, 
+    'vals': [22, 61.0, 163.0], 
+    'res_tab1': None, 
+    # Tab 2: Raw
+    'res_tab2_scan': None, 'res_tab2_final': None, 'pipe2': (None, None),
+    # Tab 3: Scan (Standard)
+    'res_tab3_scan': None, 'res_tab3_final': None, 'pipe3': (None, None),
+    # Tab 4: Heuristic (Loose clothing)
+    'res_tab4_scan': None, 'res_tab4_final': None, 'pipe4': (None, None)
 }.items():
-    if key not in st.session_state: st.session_state[key] = default
+    if key not in st.session_state: 
+        st.session_state[key] = default
 
 # --- 2. HELPERS ---
 def get_status_color(bf_value):
@@ -101,14 +107,17 @@ with st.sidebar:
     selection = st.radio("MENU", ["Measure Body Fat", "Scientific Info", "Body Fat Samples", "Settings"])
     
     if st.button("LOAD SAMPLE DATA"):
-        img_f, img_s = cv2.imread("assets/front_Lap.jpg"), cv2.imread("assets/side_Lap.jpg")
+        img_f, img_s = cv2.imread("assets/front_T_new.jpg"), cv2.imread("assets/side_T_new.jpg")
         if img_f is not None:
             s_age, s_w, s_h = 22, 59.0, 167.0
             st.session_state.vals = [s_age, s_w, s_h]
             r2, p2f, p2s = process_body_measurements(img_f, img_s, s_h, s_age, s_w, is_loose=False)
             r3, p3f, p3s = process_body_measurements(img_f, img_s, s_h, s_age, s_w, is_loose=True)
+            r4, p4f, p4s = process_body_measurements(img_f, img_s, s_h, s_age, s_w, is_loose=True, is_raw=False)
+            
             st.session_state.res_tab2_scan, st.session_state.pipe2 = r2, (p2f, p2s)
             st.session_state.res_tab3_scan, st.session_state.pipe3 = r3, (p3f, p3s)
+            st.session_state.res_tab4_scan, st.session_state.pipe4 = r4, (p4f, p4s)
             st.session_state.active_mode = "AI"
             st.rerun()
 
@@ -118,9 +127,9 @@ with st.sidebar:
 
 #--- 4. MAIN CONTENT ---
 if selection == "Measure Body Fat":
-    tab1, tab2, tab3, tab4 = st.tabs(["Manual Input", "AI Scan", "AI Scan + Heuristic", "History"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Manual Input","AI Raw", "AI Scan", "Heuristic", "History"])
 
-    # --- TAB 1: MANUAL ---
+# --- TAB 1: MANUAL ---
     with tab1:
         if st.session_state.active_mode in [None, "Manual"]:
             c1, c2 = st.columns(2)
@@ -129,28 +138,81 @@ if selection == "Measure Body Fat":
                 w1 = st.number_input("Weight (kg)", 30.0, 200.0, st.session_state.vals[1], key="w1")
                 h1 = st.number_input("Height (cm)", 120.0, 230.0, st.session_state.vals[2], key="h1")
                 st.subheader("Body Measurements (cm)")
+                
+                # Gom inputs vào dict để dễ quản lý
                 data1 = {
                     "Age": age1, "Weight": w1, "Height": h1,
-                    "Chest": st.number_input("Chest", 40.0, 200.0, 90.0),
-                    "Abdomen": st.number_input("Abdomen", 40.0, 200.0, 80.0),
-                    "Hip": st.number_input("Hip", 40.0, 200.0, 95.0),
-                    "Thigh": st.number_input("Thigh", 20.0, 150.0, 55.0)
+                    "Chest": st.number_input("Chest (Vòng ngực)", 40.0, 200.0, 90.0),
+                    "Abdomen": st.number_input("Abdomen (Vòng bụng)", 40.0, 200.0, 80.0),
+                    "Hip": st.number_input("Hip (Vòng mông)", 40.0, 200.0, 95.0),
+                    "Thigh": st.number_input("Thigh (Vòng đùi)", 20.0, 150.0, 55.0)
                 }
-                if st.button("Analyze Manual"):
+                
+                if st.button("Analyze Manual", use_container_width=True):
                     st.session_state.res_tab1 = predict_body_fat(model, data1)
                     st.session_state.active_mode = "Manual"
                     st.rerun()
+            
             with c2:
                 if st.session_state.res_tab1:
-                    st.metric("Body Fat", f"{st.session_state.res_tab1:.1f}%")
+                    # Hiển thị kết quả sau khi bấm Analyze
+                    st.metric("Body Fat Estimation", f"{st.session_state.res_tab1:.1f}%", delta_color="inverse")
                     components.html(get_human_svg(st.session_state.res_tab1), height=400)
-        else: st.warning("Locked: AI Mode active.")
+                else:
+                    # Hiển thị ảnh hướng dẫn đo khi chưa có dữ liệu
+                    st.info("📸 Hướng dẫn chụp ảnh để lấy số đo chính xác")
+                    with st.expander("Xem hướng dẫn chi tiết", expanded=False):
+                        st.markdown("""
+                        Điều kiện chụp ảnh chuẩn:
+                        
+                        **1. Khoảng cách:** 
+                        - Đặt camera ngang cơ thể và cách khoảng **2m – 2.5m**  
+                        (đảm bảo toàn bộ cơ thể nằm trọn trong khung hình từ **gót chân → đỉnh đầu**)
 
-    # --- TAB 2 & 3: AI MODES ---
-    ai_tabs = [(tab2, "res_tab2_scan", "res_tab2_final", "pipe2", False, "AI Scan"),
-               (tab3, "res_tab3_scan", "res_tab3_final", "pipe3", True, "AI Heuristic")]
+                        **2. Ánh sáng:** 
+                        - Đủ sáng, không bị tối hoặc ngược sáng  
+                        - Phân biệt rõ cơ thể với nền  
+                        - ❌ Tránh nền trắng hoặc màu trùng với cơ thể
 
-    for t, scan_key, final_key, pipe_key, heuristic, label in ai_tabs:
+                        **3. Tư thế chụp:**
+                        - Ảnh **chính diện:** Đứng thẳng, dang 2 tay ngang tạo hình chữ **T**  
+                        - Ảnh **nghiêng:** Đứng nghiêng, giơ 2 tay lên cao
+
+                        **4. Trang phục:**  
+                        - ❌ Không mặc áo  
+                        - ✅ Mặc quần bó hoặc quần mỏng để lộ rõ phần đùi  
+                        - Ưu tiên trang phục ôm sát cơ thể để đo chính xác
+
+                        **5. Nền:**
+                        - Nền đơn giản, không rối  
+                        - Màu nền tương phản với cơ thể
+
+                        """)
+                    try:
+                        # Đã sửa lỗi deprecated bằng cách dùng use_container_width
+                        st.image("assets/hd.jpg", 
+                                 caption="Vị trí các vòng đo chuẩn nhân trắc học", 
+                                 use_container_width=True) 
+                    except Exception as e:
+                        st.warning("Không tìm thấy file ảnh hướng dẫn tại assets/hd.jpg")
+                        
+        else: 
+            st.warning("Locked: AI Mode active. Please reset to use Manual mode.")
+    
+    # --- TAB 2 & 3 & 4: AI MODES ---
+    # Cấu trúc: (tab_obj, scan_key, final_key, pipe_key, IS_LOOSE, LABEL, IS_RAW)
+    ai_tabs = [
+        # Tab Raw: Không gọt (False), Không bù BMI (True)
+        (tab2, "res_tab2_scan", "res_tab2_final", "pipe2", False, "AI Raw", True),
+        
+        # Tab Scan: Không gọt (False), Có bù BMI (False) -> Dùng cho đồ bó chuẩn
+        (tab3, "res_tab3_scan", "res_tab3_final", "pipe3", False, "AI Scan", False),
+        
+        # Tab Heuristic: CÓ GỌT (True), Có bù BMI (False) -> Dùng cho đồ rộng
+        (tab4, "res_tab4_scan", "res_tab4_final", "pipe4", True, "AI Heuristic", False)
+    ]
+
+    for t, scan_key, final_key, pipe_key, heuristic, label, is_raw in ai_tabs:
         with t:
             if st.session_state.active_mode in [None, "AI"]:
                 col_in, col_disp = st.columns([1, 1.2])
@@ -162,12 +224,13 @@ if selection == "Measure Body Fat":
                     u_f = st.file_uploader("Front View", type=['jpg', 'png'], key=f"uf_{label}")
                     u_s = st.file_uploader("Side View", type=['jpg', 'png'], key=f"us_{label}")
                     
-                    if st.button(f"RUN {label.upper()}") and u_f and u_s:
+                    if st.button(f"RUN {label.upper()}", key=f"btn_{label}") and u_f and u_s:
                         img_f = cv2.imdecode(np.frombuffer(u_f.read(), np.uint8), 1)
                         img_s = cv2.imdecode(np.frombuffer(u_s.read(), np.uint8), 1)
-                        res, pf, ps = process_body_measurements(img_f, img_s, h, age, w, is_loose=heuristic)
+                        res, pf, ps = process_body_measurements(img_f, img_s, h, age, w, is_loose=heuristic, is_raw=is_raw)
                         st.session_state[scan_key], st.session_state[pipe_key] = res, (pf, ps)
-                        st.session_state.active_mode = "AI"; st.rerun()
+                        st.session_state.active_mode = "AI"; 
+                        st.rerun()
                     
                     if st.session_state[scan_key]:
                         r = st.session_state[scan_key]
@@ -196,8 +259,8 @@ if selection == "Measure Body Fat":
                             st.warning("Đăng nhập để lưu kết quả!")
             else: st.warning("Locked: Manual Mode active.")
 
-    # Thêm vào Tab 4
-    with tab4:
+    # Thêm vào Tab 5
+    with tab5:
         st.header("Personal Progress")
         if is_logged_in:
             history = get_user_history()
