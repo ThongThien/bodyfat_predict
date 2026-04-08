@@ -65,7 +65,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
     lm_f = res_f.pose_landmarks.landmark
     lm_s = res_s.pose_landmarks.landmark
 
-    # ===== SCALE RATIO =====
+    # ===== SCALE =====
     y_nose = lm_f[0].y * h_img
     y_heel = ((lm_f[29].y + lm_f[30].y) / 2) * h_img
     head_offset = abs(y_nose - (lm_f[1].y * h_img)) * 2.5
@@ -75,40 +75,43 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
     bmi = weight / ((real_h / 100) ** 2)
     f_calib = 1.12 if bmi < 18.5 else (1.204 if bmi < 25 else 1.25)
 
-    # ===== BASE LANDMARK =====
+    # ===== BASE =====
     shoulder = lm_f[11].y
     hip = lm_f[23].y
     torso = hip - shoulder
 
-    # ===== FRONT (GIỮ NGUYÊN - ĐÃ CHUẨN) =====
+    # ===== FRONT (GIỮ NGUYÊN) =====
     y_map_front = {
         'Chest': shoulder + torso * 0.27,
         'Abdomen': hip - torso * 0.30,
         'Hip': hip + torso * 0.05
     }
 
-    # ===== SIDE (ĐIỀU CHỈNH) =====
+    # ===== SIDE (FIX LỖI 5.06 → 0.06) =====
     y_map_side = {
-        'Chest': shoulder + torso * 0.3,
-        'Abdomen': hip - torso * 0.25,
+        'Chest': shoulder + torso * 0.15,
+        'Abdomen': hip - torso * 0.32,
         'Hip': hip + torso * 0.06
     }
 
     results = {}
     viz_f, viz_s = front_img.copy(), side_img.copy()
 
+    print("\n" + "="*50)
+    print(" DEBUG MEASUREMENTS ".center(50, "="))
+
     for part in ['Chest', 'Abdomen', 'Hip']:
 
         y_f = y_map_front[part]
         y_s = y_map_side[part]
 
-        # ===== ITERATOR =====
+        # iterator
         if part == 'Hip':
             iterator = 2.2 if use_long_pants else 1.8
         else:
             iterator = 1
 
-        # ===== SCAN =====
+        # scan
         w_v, x1f, x2f = get_dimension_at_y_v5(
             mask_f, y_f, lm_f, part, ratio, iterator
         )
@@ -117,7 +120,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
             mask_s, y_s, lm_s, part, ratio, iterator
         )
 
-        # ===== ELLIPSE =====
+        # ellipse
         a, b = w_v / 2, d_v / 2
         h_el = ((a - b)**2) / ((a + b)**2) if (a + b) != 0 else 0
 
@@ -125,18 +128,25 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
             1 + (3 * h_el) / (10 + np.sqrt(4 - 3 * h_el))
         ) if (a + b) != 0 else 0
 
-        results[part] = round(circum_raw * f_calib, 2)
+        circum_final = round(circum_raw * f_calib, 2)
+        results[part] = circum_final
 
-        # ===== DRAW =====
+        # ===== LOG CHUẨN =====
+        print(f"\n--- {part} ---")
+        print(f"y_front: {y_f:.3f} | y_side: {y_s:.3f}")
+        print(f"Width (front): {w_v:.2f}")
+        print(f"Depth (side): {d_v:.2f}")
+        print(f"Circum raw: {circum_raw:.2f}")
+        print(f"Circum final: {circum_final:.2f}")
+
+        # draw
         y_px_f = int(y_f * h_img)
         y_px_s = int(y_s * h_img)
 
         cv2.line(viz_f, (int(x1f), y_px_f), (int(x2f), y_px_f), (0, 255, 0), 3)
         cv2.line(viz_s, (int(x1s), y_px_s), (int(x2s), y_px_s), (0, 255, 0), 3)
 
-        # DEBUG DOT (center line)
-        cv2.circle(viz_f, (int(w_img/2), y_px_f), 5, (0, 0, 255), -1)
-        cv2.circle(viz_s, (int(w_img/2), y_px_s), 5, (0, 0, 255), -1)
+    print("="*50)
 
     debug_pack = {
         "mask_f": mask_f,
