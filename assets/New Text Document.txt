@@ -1,0 +1,287 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from scipy import stats
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, GridSearchCV
+from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error, mean_absolute_percentage_error
+
+# Đọc file dữ liệu (thay 'path_to_your_file.csv' bằng đường dẫn thực tế trên Kaggle)
+df = pd.read_csv('/kaggle/input/datasets/neiht2004/bodyfat-final-v2/bodyfat_final_v2.csv')
+
+# Xem 5 dòng đầu tiên để kiểm tra
+df.head()
+=======================
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# 1. Đọc dữ liệu (Đảm bảo file đã được upload lên Kaggle)
+# df = pd.read_csv('/kaggle/input/duong-dan-den-file-cua-ban.csv')
+
+# 2. Tính toán ma trận tương quan
+corr_matrix = df.corr()
+
+# 3. Vẽ Heatmap tập trung vào sự tương quan với BodyFat
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix[['BodyFat']].sort_values(by='BodyFat', ascending=False), 
+            annot=True, 
+            cmap='RdYlGn', 
+            fmt=".2f", 
+            linewidths=0.5)
+
+plt.title('Tương quan các Đặc trưng với BodyFat (Dataset 7 Features)', fontsize=15)
+plt.show()
+
+# 4. Vẽ ma trận tương quan đầy đủ để xem sự chồng chéo giữa các biến
+plt.figure(figsize=(12, 10))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Ma trận tương quan tổng thể', fontsize=15)
+plt.show()
+=======================
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+# 1. Danh sách 7 biến quan trọng
+features_to_plot = ['Abdomen', 'WtHR', 'Chest', 'Weight', 'Hip', 'WHR', 'Height', 'W_per_A']
+
+# 2. Tạo một dictionary để lưu giá trị R phục vụ in Text
+corr_results = {}
+
+# 3. Thiết lập khung hình vẽ
+plt.figure(figsize=(15, 20))
+
+for i, col in enumerate(features_to_plot):
+    plt.subplot(4, 2, i + 1)
+    sns.regplot(data=df, x=col, y='BodyFat', 
+                scatter_kws={'alpha':0.4, 'color':'skyblue'}, 
+                line_kws={'color':'red'})
+    
+    # Tính độ tương quan
+    corr_value = df[col].corr(df['BodyFat'])
+    corr_results[col] = corr_value # Lưu vào dict
+    
+    plt.title(f'Mối quan hệ: {col} vs BodyFat (R = {corr_value:.2f})')
+    plt.xlabel(f'{col}')
+    plt.ylabel('BodyFat (%)')
+    plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# --- PHẦN IN KẾT QUẢ BẰNG TEXT ---
+print("\n" + "="*50)
+print(f"{'ĐẶC TRƯNG':<15} | {'HỆ SỐ TƯƠNG QUAN (R)':<20} | {'MỨC ĐỘ'}")
+print("-" * 50)
+
+# Sắp xếp kết quả từ cao đến thấp theo trị tuyệt đối của R
+sorted_corr = sorted(corr_results.items(), key=lambda x: abs(x[1]), reverse=True)
+
+for col, val in sorted_corr:
+    # Phân loại mức độ ảnh hưởng
+    if abs(val) > 0.8: status = "Rất Mạnh (Key Feature)"
+    elif abs(val) > 0.6: status = "Mạnh"
+    elif abs(val) > 0.4: status = "Trung bình"
+    else: status = "Yếu"
+    
+    print(f"{col:<15} | {val:>20.4f} | {status}")
+
+print("="*50)
+==========================
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+from sklearn import metrics
+
+# 1. Chuẩn bị Feature (X) và Target (y) - Loại bỏ Height như đã thống nhất
+features = ['Weight', 'Chest', 'Abdomen', 'Hip', 'W_per_A', 'WtHR', 'WHR']
+X = df[features]
+y = df['BodyFat']
+
+# 2. Chia tập dữ liệu (80% Train, 20% Test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 3. Khởi tạo 3 thuật toán
+models = {
+    "Linear Regression": LinearRegression(),
+    "Random Forest": RandomForestRegressor(n_estimators=500, max_depth=7, random_state=42),
+    "XGBoost": XGBRegressor(n_estimators=500, learning_rate=0.05, max_depth=5, random_state=42)
+}
+
+# 4. Hàm đánh giá 5 chỉ số
+def evaluate_model(name, model, X_test, y_test):
+    y_pred = model.predict(X_test)
+    
+    r2 = metrics.r2_score(y_test, y_pred)
+    mae = metrics.mean_absolute_error(y_test, y_pred)
+    mse = metrics.mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    mape = np.mean(np.abs((y_test - y_pred) / y_test)) * 100
+    
+    return [name, r2, mae, mse, rmse, mape]
+
+# 5. Huấn luyện và thu thập kết quả
+results = []
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    results.append(evaluate_model(name, model, X_test, y_test))
+
+# 6. Hiển thị bảng so sánh (Text)
+report = pd.DataFrame(results, columns=['Model', 'R2 Score', 'MAE', 'MSE', 'RMSE', 'MAPE (%)'])
+report = report.sort_values(by='R2 Score', ascending=False)
+
+print("\n" + "="*80)
+print(f"{'BẢNG SO SÁNH HIỆU NĂNG 3 THUẬT TOÁN':^80}")
+print("="*80)
+print(report.to_string(index=False, float_format=lambda x: "{:.4f}".format(x)))
+print("="*80)
+=================
+from sklearn.model_selection import GridSearchCV
+import time
+
+# 1. Định nghĩa dải tham số (Param Grid)
+# Chúng ta tập trung vào độ sâu và số lượng cây để bắt được các ca béo bụng
+param_grid = {
+    'n_estimators': [1300, 500],
+    'max_depth': [4, 6,],
+    'min_samples_split': [2, 5],
+    'min_samples_leaf': [2, 4],
+    'max_features': ['sqrt', None]
+}
+
+# 2. Khởi tạo Grid Search với Cross-Validation (K-Fold = 5)
+# Sử dụng scoring 'neg_mean_absolute_error' để tối ưu hóa MAE
+rf = RandomForestRegressor(random_state=42)
+
+grid_search = GridSearchCV(
+    estimator=rf,
+    param_grid=param_grid,
+    cv=5, 
+    n_jobs=-1, # Sử dụng tối đa nhân CPU của Kaggle
+    scoring='neg_mean_absolute_error', 
+    verbose=1
+)
+
+print("--- Đang bắt đầu Grid Search (Quá trình này có thể mất 1-2 phút)... ---")
+start_time = time.time()
+grid_search.fit(X_train, y_train)
+end_time = time.time()
+
+# 3. Kết quả bộ tham số tốt nhất
+best_params = grid_search.best_params_
+best_score = -grid_search.best_score_
+
+print("\n" + "="*50)
+print(f" HOÀN TẤT TRONG: {end_time - start_time:.2f} giây")
+print("-" * 50)
+print(f" Thông số tốt nhất: {best_params}")
+print(f" MAE thấp nhất trên tập Train (CV): {best_score:.4f}%")
+print("="*50)
+
+# 4. Gán Model tối ưu vào biến để sử dụng
+final_rf_model = grid_search.best_estimator_
+==================
+import pandas as pd
+import numpy as np
+import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
+
+# 1. Thiết lập Feature và Target
+features = ['Weight', 'Chest', 'Abdomen', 'Hip', 'W_per_A', 'WtHR', 'WHR']
+X = df[features]
+y = df['BodyFat']
+
+# 2. Bộ thông số Master (Đã giúp bạn đạt R2 = 0.86)
+master_params = {
+    'n_estimators': 1000,
+    'max_depth': 7,
+    'max_features': None,
+    'min_samples_split': 5,
+    'min_samples_leaf': 2,
+    'random_state': 42
+}
+
+final_model = RandomForestRegressor(**master_params)
+final_model.fit(X, y)
+
+# 3. Đánh giá chi tiết
+y_pred = final_model.predict(X)
+mae = mean_absolute_error(y, y_pred)
+r2 = r2_score(y, y_pred)
+rmse = np.sqrt(mean_squared_error(y, y_pred))
+
+print("="*50)
+print(f"{'KẾT QUẢ MASTER MODEL FINAL':^50}")
+print("="*50)
+print(f"R2 Score (Độ khớp):      {r2:.4f}")
+print(f"MAE (Sai số trung bình): {mae:.2f}%")
+print(f"RMSE (Độ lệch chuẩn):    {rmse:.2f}%")
+print("="*50)
+
+# 4. VẼ BIỂU ĐỒ ĐỘ QUAN TRỌNG (Feature Importance)
+# Bước này để xác nhận WtHR và W_per_A có thực sự gánh team không
+importance = pd.DataFrame({
+    'Feature': features,
+    'Importance': final_model.feature_importances_
+}).sort_values(by='Importance', ascending=False)
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Importance', y='Feature', data=importance, palette='viridis')
+plt.title('Feature Importance: Các biến quyết định dự đoán BF', fontsize=14)
+plt.grid(axis='x', linestyle='--', alpha=0.6)
+plt.show()
+
+# 5. XUẤT FILE MODEL CUỐI CÙNG
+joblib.dump(final_model, 'ai_scan_bodyfat_master_v3.pkl')
+print("\n[SUCCESS] Đã lưu model: 'ai_scan_bodyfat_master_v3.pkl'")
+======================
+import pandas as pd
+import joblib
+
+# 1. Load model đã lưu (đảm bảo file .pkl đã tồn tại)
+# model = joblib.load('ai_scan_bodyfat_master_v3.pkl')
+
+def ai_bodyfat_predict(weight_kg, height_cm, abdomen_cm, chest_cm, hip_cm):
+    """
+    Hàm dự đoán BodyFat từ các chỉ số thô của người dùng.
+    Tự động tính toán: W_per_A, WtHR, WHR.
+    """
+    # Tính toán 3 biến phái sinh "chiến lược"
+    w_per_a = (abdomen_cm**2) / weight_kg
+    wthr = abdomen_cm / height_cm
+    whr = abdomen_cm / hip_cm
+    
+    # Tạo DataFrame đúng thứ tự các feature đã train (7 features)
+    # Thứ tự: ['Weight', 'Chest', 'Abdomen', 'Hip', 'W_per_A', 'WtHR', 'WHR']
+    input_data = pd.DataFrame([[weight_kg, chest_cm, abdomen_cm, hip_cm, w_per_a, wthr, whr]], 
+                              columns=['Weight', 'Chest', 'Abdomen', 'Hip', 'W_per_A', 'WtHR', 'WHR'])
+    
+    # Dự đoán
+    prediction = final_model.predict(input_data)[0]
+    
+    return round(prediction, 2)
+
+# --- CHẠY THỬ NGHIỆM VỚI CÁC CASE THỰC TẾ ---
+print("="*40)
+print(f"{'TESTING AI PREDICTION':^40}")
+print("="*40)
+
+# Case 1: LO
+case_87kg = ai_bodyfat_predict(weight_kg=87, height_cm=172, abdomen_cm=102, chest_cm=102, hip_cm=101)
+print(f"LO => Dự đoán: {case_87kg}%")
+
+# Case 2: Thien
+case_muscular = ai_bodyfat_predict(weight_kg=60, height_cm=163, abdomen_cm=78, chest_cm=90, hip_cm=86)
+print(f"THIEN=> Dự đoán: {case_muscular}%")
+
+# Case 3: Người gầy nhưng có bụng (Skinny Fat)
+case_skinny_fat = ai_bodyfat_predict(weight_kg=65, height_cm=167, abdomen_cm=84, chest_cm=90, hip_cm=93)
+print(f"DAO => Dự đoán: {case_skinny_fat}%")
+print("="*40)
