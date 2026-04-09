@@ -561,7 +561,7 @@ if selection == "Measure Body Fat":
             
             # -------- DISPLAY TABLE --------
             st.markdown("## Bảng 1: So sánh số đo")
-            st.dataframe(df_measure.drop(columns=["viz_f", "viz_s"]))
+            st.dataframe(df_measure.drop(columns=["viz_f", "viz_s"], errors="ignore"))
 
             st.markdown("## Bảng 2: So sánh Body Fat")
             st.dataframe(df_bf)
