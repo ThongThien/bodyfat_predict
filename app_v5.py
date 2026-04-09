@@ -69,6 +69,27 @@ def parse_filename(file_name):
         "Hip": hip
     }
 
+def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, method_name):
+    with st.spinner("Đang đồng bộ dữ liệu..."):
+        img_f, img_s = pipe_images
+        buf_f = cv2.imencode('.jpg', img_f)[1].tobytes() if img_f is not None else None
+        buf_s = cv2.imencode('.jpg', img_s)[1].tobytes() if img_s is not None else None
+        
+        success = save_complete_measurement(
+            age=age, weight=weight, height=height,
+            results_dict={**scan_res, "body_fat": final_bf},
+            img_front_bytes=buf_f, img_side_bytes=buf_s,
+            method=method_name
+        )
+
+        if success.get("success"):
+            st.balloons()
+            st.success("Dữ liệu đã được lưu thành công!")
+            time.sleep(1)
+            st.rerun()
+        else:
+            st.error(f"Lỗi: {success.get('error')}")
+
 # --- 3. SIDEBAR ---
 with st.sidebar:
     st.title("🛡️ BODYFAT AI v5")
@@ -229,18 +250,21 @@ if selection == "Measure Body Fat":
                     }
 
                     # Tính thêm
-                    wpa = (r["Abdomen"]**2) / w_v
-                    wthr = r["Abdomen"] / h_v
-                    whr = r["Abdomen"] / r["Hip"]
+                    abd = r.get("Abdomen")
+                    hip = r.get("Hip")
+
+                    wpa = (abd**2) / w_v if abd and w_v else None
+                    wthr = abd / h_v if abd and h_v else None
+                    whr = abd / hip if abd and hip else None
 
                     debug_df = pd.DataFrame([{
                         "Weight": w_v,
                         "Chest": r["Chest"],
                         "Abdomen": r["Abdomen"],
                         "Hip": r["Hip"],
-                        "W_per_A": round(wpa,2),
-                        "WtHR": round(wthr,3),
-                        "WHR": round(whr,3)
+                        "W_per_A": round(wpa,2) if wpa else None,
+                        "WtHR": round(wthr,3) if wthr else None,
+                        "WHR": round(whr,3) if whr else None,
                     }])
 
                     st.dataframe(debug_df)
@@ -342,21 +366,92 @@ if selection == "Measure Body Fat":
                     d4.image(dbg["mask_raw_s"], caption="Mask Raw Side")
 
                 # -------- SAVE --------
-                if is_logged_in and st.button("LƯU KẾT QUẢ V5"):
-                    st.toast("Đang lưu...")
-                    # save_complete_measurement(...)
+                if is_logged_in:
+                    if st.button("LƯU KẾT QUẢ V5"):
+                        scan_res = st.session_state.res_scan_v5
 
+                        handle_save_logic(
+                            age=age_v, weight=w_v, height=h_v,
+                            scan_res=scan_res,
+                            final_bf=res_v5,
+                            pipe_images=(viz_f, viz_s),
+                            method_name="AI Scan v5"
+                        )
+                else:
+                    st.info("Đăng nhập để lưu kết quả lên cloud.")
             else:
                 st.info("Tải lên 2 ảnh để AI bắt đầu quét số đo.")
     # --- TAB 3: HISTORY ---
     with tab3:
         st.subheader("Nhật ký thay đổi hình thể")
+
         if is_logged_in:
             history = get_user_history()
+
             if history:
                 df = pd.DataFrame(history)
+
+                # -------- CHART --------
                 st.line_chart(df.set_index('created_at')['body_fat'])
-                st.dataframe(df[['created_at', 'body_fat', 'weight', 'abdomen', 'method']])
+
+                # -------- DROP HIP --------
+                cols_to_show = [c for c in df.columns if c != "hip"]
+
+                st.markdown("### Bảng dữ liệu")
+                st.dataframe(df[cols_to_show])
+
+                # -------- SELECT RECORD --------
+                st.markdown("### Xem chi tiết")
+
+                df["created_at_fmt"] = pd.to_datetime(df["created_at"]).dt.strftime("%Y-%m-%d %H:%M")
+
+                df["label"] = (
+                    df["created_at_fmt"]
+                    + " | BF: " + df["body_fat"].astype(str)
+                    + "%"
+                )
+
+                selected_label = st.selectbox("Chọn bản ghi", df["label"])
+
+                row = df[df["label"] == selected_label].iloc[0]
+
+                # -------- INFO --------
+                c1, c2 = st.columns(2)
+
+                with c1:
+                    st.markdown("#### Thông tin")
+                    st.write(f" Time: {row['created_at']}")
+                    st.write(f" Weight: {row.get('weight')}")
+                    st.write(f" Height: {row.get('height')}")
+                    st.write(f" Body Fat: {row.get('body_fat')}%")
+                    st.write(f" Method: {row.get('method')}")
+
+                with c2:
+                    st.markdown("#### Chỉ số")
+                    st.write(f"Chest: {row.get('chest')}")
+                    st.write(f"Abdomen: {row.get('abdomen')}")
+                    st.write(f"WPA: {row.get('wpa')}")
+                    st.write(f"WtHR: {row.get('wthr')}")
+                    st.write(f"WHR: {row.get('whr')}")
+
+                # -------- IMAGE --------
+                st.markdown("### Ảnh")
+
+                img_f = row.get("image_url_front")
+                img_s = row.get("image_url_side")
+
+                c1, c2 = st.columns(2)
+
+                if img_f:
+                    c1.image(img_f, caption="Front")
+                else:
+                    c1.info("Không có ảnh front")
+
+                if img_s:
+                    c2.image(img_s, caption="Side")
+                else:
+                    c2.info("Không có ảnh side")
+
             else:
                 st.info("Chưa có lịch sử đo.")
         else:

@@ -13,18 +13,11 @@ def create_final_dts(input_path, output_path):
         
     print(f"Số lượng dòng nạp vào: {len(df)}")
 
-    # 2. Tính toán biến W_per_A (Khuếch đại tương tác Bụng và Cân nặng)
-    # Công thức: Abdomen bình phương chia cho Weight
-    # Giúp Model phân biệt rõ người có bụng to thực sự so với người có khung xương nặng
     df['W_per_A'] = (df['Abdomen']**2) / df['Weight']
 
-    # 3. Kiểm tra và đảm bảo các biến phái sinh khác đã có sẵn hoặc tính lại cho chuẩn
-    # (Đề phòng trường hợp file input chưa có hoặc tính sai)
     df['WHR'] = df['Abdomen'] / df['Hip']
     df['WtHR'] = df['Abdomen'] / df['Height']
 
-    # 4. Sắp xếp lại danh sách cột theo đúng yêu cầu Input Model
-    # Thứ tự này rất quan trọng để khi Predict không bị lệch cột
     final_cols = [
         'BodyFat',   # Biến mục tiêu (Target)
         'Weight',    # Feature 1
@@ -34,8 +27,8 @@ def create_final_dts(input_path, output_path):
         'W_per_A',   # Feature 5 (Biến mới)
         'WtHR',      # Feature 6
         'WHR',       # Feature 7
-        'Height',    # Giữ lại để tham khảo (Model có thể bỏ qua)
-        'Age'        # Giữ lại nếu có trong dts gốc
+        'Height',    # Giữ lại để tính ratio 
+        'Age'        # Giữ lại để làm thông tin user (nếu có)
     ]
 
     # Kiểm tra xem Age có tồn tại không, nếu không thì bỏ ra khỏi list

@@ -7,106 +7,226 @@ def show_info_page_v5():
     st.markdown("""
 ## 1. Tổng quan hệ thống
 
-Ứng dụng sử dụng:
-- Computer Vision (Mediapipe)
-- Machine Learning (Random Forest)
-- Feature Engineering chuyên sâu
+Ứng dụng sử dụng mô hình lai (Hybrid System):
+
+- Computer Vision (MediaPipe Pose + Segmentation)
+- Geometry-based estimation
+- Machine Learning (Random Forest - tuned)
+
+Hệ thống thực hiện pipeline:
+
+**Ảnh → Trích xuất số đo cơ thể → Feature Engineering → Dự đoán BodyFat**
 
 ---
 
 ## 2. Pipeline hoạt động
-Image → Segmentation → Landmark → y_map → width scan → ellipse → calib → OUTPUT
-### Bước 1: Segmentation
-Tách cơ thể khỏi nền bằng AI
+
+Image → Segmentation → Landmark → y_map → width/depth scan → ellipse → calibration → ML prediction
+
+---
+
+### Bước 1: Segmentation (Tách cơ thể)
+- Sử dụng MediaPipe Selfie Segmentation
+- Tạo mask nhị phân (body vs background)
+
+→ Là nền tảng để đo kích thước chính xác
+
+---
 
 ### Bước 2: Landmark Detection
-Xác định:
-- Vai
-- Hông
-- Chân
+Xác định các keypoints chính:
+- Vai (shoulder)
+- Hông (hip)
+- Gót chân (heel)
 
-### Bước 3: Scan chiều ngang
-Quét mask tại 3 vị trí:
-- Ngực
-- Bụng
-- Hông
+→ Dùng để:
+- Scale chiều cao
+- Định vị vùng đo
 
-### Bước 4: Tính chu vi
-Dùng ellipse approximation (Ramanujan)
+---
+
+### Bước 3: Xác định vị trí đo (y_map)
+
+Dựa trên tỉ lệ cơ thể:
+
+- Chest = shoulder + 0.27 * torso  
+- Abdomen = hip - 0.30 * torso  
+- Hip = hip + 0.05 * torso  
+
+→ Giúp chuẩn hóa vị trí đo giữa các body type khác nhau
+
+---
+
+### Bước 4: Scan chiều ngang (Width - Front)
+
+- Quét mask theo từng hàng pixel
+- Giới hạn vùng bằng vai (adaptive margin)
+- Margin được điều chỉnh theo BMI
+
+→ Thu được **width (cm)**
+
+---
+
+### Bước 5: Scan chiều sâu (Depth - Side)
+
+- Không dùng 1 vị trí cố định
+- Scan nhiều điểm quanh vùng:
+
+    y ± [0.01 → 0.03]
+
+- Lấy giá trị lớn nhất
+
+→ Giảm lỗi:
+- pose lệch
+- landmark sai
+- occlusion
+
+---
+
+### Bước 6: Tính chu vi (Ellipse Approximation)
+
+Giả định mặt cắt cơ thể là ellipse:
+
+- a = width / 2  
+- b = depth / 2  
+
+Áp dụng công thức Ramanujan:
+
+Circumference ≈ π(a+b)[1 + (3h)/(10 + √(4−3h))]
+
+→ Thu được các số đo:
+- Chest
+- Abdomen
+- Hip
+
+---
+
+### Bước 7: Scale & Calibration
+
+#### Scale:
+- Dựa trên chiều cao thực tế
+- Chuyển đổi pixel → cm
+
+#### Calibration:
+- Điều chỉnh theo BMI để giảm bias hình ảnh
+- Tăng độ ổn định giữa các body type
 
 ---
 
 ## 3. Feature Engineering
 
-Model KHÔNG dùng trực tiếp ảnh  
-→ mà dùng các đặc trưng:
+Mô hình **không sử dụng ảnh trực tiếp**, mà chỉ sử dụng các số đo:
 
+### Input Features (7 biến):
 - Weight
 - Chest
 - Abdomen
 - Hip
+- W_per_A
+- WtHR
+- WHR
 
-+ 3 biến phái sinh:
+---
 
-### W_per_A
-= Abd² / Weight  
-→ phản ánh tích mỡ bụng
+### Feature phái sinh:
 
-### WtHR
-= Abd / Height  
-→ nguy cơ sức khỏe
+#### W_per_A
+= Abdomen² / Weight  
+→ Khuếch đại ảnh hưởng mỡ bụng
 
-### WHR
-= Abd / Hip  
-→ phân bố mỡ
+#### WtHR
+= Abdomen / Height  
+→ Chỉ số sức khỏe phổ biến trong y học
+
+#### WHR
+= Abdomen / Hip  
+→ Phản ánh phân bố mỡ (bụng vs hông)
 
 ---
 
 ## 4. Model AI
 
-Sử dụng:
-- RandomForestRegressor
-- 1000 trees
-- max_depth = 8
+### Thuật toán sử dụng:
+- RandomForestRegressor (đã tối ưu)
 
-Ưu điểm:
-- Không overfit
-- Robust với dữ liệu nhiễu
+### Tham số cuối:
+- n_estimators = 500  
+- max_depth = 4  
+- max_features = None  
+- min_samples_leaf = 3  
+- min_samples_split = 2  
+
+### Dataset:
+- 195 mẫu
+- 7 features
+
+---
+
+### Hiệu năng mô hình:
+
+- R² Score: **0.8249**
+- MAE: **~2.38%**
+- RMSE: **~2.90%**
+
+→ Sai số thấp, ổn định và phù hợp ứng dụng thực tế
+
+---
+
+### Feature quan trọng nhất:
+1. Abdomen
+2. WtHR
+3. WHR
+
+→ Vùng bụng là yếu tố quyết định chính
 
 ---
 
 ## 5. Sai số hệ thống
 
-Sai số có thể đến từ:
+Nguồn sai số chính:
 
-- Quần áo rộng
+- Quần áo rộng (ảnh hưởng segmentation)
+- Pose không chuẩn (ảnh side lệch)
 - Ánh sáng kém
-- Sai tư thế
-- Background không rõ
+- Camera distortion
+- Khác biệt sinh học (xương, cơ)
 
 ---
 
 ## 6. Tối ưu độ chính xác
 
-Để đạt kết quả tốt nhất:
-- Chụp đúng guideline
-- Không mặc áo
-- Quần bó
-- Đứng thẳng
+Khuyến nghị:
+
+- Chụp đủ ảnh front + side
+- Đứng thẳng, không nghiêng
+- Không mặc áo (hoặc áo bó)
+- Quần ôm vùng hông
 
 ---
 
-## 7. Giới hạn
+## 7. Giới hạn hệ thống
 
-- Không thay thế DEXA scan
-- Sai số ~2-5%
+- Không thay thế DEXA / InBody
+- Không đo trực tiếp mỡ nội tạng
+- Phụ thuộc vào chất lượng ảnh đầu vào
+
+Sai số thực tế:
+- Trung bình: ~2–3%
+- Trường hợp xấu: ~5–7%
 
 ---
 
 ## 8. Kết luận
 
 Đây là hệ thống:
-- Semi-medical AI
-- Ưu tiên consistency hơn tuyệt đối
+
+- Kết hợp Computer Vision + Geometry + Machine Learning
+- Sử dụng feature engineering thay vì ảnh thô
+- Đạt độ chính xác cao với dataset nhỏ
+
+→ Phù hợp cho:
+- Ứng dụng fitness
+- Theo dõi body tại nhà
+- Prototype AI health system
 
 """)
