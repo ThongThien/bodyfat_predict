@@ -584,7 +584,7 @@ if selection == "Measure Body Fat":
             # -------- EXPORT CSV --------
             st.markdown("### Export CSV")
 
-            csv1 = df_measure.drop(columns=["viz_f", "viz_s"]).to_csv(index=False).encode("utf-8")
+            csv1 = df_measure.drop(columns=["viz_f", "viz_s"], errors="ignore").to_csv(index=False).encode("utf-8")
             csv2 = df_bf.to_csv(index=False).encode("utf-8")
 
             st.download_button("Download Measurements CSV", csv1, "measurements.csv")
