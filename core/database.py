@@ -5,7 +5,7 @@ from supabase import create_client, Client
 
 # --- 1. CONFIGURATION ---
 SUPABASE_URL = "https://niwzlqcufmiiuitfxcjm.supabase.co"
-SUPABASE_KEY = "sb_publishable_XqTrliFP9a2WBNQ2QSntFQ_hLaDjXSr" 
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pd3pscWN1Zm1paXVpdGZ4Y2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MDQwMzcsImV4cCI6MjA4OTM4MDAzN30.Mrux0DVyVp3lqgO4wBt0UTzFjm-hANOLcoHjRJK0Vmc" 
 BUCKET_NAME = "bodyfat_images"
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)

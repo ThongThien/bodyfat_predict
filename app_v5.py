@@ -129,7 +129,7 @@ with st.sidebar:
 
 # --- 4. MAIN CONTENT ---
 if selection == "Measure Body Fat":
-    tab1, tab2, tab4, tab3 = st.tabs(["Manual Input", "AI Scan v5", "Batch Test", "History"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Manual Input", "AI Scan v5", "History", "Batch Test"])
 
     # --- TAB 1: MANUAL (Sử dụng logic v5 - Bỏ Thigh) ---
     with tab1:
@@ -589,28 +589,5 @@ if selection == "Measure Body Fat":
 
             st.download_button("Download Measurements CSV", csv1, "measurements.csv")
             st.download_button("Download BodyFat CSV", csv2, "bodyfat.csv")
-
-    if "df_measure" in st.session_state:
-        df_measure = st.session_state.df_measure
-        df_bf = st.session_state.df_bf
-
-        st.markdown("## Bảng 1")
-        st.dataframe(df_measure.drop(columns=["viz_f", "viz_s"]))
-
-        st.markdown("## Bảng 2")
-        st.dataframe(df_bf)
-
-        # -------- SELECT VIEW --------
-        selected_name = st.selectbox(
-            "Chọn sample để xem ảnh",
-            df_measure["Name"],
-            key="selected_sample"
-        )
-
-        row = df_measure[df_measure["Name"] == selected_name].iloc[0]
-
-        c1, c2 = st.columns(2)
-        c1.image(row["viz_f"], caption="Front AI Scan")
-        c2.image(row["viz_s"], caption="Side AI Scan")
 elif selection == "Scientific Info":
     show_info_page_v5()
