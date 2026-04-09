@@ -561,7 +561,7 @@ if selection == "Measure Body Fat":
             
             # -------- DISPLAY TABLE --------
             st.markdown("## Bảng 1: So sánh số đo")
-            st.dataframe(df_measure.drop(columns=["viz_f", "viz_s"], errors="ignore"))
+            st.dataframe(df_measure.drop(columns=["viz_f", "viz_s"]))
 
             st.markdown("## Bảng 2: So sánh Body Fat")
             st.dataframe(df_bf)
@@ -584,10 +584,33 @@ if selection == "Measure Body Fat":
             # -------- EXPORT CSV --------
             st.markdown("### Export CSV")
 
-            csv1 = df_measure.drop(columns=["viz_f", "viz_s"], errors="ignore").to_csv(index=False).encode("utf-8")
+            csv1 = df_measure.drop(columns=["viz_f", "viz_s"]).to_csv(index=False).encode("utf-8")
             csv2 = df_bf.to_csv(index=False).encode("utf-8")
 
             st.download_button("Download Measurements CSV", csv1, "measurements.csv")
             st.download_button("Download BodyFat CSV", csv2, "bodyfat.csv")
+
+    if "df_measure" in st.session_state:
+        df_measure = st.session_state.df_measure
+        df_bf = st.session_state.df_bf
+
+        st.markdown("## Bảng 1")
+        st.dataframe(df_measure.drop(columns=["viz_f", "viz_s"]))
+
+        st.markdown("## Bảng 2")
+        st.dataframe(df_bf)
+
+        # -------- SELECT VIEW --------
+        selected_name = st.selectbox(
+            "Chọn sample để xem ảnh",
+            df_measure["Name"],
+            key="selected_sample"
+        )
+
+        row = df_measure[df_measure["Name"] == selected_name].iloc[0]
+
+        c1, c2 = st.columns(2)
+        c1.image(row["viz_f"], caption="Front AI Scan")
+        c2.image(row["viz_s"], caption="Side AI Scan")
 elif selection == "Scientific Info":
     show_info_page_v5()
