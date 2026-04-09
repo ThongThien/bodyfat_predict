@@ -6,5 +6,8 @@ pandas
 xgboost
 joblib
 mysql-connector-python
-supabase==2.4.0
+supabase==2.3.4
 scikit-learn
+httpx==0.24.1
+gotrue==2.4.2
+postgrest==0.13.2
