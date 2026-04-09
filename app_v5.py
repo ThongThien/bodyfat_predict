@@ -597,6 +597,8 @@ if selection == "Measure Body Fat":
                 st.dataframe(df_measure.drop(columns=["img_path_f", "img_path_s"], errors="ignore"))
 
                 st.markdown("## Bảng 2: So sánh Body Fat")
+                st.markdown("DATA GỐC:")
+                st.markdown("Dao - 20-24%, Hieu - 18-20%, Thien - 15-19%, Lap - 12-16%, Lo - 25-30%")
                 st.dataframe(df_bf)
 
                 # -------- SELECT IMAGE --------
