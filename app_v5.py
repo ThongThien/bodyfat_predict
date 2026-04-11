@@ -19,7 +19,7 @@ from core.predictor_v5 import load_model_v5, predict_body_fat_v5
 from core.cv_engine_v5 import process_body_measurements_v5
 
 # --- 1. CONFIG & INITIALIZATION ---
-st.set_page_config(page_title="Body Fat AI v5 - Super Clean", layout="wide")
+st.set_page_config(page_title="Predict Body Fat AI", layout="wide")
 
 # Load model v5 (7 features)
 model_v5 = load_model_v5("models/bodyfat_ai_super_clean_v5.pkl")
@@ -92,10 +92,8 @@ def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, meth
 
 # --- 3. SIDEBAR ---
 with st.sidebar:
-    st.title("🛡️ BODYFAT AI v5")
-    st.caption("Version: Super Clean (No Thigh Noise)")
+    st.title(" PREDICT BODYFAT AI ")
     
-    # Auth System (Giữ nguyên từ bản cũ)
     is_logged_in = False
     try:
         user_res = get_current_user()
@@ -123,15 +121,15 @@ with st.sidebar:
 
     st.markdown("---")
     selection = st.radio("MENU", ["Measure Body Fat", "Scientific Info", "Settings"])
-    if st.button("RESET SYSTEM"):
+    if st.button("RESET"):
         st.session_state.clear()
         st.rerun()
 
 # --- 4. MAIN CONTENT ---
 if selection == "Measure Body Fat":
-    tab1, tab2, tab3, tab4 = st.tabs(["Manual Input", "AI Scan v5", "History", "Batch Test"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Manual Input", "AI Scan", "History", "Batch Test"])
 
-    # --- TAB 1: MANUAL (Sử dụng logic v5 - Bỏ Thigh) ---
+    # --- TAB 1: MANUAL ---
     with tab1:
         c1, c2 = st.columns([1, 1.2])
         with c1:
@@ -146,7 +144,7 @@ if selection == "Measure Body Fat":
             abd1 = st.number_input("Vòng Bụng (Ngang rốn)", 50.0, 180.0, 85.0)
             hip1 = st.number_input("Vòng Hông (Mông)", 50.0, 180.0, 95.0)
 
-            if st.button("ANALYZE V5", use_container_width=True):
+            if st.button("ANALYZE", use_container_width=True):
                 data_v5 = {
                     "Name": "Manual_User", "Age": age1, "Weight": w1, "Height": h1,
                     "Chest": chest1, "Abdomen": abd1, "Hip": hip1
@@ -158,7 +156,7 @@ if selection == "Measure Body Fat":
             if st.session_state.res_tab1:
                 res_v1 = st.session_state.res_tab1
                 color, status = get_status_color(res_v1)
-                st.metric("Kết quả AI v5 Dự đoán", f"{res_v1}%")
+                st.metric("Kết quả Dự đoán", f"{res_v1}%")
                 st.markdown(f"<h3 style='color:{color}; text-align:center;'>{status}</h3>", unsafe_allow_html=True)
                 components.html(get_human_svg(res_v1, color=color), height=450)
             else:
@@ -221,7 +219,7 @@ if selection == "Measure Body Fat":
             u_s = st.file_uploader("Ảnh nghiêng (Side)", type=['jpg', 'png'])
             use_long_pants = st.checkbox("Mặc quần dài (Hiệu chỉnh Hip)")
             if st.button("RUN", use_container_width=True) and u_f and u_s:
-                with st.spinner("AI đang phân tích 7 tham số..."):
+                with st.spinner("Đang phân tích 7 tham số..."):
                     img_f = cv2.imdecode(np.frombuffer(u_f.read(), np.uint8), 1)
                     img_s = cv2.imdecode(np.frombuffer(u_s.read(), np.uint8), 1)
                     
@@ -339,7 +337,7 @@ if selection == "Measure Body Fat":
                 color_v5, status_v5 = get_status_color(res_v5)
 
                 # RESULT
-                st.metric("Dự đoán AI v5", f"{res_v5}%")
+                st.metric("Dự đoán", f"{res_v5}%")
                 st.markdown(f"**Trạng thái:** {status_v5}")
 
                 # SCAN IMAGE
@@ -367,7 +365,7 @@ if selection == "Measure Body Fat":
 
                 # -------- SAVE --------
                 if is_logged_in:
-                    if st.button("LƯU KẾT QUẢ V5"):
+                    if st.button("LƯU KẾT QUẢ"):
                         scan_res = st.session_state.res_scan_v5
 
                         handle_save_logic(
@@ -587,7 +585,7 @@ if selection == "Measure Body Fat":
             df_bf = pd.DataFrame(results_bf)
 
             if df_measure.empty:
-                st.warning("❌ Không scan được ảnh nào hợp lệ")
+                st.warning("Không scan được ảnh nào hợp lệ !!")
             else:
                 st.session_state.df_measure = df_measure
                 st.session_state.df_bf = df_bf
