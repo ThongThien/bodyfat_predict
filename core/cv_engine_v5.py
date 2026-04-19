@@ -105,7 +105,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
 
     # ===== BMI CALIB =====
     bmi = weight / ((real_h / 100) ** 2)
-    f_calib = 1.12 if bmi < 18.5 else (1.204 if bmi < 25 else 1.25)
+    f_calib = 1.138 if bmi < 18.5 else (1.222 if bmi < 25 else 1.258)
 
     # ===== BASE LANDMARK =====
     shoulder = lm_f[11].y

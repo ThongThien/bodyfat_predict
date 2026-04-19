@@ -127,7 +127,7 @@ with st.sidebar:
 
 # --- 4. MAIN CONTENT ---
 if selection == "Measure Body Fat":
-    tab1, tab2, tab3, tab4 = st.tabs(["Manual Input", "AI Scan", "History", "Batch Test"])
+    tab1, tab2, tab3 = st.tabs(["Manual Input", "AI Scan", "History"])
 
     # --- TAB 1: MANUAL ---
     with tab1:
@@ -166,50 +166,6 @@ if selection == "Measure Body Fat":
     with tab2:
         col_in, col_disp = st.columns([1, 1.2])
         with col_in:
-            # # --- LOAD SINGLE SAMPLE ---
-            # st.markdown("---")
-            # st.subheader("Load Sample (1 ảnh)")
-
-            # sample_files = [f for f in os.listdir("assets/anh_chuan") if f.startswith("front")]
-
-            # selected_file = st.selectbox("Chọn ảnh sample", sample_files)
-
-            # if st.button("LOAD SAMPLE 1 ẢNH"):
-            #     path_f = os.path.join("assets/anh_chuan", selected_file)
-            #     path_s = path_f.replace("front", "side")
-
-            #     if os.path.exists(path_s):
-
-            #         info = parse_filename(selected_file)
-
-            #         img_f = cv2.imread(path_f)
-            #         img_s = cv2.imread(path_s)
-
-            #         # --- RAW prediction (KHÔNG AI scan)
-            #         raw_pred = predict_body_fat_v5(model_v5, info)
-
-            #         # --- AI scan normal
-            #         res_scan1, viz_f1, viz_s1, _ = process_body_measurements_v5(
-            #             img_f, img_s, info["Height"], info["Weight"], use_long_pants=False
-            #         )
-            #         pred_scan1 = predict_body_fat_v5(model_v5, {**info, **res_scan1})
-
-            #         # --- AI scan quần dài
-            #         res_scan2, viz_f2, viz_s2, _ = process_body_measurements_v5(
-            #             img_f, img_s, info["Height"], info["Weight"], use_long_pants=True
-            #         )
-            #         pred_scan2 = predict_body_fat_v5(model_v5, {**info, **res_scan2})
-
-            #         st.success("Load thành công!")
-
-            #         st.markdown("### So sánh nhanh")
-
-            #         st.write("Raw:", raw_pred)
-            #         st.write("AI Scan:", pred_scan1)
-            #         st.write("AI Scan + Quần:", pred_scan2)
-
-            #     else:
-            #         st.error("Thiếu ảnh side tương ứng!")
             st.subheader("AI Vision Scanning")
             age_v = st.number_input("Tuổi", 10, 100, st.session_state.vals[0], key="age_v5")
             w_v = st.number_input("Cân nặng (kg)", 30.0, 200.0, st.session_state.vals[1], key="w_v5")
@@ -454,171 +410,171 @@ if selection == "Measure Body Fat":
                 st.info("Chưa có lịch sử đo.")
         else:
             st.warning("Vui lòng đăng nhập để xem lịch sử.")
-    with tab4:
-        st.subheader("Batch Test Folder (Compare Model vs AI Scan)")
+    # with tab4:
+    #     st.subheader("Batch Test Folder (Compare Model vs AI Scan)")
 
-        folder_path = "assets/anh_chuan"
+    #     folder_path = "assets/anh_chuan"
 
-        # -------- VALIDATE FILENAME --------
-        def is_valid_filename(file):
-            try:
-                parts = file.split("_")
-                if len(parts) < 3:
-                    return False
-                data = parts[2].split(".")[0]
-                nums = data.split("-")
-                return len(nums) >= 6
-            except:
-                return False
+    #     # -------- VALIDATE FILENAME --------
+    #     def is_valid_filename(file):
+    #         try:
+    #             parts = file.split("_")
+    #             if len(parts) < 3:
+    #                 return False
+    #             data = parts[2].split(".")[0]
+    #             nums = data.split("-")
+    #             return len(nums) >= 6
+    #         except:
+    #             return False
 
-        if st.button("SCAN TOÀN BỘ FOLDER"):
+    #     if st.button("SCAN TOÀN BỘ FOLDER"):
 
-            import gc
+    #         import gc
 
-            results_measure = []
-            results_bf = []
+    #         results_measure = []
+    #         results_bf = []
 
-            files = [f for f in os.listdir(folder_path) if f.startswith("front")]
+    #         files = [f for f in os.listdir(folder_path) if f.startswith("front")]
 
-            # 🔥 LIMIT để tránh OOM
-            max_files = st.slider("Số ảnh test", 1, 50, 10)
-            files = files[:max_files]
+    #         # 🔥 LIMIT để tránh OOM
+    #         max_files = st.slider("Số ảnh test", 1, 50, 10)
+    #         files = files[:max_files]
 
-            progress = st.progress(0)
+    #         progress = st.progress(0)
 
-            for idx, file in enumerate(files):
+    #         for idx, file in enumerate(files):
 
-                progress.progress((idx + 1) / len(files))
+    #             progress.progress((idx + 1) / len(files))
 
-                if not is_valid_filename(file):
-                    print(f"❌ Skip file sai format: {file}")
-                    continue
+    #             if not is_valid_filename(file):
+    #                 print(f"❌ Skip file sai format: {file}")
+    #                 continue
 
-                try:
-                    info = parse_filename(file)
-                except:
-                    print(f"❌ Lỗi parse: {file}")
-                    continue
+    #             try:
+    #                 info = parse_filename(file)
+    #             except:
+    #                 print(f"❌ Lỗi parse: {file}")
+    #                 continue
 
-                path_f = os.path.join(folder_path, file)
-                path_s = path_f.replace("front", "side")
+    #             path_f = os.path.join(folder_path, file)
+    #             path_s = path_f.replace("front", "side")
 
-                if not os.path.exists(path_s):
-                    print(f"❌ Thiếu side image: {file}")
-                    continue
+    #             if not os.path.exists(path_s):
+    #                 print(f"❌ Thiếu side image: {file}")
+    #                 continue
 
-                try:
-                    img_f = cv2.imread(path_f)
-                    img_s = cv2.imread(path_s)
+    #             try:
+    #                 img_f = cv2.imread(path_f)
+    #                 img_s = cv2.imread(path_s)
 
-                    if img_f is None or img_s is None:
-                        print(f"❌ Lỗi đọc ảnh: {file}")
-                        continue
+    #                 if img_f is None or img_s is None:
+    #                     print(f"❌ Lỗi đọc ảnh: {file}")
+    #                     continue
 
-                    # 🔥 resize giảm RAM
-                    def resize_img(img, max_w=640):
-                        h, w = img.shape[:2]
-                        if w > max_w:
-                            scale = max_w / w
-                            img = cv2.resize(img, (int(w*scale), int(h*scale)))
-                        return img
+    #                 # 🔥 resize giảm RAM
+    #                 def resize_img(img, max_w=640):
+    #                     h, w = img.shape[:2]
+    #                     if w > max_w:
+    #                         scale = max_w / w
+    #                         img = cv2.resize(img, (int(w*scale), int(h*scale)))
+    #                     return img
 
-                    img_f = resize_img(img_f)
-                    img_s = resize_img(img_s)
+    #                 img_f = resize_img(img_f)
+    #                 img_s = resize_img(img_s)
 
-                    # -------- RAW ----------
-                    raw_pred = predict_body_fat_v5(model_v5, info)
+    #                 # -------- RAW ----------
+    #                 raw_pred = predict_body_fat_v5(model_v5, info)
 
-                    # -------- AI SCAN ----------
-                    res_scan1, _, _, _ = process_body_measurements_v5(
-                        img_f, img_s, info["Height"], info["Weight"], False
-                    )
+    #                 # -------- AI SCAN ----------
+    #                 res_scan1, _, _, _ = process_body_measurements_v5(
+    #                     img_f, img_s, info["Height"], info["Weight"], False
+    #                 )
 
-                    res_scan2, _, _, _ = process_body_measurements_v5(
-                        img_f, img_s, info["Height"], info["Weight"], True
-                    )
+    #                 res_scan2, _, _, _ = process_body_measurements_v5(
+    #                     img_f, img_s, info["Height"], info["Weight"], True
+    #                 )
 
-                    if not res_scan1 or not res_scan2:
-                        print(f"❌ Scan lỗi: {file}")
-                        continue
+    #                 if not res_scan1 or not res_scan2:
+    #                     print(f"❌ Scan lỗi: {file}")
+    #                     continue
 
-                    pred_scan1 = predict_body_fat_v5(model_v5, {**info, **res_scan1})
-                    pred_scan2 = predict_body_fat_v5(model_v5, {**info, **res_scan2})
+    #                 pred_scan1 = predict_body_fat_v5(model_v5, {**info, **res_scan1})
+    #                 pred_scan2 = predict_body_fat_v5(model_v5, {**info, **res_scan2})
 
-                    # ===== TABLE 1 =====
-                    results_measure.append({
-                        "Name": info["Name"],
+    #                 # ===== TABLE 1 =====
+    #                 results_measure.append({
+    #                     "Name": info["Name"],
 
-                        "Chest_raw": info["Chest"],
-                        "Abd_raw": info["Abdomen"],
-                        "Hip_raw": info["Hip"],
+    #                     "Chest_raw": info["Chest"],
+    #                     "Abd_raw": info["Abdomen"],
+    #                     "Hip_raw": info["Hip"],
 
-                        "Chest_AI": res_scan1["Chest"],
-                        "Abd_AI": res_scan1["Abdomen"],
-                        "Hip_AI": res_scan1["Hip"],
+    #                     "Chest_AI": res_scan1["Chest"],
+    #                     "Abd_AI": res_scan1["Abdomen"],
+    #                     "Hip_AI": res_scan1["Hip"],
 
-                        # 🔥 chỉ lưu path (KHÔNG lưu ảnh)
-                        "img_path_f": path_f,
-                        "img_path_s": path_s
-                    })
+    #                     # 🔥 chỉ lưu path (KHÔNG lưu ảnh)
+    #                     "img_path_f": path_f,
+    #                     "img_path_s": path_s
+    #                 })
 
-                    # ===== TABLE 2 =====
-                    results_bf.append({
-                        "Name": info["Name"],
-                        "BF_Raw": raw_pred,
-                        "BF_AI": pred_scan1,
-                        "BF_AI_Loose": pred_scan2,
-                        "Delta_AI": round(pred_scan1 - raw_pred, 2),
-                        "Delta_Loose": round(pred_scan2 - raw_pred, 2)
-                    })
+    #                 # ===== TABLE 2 =====
+    #                 results_bf.append({
+    #                     "Name": info["Name"],
+    #                     "BF_Raw": raw_pred,
+    #                     "BF_AI": pred_scan1,
+    #                     "BF_AI_Loose": pred_scan2,
+    #                     "Delta_AI": round(pred_scan1 - raw_pred, 2),
+    #                     "Delta_Loose": round(pred_scan2 - raw_pred, 2)
+    #                 })
 
-                except Exception as e:
-                    print(f"❌ Crash file {file}: {e}")
-                    continue
+    #             except Exception as e:
+    #                 print(f"❌ Crash file {file}: {e}")
+    #                 continue
 
-            # 🔥 FREE RAM mỗi vòng
-            del img_f, img_s
-            gc.collect()
+    #         # 🔥 FREE RAM mỗi vòng
+    #         del img_f, img_s
+    #         gc.collect()
 
-            # ===== DATAFRAME =====
-            df_measure = pd.DataFrame(results_measure)
-            df_bf = pd.DataFrame(results_bf)
+    #         # ===== DATAFRAME =====
+    #         df_measure = pd.DataFrame(results_measure)
+    #         df_bf = pd.DataFrame(results_bf)
 
-            if df_measure.empty:
-                st.warning("Không scan được ảnh nào hợp lệ !!")
-            else:
-                st.session_state.df_measure = df_measure
-                st.session_state.df_bf = df_bf
+    #         if df_measure.empty:
+    #             st.warning("Không scan được ảnh nào hợp lệ !!")
+    #         else:
+    #             st.session_state.df_measure = df_measure
+    #             st.session_state.df_bf = df_bf
 
-                # -------- DISPLAY --------
-                st.markdown("## Bảng 1: So sánh số đo")
-                st.dataframe(df_measure.drop(columns=["img_path_f", "img_path_s"], errors="ignore"))
+    #             # -------- DISPLAY --------
+    #             st.markdown("## Bảng 1: So sánh số đo")
+    #             st.dataframe(df_measure.drop(columns=["img_path_f", "img_path_s"], errors="ignore"))
 
-                st.markdown("## Bảng 2: So sánh Body Fat")
-                st.markdown("DATA GỐC:")
-                st.markdown("Dao - 20-24%, Hieu - 18-20%, Thien - 15-19%, Lap - 12-16%, Lo - 25-30%")
-                st.dataframe(df_bf)
+    #             st.markdown("## Bảng 2: So sánh Body Fat")
+    #             st.markdown("DATA GỐC:")
+    #             st.markdown("Dao - 20-24%, Hieu - 18-20%, Thien - 15-19%, Lap - 12-16%, Lo - 25-30%")
+    #             st.dataframe(df_bf)
 
-                # -------- SELECT IMAGE --------
-                selected_name = st.selectbox("Chọn sample", df_measure["Name"])
+    #             # -------- SELECT IMAGE --------
+    #             selected_name = st.selectbox("Chọn sample", df_measure["Name"])
 
-                row = df_measure[df_measure["Name"] == selected_name].iloc[0]
+    #             row = df_measure[df_measure["Name"] == selected_name].iloc[0]
 
-                c1, c2 = st.columns(2)
+    #             c1, c2 = st.columns(2)
 
-                img_f = cv2.imread(row["img_path_f"])
-                img_s = cv2.imread(row["img_path_s"])
+    #             img_f = cv2.imread(row["img_path_f"])
+    #             img_s = cv2.imread(row["img_path_s"])
 
-                c1.image(img_f, caption="Front")
-                c2.image(img_s, caption="Side")
+    #             c1.image(img_f, caption="Front")
+    #             c2.image(img_s, caption="Side")
 
-                # -------- EXPORT --------
-                csv1 = df_measure.drop(columns=["img_path_f", "img_path_s"], errors="ignore") \
-                                .to_csv(index=False).encode("utf-8")
+    #             # -------- EXPORT --------
+    #             csv1 = df_measure.drop(columns=["img_path_f", "img_path_s"], errors="ignore") \
+    #                             .to_csv(index=False).encode("utf-8")
 
-                csv2 = df_bf.to_csv(index=False).encode("utf-8")
+    #             csv2 = df_bf.to_csv(index=False).encode("utf-8")
 
-                st.download_button("Download Measurements CSV", csv1, "measurements.csv")
-                st.download_button("Download BodyFat CSV", csv2, "bodyfat.csv")
+    #             st.download_button("Download Measurements CSV", csv1, "measurements.csv")
+    #             st.download_button("Download BodyFat CSV", csv2, "bodyfat.csv")
 elif selection == "Scientific Info":
     show_info_page_v5()
