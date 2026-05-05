@@ -70,7 +70,7 @@ def parse_filename(file_name):
     }
 
 def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, method_name):
-    with st.spinner("Đang đồng bộ dữ liệu..."):
+    with st.spinner("Data is being synchronized..."):
         img_f, img_s = pipe_images
         buf_f = cv2.imencode('.jpg', img_f)[1].tobytes() if img_f is not None else None
         buf_s = cv2.imencode('.jpg', img_s)[1].tobytes() if img_s is not None else None
@@ -84,7 +84,7 @@ def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, meth
 
         if success.get("success"):
             st.balloons()
-            st.success("Dữ liệu đã được lưu thành công!")
+            st.success("Data has been saved successfully!")
             time.sleep(1)
             st.rerun()
         else:
@@ -101,21 +101,21 @@ with st.sidebar:
     except: is_logged_in = False
 
     if not is_logged_in:
-        auth_mode = st.radio("Tài khoản", ["Đăng nhập", "Đăng ký"])
+        auth_mode = st.radio("Account", ["Login", "Sign up"])
         email = st.text_input("Email")
-        pw = st.text_input("Mật khẩu", type="password")
-        if auth_mode == "Đăng ký":
-            fname = st.text_input("Họ tên")
-            if st.button("Tạo tài khoản"):
+        pw = st.text_input("Password", type="password")
+        if auth_mode == "Sign up":
+            fname = st.text_input("Full name")
+            if st.button("Create account"):
                 res = sign_up(email, pw, fname)
-                st.success("Kiểm tra email!") if hasattr(res, 'user') else st.error("Lỗi đăng ký")
+                st.success("Check your email!") if hasattr(res, 'user') else st.error("Registration error")
         else:
-            if st.button("Vào hệ thống"):
+            if st.button("Access system"):
                 if hasattr(sign_in(email, pw), 'user'): st.rerun()
-                else: st.error("Sai thông tin!")
+                else: st.error("Invalid credentials!")
     else:
         st.success(f"Hi, {user_res.user.email}")
-        if st.button("Đăng xuất"):
+        if st.button("Log out"):
             supabase.auth.sign_out()
             st.rerun()
 
@@ -133,16 +133,16 @@ if selection == "Measure Body Fat":
     with tab1:
         c1, c2 = st.columns([1, 1.2])
         with c1:
-            st.subheader("Nhập chỉ số thô")
-            age1 = st.number_input("Tuổi", 10, 100, st.session_state.vals[0])
-            w1 = st.number_input("Cân nặng (kg)", 30.0, 200.0, st.session_state.vals[1])
-            h1 = st.number_input("Chiều cao (cm)", 120.0, 230.0, st.session_state.vals[2])
+            st.subheader("Input Raw Metrics")
+            age1 = st.number_input("Age", 10, 100, st.session_state.vals[0])
+            w1 = st.number_input("Weight (kg)", 30.0, 200.0, st.session_state.vals[1])
+            h1 = st.number_input("Height (cm)", 120.0, 230.0, st.session_state.vals[2])
             
             st.markdown("---")
-            st.markdown("**Số đo chu vi (cm)**")
-            chest1 = st.number_input("Vòng Ngực", 50.0, 180.0, 95.0)
-            abd1 = st.number_input("Vòng Bụng (Ngang rốn)", 50.0, 180.0, 85.0)
-            hip1 = st.number_input("Vòng Hông (Mông)", 50.0, 180.0, 95.0)
+            st.markdown("**Circumference Measurements (cm)**")
+            chest1 = st.number_input("Chest", 50.0, 180.0, 95.0)
+            abd1 = st.number_input("Abdomen (Navel level)", 50.0, 180.0, 85.0)
+            hip1 = st.number_input("Hip (Buttocks)", 50.0, 180.0, 95.0)
 
             if st.button("ANALYZE", use_container_width=True):
                 data_v5 = {
@@ -156,26 +156,26 @@ if selection == "Measure Body Fat":
             if st.session_state.res_tab1:
                 res_v1 = st.session_state.res_tab1
                 color, status = get_status_color(res_v1)
-                st.metric("Kết quả Dự đoán", f"{res_v1}%")
+                st.metric("Prediction Result", f"{res_v1}%")
                 st.markdown(f"<h3 style='color:{color}; text-align:center;'>{status}</h3>", unsafe_allow_html=True)
                 components.html(get_human_svg(res_v1, color=color), height=450)
             else:
-                st.image("assets/hd.jpg", caption="Hướng dẫn đo chuẩn", use_container_width=True)
+                st.image("assets/hd.jpg", caption="Standard Measurement Guide", use_container_width=True)
 
     # --- TAB 2: AI SCAN v5 (Chỉ lấy 3 vòng) ---
     with tab2:
         col_in, col_disp = st.columns([1, 1.2])
         with col_in:
             st.subheader("AI Vision Scanning")
-            age_v = st.number_input("Tuổi", 10, 100, st.session_state.vals[0], key="age_v5")
-            w_v = st.number_input("Cân nặng (kg)", 30.0, 200.0, st.session_state.vals[1], key="w_v5")
-            h_v = st.number_input("Chiều cao (cm)", 120.0, 230.0, st.session_state.vals[2], key="h_v5")
+            age_v = st.number_input("Age", 10, 100, st.session_state.vals[0], key="age_v5")
+            w_v = st.number_input("Weight (kg)", 30.0, 200.0, st.session_state.vals[1], key="w_v5")
+            h_v = st.number_input("Height (cm)", 120.0, 230.0, st.session_state.vals[2], key="h_v5")
             
-            u_f = st.file_uploader("Ảnh chính diện (Front)", type=['jpg', 'png'])
-            u_s = st.file_uploader("Ảnh nghiêng (Side)", type=['jpg', 'png'])
-            use_long_pants = st.checkbox("Mặc quần dài (Hiệu chỉnh Hip)")
+            u_f = st.file_uploader("Front Image", type=['jpg', 'png'])
+            u_s = st.file_uploader("Side Image", type=['jpg', 'png'])
+            use_long_pants = st.checkbox("Wearing long pants (Hip adjustment)")
             if st.button("RUN", use_container_width=True) and u_f and u_s:
-                with st.spinner("Đang phân tích 7 tham số..."):
+                with st.spinner("Analyzing 7 parameters..."):
                     img_f = cv2.imdecode(np.frombuffer(u_f.read(), np.uint8), 1)
                     img_s = cv2.imdecode(np.frombuffer(u_s.read(), np.uint8), 1)
                     
@@ -186,7 +186,7 @@ if selection == "Measure Body Fat":
                         st.session_state.res_scan_v5 = res_scan
                         st.session_state.pipe_v5 = (viz_f, viz_s)
                         st.session_state.debug_pack = debug_pack
-                        # Dự đoán ngay lập tức sau khi scan
+                        # Immediate prediction after scan
                         input_v5 = {"Name": "Scan_User", "Age": age_v, "Weight": w_v, "Height": h_v, **res_scan}
                         st.session_state.res_final_v5 = predict_body_fat_v5(model_v5, input_v5)
                         st.session_state.active_mode = "AI"
@@ -194,8 +194,8 @@ if selection == "Measure Body Fat":
 
             if st.session_state.res_scan_v5:
                 r = st.session_state.res_scan_v5
-                st.success(f"Trích xuất thành công: Ngực: {r['Chest']} | Bụng: {r['Abdomen']} | Hông: {r['Hip']}")
-                with st.expander("Xem chi tiết thông số", expanded=False):
+                st.success(f"Extraction successful: Chest: {r['Chest']} | Abdomen: {r['Abdomen']} | Hip: {r['Hip']}")
+                with st.expander("View measurement details", expanded=False):
                     input_debug = {
                         "Weight": w_v,
                         "Chest": r["Chest"],
@@ -203,7 +203,7 @@ if selection == "Measure Body Fat":
                         "Hip": r["Hip"],
                     }
 
-                    # Tính thêm
+                    # Additional calculations
                     abd = r.get("Abdomen")
                     hip = r.get("Hip")
 
@@ -223,78 +223,78 @@ if selection == "Measure Body Fat":
 
                     st.dataframe(debug_df)
             
-            with st.expander("Giải thích các chỉ số", expanded=False):
+            with st.expander("Index explanations", expanded=False):
                 st.markdown("""
                 **W_per_A (Waist Power Index)**  
                 = Abdomen² / Weight  
-                → Đánh giá mức độ tích mỡ bụng so với cân nặng
+                → Assesses abdominal fat accumulation relative to weight
 
                 **WtHR (Waist to Height Ratio)**  
                 = Abdomen / Height  
-                → Chỉ số nguy cơ tim mạch
+                → Cardiovascular risk indicator
 
                 **WHR (Waist to Hip Ratio)**  
                 = Abdomen / Hip  
-                → Phân bố mỡ (bụng vs hông)
+                → Fat distribution (abdomen vs hip)
 
-                **Ý nghĩa tổng quát:**
-                - W_per_A cao → bụng to bất thường
-                - WtHR > 0.5 → nguy cơ mỡ nội tạng
-                - WHR cao → dáng "apple shape"
+                **General Meaning:**
+                - High W_per_A → abnormal abdominal size
+                - WtHR > 0.5 → visceral fat risk
+                - High WHR → "apple shape" body type
                 """)
         with col_disp:
-            # -------- HƯỚNG DẪN CHỤP (LUÔN HIỂN THỊ) --------
-            st.info("📸 Hướng dẫn chụp ảnh để lấy số đo chính xác")
+            # -------- PHOTO GUIDE (ALWAYS DISPLAYED) --------
+            st.info("📸 Photo guide for accurate measurements")
 
-            with st.expander("Xem hướng dẫn chi tiết", expanded=False):
+            with st.expander("View detailed instructions", expanded=False):
                 st.markdown("""
-                Điều kiện chụp ảnh chuẩn:
+                Standard photography conditions:
                 
-                **1. Khoảng cách:** 
-                - Đặt camera ngang cơ thể và cách khoảng **2m – 2.5m**  
-                (đảm bảo toàn bộ cơ thể nằm trọn trong khung hình từ **gót chân → đỉnh đầu**)
+                **1. Distance:** 
+                - Place the camera at torso level and about **2m – 2.5m** away  
+                (ensure the entire body is within the frame from **heels → top of head**)
 
-                **2. Ánh sáng:** 
-                - Đủ sáng, không bị tối hoặc ngược sáng  
-                - Phân biệt rõ cơ thể với nền  
-                - ❌ Tránh nền trắng hoặc màu trùng với cơ thể
+                **2. Lighting:** 
+                - Sufficient lighting, avoid dark or backlit settings  
+                - Clear distinction between body and background  
+                - ❌ Avoid white backgrounds or colors that match your skin/clothing
 
-                **3. Tư thế chụp:**
-                - Ảnh **chính diện:** Đứng thẳng, dang 2 tay ngang tạo hình chữ **T**  
-                - Ảnh **nghiêng:** Đứng nghiêng, giơ 2 tay lên cao
+                **3. Pose:**
+                - **Front photo:** Stand straight, arms out to the sides forming a **T** shape  
+                - **Side photo:** Stand sideways, raise both arms high
 
-                **4. Trang phục:**  
-                - ❌ Không mặc áo  
-                - ✅ Mặc quần bó hoặc quần mỏng để lộ rõ phần đùi  
-                - Ưu tiên trang phục ôm sát cơ thể để đo chính xác
+                **4. Clothing:**  
+                - ❌ Do not wear a shirt  
+                - ✅ Wear tight shorts or thin leggings to clearly show the thigh area  
+                - Form-fitting attire is preferred for precise measurement
 
-                **5. Nền:**
-                - Nền đơn giản, không rối  
-                - Màu nền tương phản với cơ thể
+                **5. Background:**
+                - Simple, uncluttered background  
+                - Contrast background color with your body
                 """)
 
-            # -------- ẢNH MẪU --------
-            st.markdown("### Ảnh mẫu chuẩn")
+            # -------- SAMPLE IMAGES --------
+            st.markdown("### Standard Sample Images")
 
             sample_f = "assets/anh_chuan/front_Thien_22-163-60-89-80-86-48.jpg"
             sample_s = "assets/anh_chuan/side_Thien_22-163-60-89-80-86-48.jpg"
 
             if os.path.exists(sample_f) and os.path.exists(sample_s):
                 c1, c2 = st.columns(2)
-                c1.image(sample_f, caption="Front mẫu")
-                c2.image(sample_s, caption="Side mẫu")
+                c1.image(sample_f, caption="Sample Front")
+                c2.image(sample_s, caption="Sample Side")
 
             st.markdown("---")
 
-            # -------- KẾT QUẢ AI --------
+            # -------- AI RESULTS --------
             if st.session_state.res_final_v5:
 
                 res_v5 = st.session_state.res_final_v5
                 color_v5, status_v5 = get_status_color(res_v5)
 
                 # RESULT
-                st.metric("Dự đoán", f"{res_v5}%")
-                st.markdown(f"**Trạng thái:** {status_v5}")
+                st.metric("Prediction", f"{res_v5}%")
+                st.markdown(f"**Status:** {status_v5}")
 
                 # SCAN IMAGE
                 viz_f, viz_s = st.session_state.pipe_v5
@@ -321,7 +321,7 @@ if selection == "Measure Body Fat":
 
                 # -------- SAVE --------
                 if is_logged_in:
-                    if st.button("LƯU KẾT QUẢ"):
+                    if st.button("SAVE RESULT"):
                         scan_res = st.session_state.res_scan_v5
 
                         handle_save_logic(
@@ -332,12 +332,12 @@ if selection == "Measure Body Fat":
                             method_name="AI Scan v5"
                         )
                 else:
-                    st.info("Đăng nhập để lưu kết quả lên cloud.")
+                    st.info("Log in to save results to the cloud.")
             else:
-                st.info("Tải lên 2 ảnh để AI bắt đầu quét số đo.")
+                st.info("Upload 2 images for the AI to start scanning measurements.")
     # --- TAB 3: HISTORY ---
     with tab3:
-        st.subheader("Nhật ký thay đổi hình thể")
+        st.subheader("Body Transformation Log")
 
         if is_logged_in:
             history = get_user_history()
@@ -351,11 +351,11 @@ if selection == "Measure Body Fat":
                 # -------- DROP HIP --------
                 cols_to_show = [c for c in df.columns if c != "hip"]
 
-                st.markdown("### Bảng dữ liệu")
+                st.markdown("### Data Table")
                 st.dataframe(df[cols_to_show])
 
                 # -------- SELECT RECORD --------
-                st.markdown("### Xem chi tiết")
+                st.markdown("### View Details")
 
                 df["created_at_fmt"] = pd.to_datetime(df["created_at"]).dt.strftime("%Y-%m-%d %H:%M")
 
@@ -365,7 +365,7 @@ if selection == "Measure Body Fat":
                     + "%"
                 )
 
-                selected_label = st.selectbox("Chọn bản ghi", df["label"])
+                selected_label = st.selectbox("Select record", df["label"])
 
                 row = df[df["label"] == selected_label].iloc[0]
 
@@ -373,7 +373,7 @@ if selection == "Measure Body Fat":
                 c1, c2 = st.columns(2)
 
                 with c1:
-                    st.markdown("#### Thông tin")
+                    st.markdown("#### Information")
                     st.write(f" Time: {row['created_at']}")
                     st.write(f" Weight: {row.get('weight')}")
                     st.write(f" Height: {row.get('height')}")
@@ -381,7 +381,7 @@ if selection == "Measure Body Fat":
                     st.write(f" Method: {row.get('method')}")
 
                 with c2:
-                    st.markdown("#### Chỉ số")
+                    st.markdown("#### Metrics")
                     st.write(f"Chest: {row.get('chest')}")
                     st.write(f"Abdomen: {row.get('abdomen')}")
                     st.write(f"WPA: {row.get('wpa')}")
@@ -389,7 +389,7 @@ if selection == "Measure Body Fat":
                     st.write(f"WHR: {row.get('whr')}")
 
                 # -------- IMAGE --------
-                st.markdown("### Ảnh")
+                st.markdown("### Images")
 
                 img_f = row.get("image_url_front")
                 img_s = row.get("image_url_side")
@@ -399,17 +399,17 @@ if selection == "Measure Body Fat":
                 if img_f:
                     c1.image(img_f, caption="Front")
                 else:
-                    c1.info("Không có ảnh front")
+                    c1.info("No front image available")
 
                 if img_s:
                     c2.image(img_s, caption="Side")
                 else:
-                    c2.info("Không có ảnh side")
+                    c2.info("No side image available")
 
             else:
-                st.info("Chưa có lịch sử đo.")
+                st.info("No measurement history found.")
         else:
-            st.warning("Vui lòng đăng nhập để xem lịch sử.")
+            st.warning("Please log in to view your history.")
     # with tab4:
     #     st.subheader("Batch Test Folder (Compare Model vs AI Scan)")
 

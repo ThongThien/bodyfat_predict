@@ -52,7 +52,6 @@ def get_dimension_at_y_v5(mask, y_norm, lm_list, part_name, ratio, iterator=1):
     return width_cm, x_min + x1, x_min + x2
 
 
-# 🔥 NEW: scan depth tốt nhất (lấy từ bản 2)
 def find_best_depth(mask, y_center, lm, part, ratio, iterator):
     offsets = [-0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03]
 
