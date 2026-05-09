@@ -11,3 +11,5 @@ scikit-learn
 httpx==0.24.1
 gotrue==2.4.2
 postgrest==0.13.2
+owlready2 
+rdflib 

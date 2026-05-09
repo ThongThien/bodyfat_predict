@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/bodyfat#"
+     xml:base="http://www.semanticweb.org/bodyfat"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+    <owl:Ontology rdf:about="http://www.semanticweb.org/bodyfat"/>
+
+    <!-- ===================== -->
+    <!-- CLASSES -->
+    <!-- ===================== -->
+
+    <owl:Class rdf:about="#People"/>
+    <owl:Class rdf:about="#Measurement"/>
+    <owl:Class rdf:about="#Feature"/>
+    <owl:Class rdf:about="#Prediction"/>
+    <owl:Class rdf:about="#BMIClass"/>
+    <owl:Class rdf:about="#FatLevel"/>
+    <owl:Class rdf:about="#InputQuality"/>
+    <owl:Class rdf:about="#ExplanationRule"/>
+    <owl:Class rdf:about="#Recommendation"/>
+
+    <!-- ===================== -->
+    <!-- BMI CATEGORY -->
+    <!-- ===================== -->
+
+    <owl:NamedIndividual rdf:about="#Lean"/>
+    <owl:NamedIndividual rdf:about="#Normal"/>
+    <owl:NamedIndividual rdf:about="#Overweight"/>
+    <owl:NamedIndividual rdf:about="#Obese"/>
+
+    <!-- ===================== -->
+    <!-- FAT LEVEL -->
+    <!-- ===================== -->
+
+    <owl:NamedIndividual rdf:about="#LowFat"/>
+    <owl:NamedIndividual rdf:about="#NormalFat"/>
+    <owl:NamedIndividual rdf:about="#HighFat"/>
+
+    <!-- ===================== -->
+    <!-- INPUT QUALITY -->
+    <!-- ===================== -->
+
+    <owl:NamedIndividual rdf:about="#GoodInput"/>
+    <owl:NamedIndividual rdf:about="#LowQualityInput"/>
+    <owl:NamedIndividual rdf:about="#InvalidInput"/>
+
+    <!-- ===================== -->
+    <!-- OBJECT PROPERTIES -->
+    <!-- ===================== -->
+
+    <owl:ObjectProperty rdf:about="#hasMeasurement"/>
+    <owl:ObjectProperty rdf:about="#hasFeature"/>
+    <owl:ObjectProperty rdf:about="#hasPrediction"/>
+    <owl:ObjectProperty rdf:about="#hasQuality"/>
+    <owl:ObjectProperty rdf:about="#triggeredByRule"/>
+    <owl:ObjectProperty rdf:about="#hasBMIClass"/>
+    <owl:ObjectProperty rdf:about="#hasFatLevel"/>
+    <owl:ObjectProperty rdf:about="#hasRecommendation"/>
+
+    <!-- ===================== -->
+    <!-- DATA PROPERTIES -->
+    <!-- ===================== -->
+
+    <!-- Raw measurements -->
+    <owl:DatatypeProperty rdf:about="#heightCm"/>
+    <owl:DatatypeProperty rdf:about="#weightKg"/>
+    <owl:DatatypeProperty rdf:about="#chestCm"/>
+    <owl:DatatypeProperty rdf:about="#abdomenCm"/>
+    <owl:DatatypeProperty rdf:about="#hipCm"/>
+
+    <!-- Features -->
+    <owl:DatatypeProperty rdf:about="#bmiValue"/>
+    <owl:DatatypeProperty rdf:about="#whrValue"/>
+    <owl:DatatypeProperty rdf:about="#wthrValue"/>
+    <owl:DatatypeProperty rdf:about="#wpaValue"/>
+
+    <!-- Prediction -->
+    <owl:DatatypeProperty rdf:about="#predictedBodyFat"/>
+    <owl:DatatypeProperty rdf:about="#confidenceScore"/>
+
+    <!-- Quality -->
+    <owl:DatatypeProperty rdf:about="#qualityScore"/>
+    <owl:DatatypeProperty rdf:about="#poseVisibility"/>
+    <owl:DatatypeProperty rdf:about="#maskConfidence"/>
+    <owl:DatatypeProperty rdf:about="#missingLandmarkCount"/>
+
+</rdf:RDF>

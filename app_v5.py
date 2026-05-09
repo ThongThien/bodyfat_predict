@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+from ontology.ontology_engine import run_ontology
 import os
 import cv2
 import numpy as np
@@ -11,7 +12,7 @@ from core.database import (
     get_current_user, get_user_history, save_complete_measurement, 
     sign_up, sign_in, supabase 
 )
-from core.visualizer import get_custom_css, get_human_svg
+from core.visualizer import get_custom_css
 from core.info_content_v5 import show_info_page_v5
 
 # Sử dụng các bản nâng cấp v5
@@ -94,6 +95,12 @@ def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, meth
 with st.sidebar:
     st.title(" PREDICT BODYFAT AI ")
     
+    st.markdown("---")
+    selection = st.radio("MENU", ["Measure Body Fat", "Scientific Info","History",])
+    if st.button("Reset Input Data"):
+        st.session_state.clear()
+        st.rerun()
+        
     is_logged_in = False
     try:
         user_res = get_current_user()
@@ -101,7 +108,7 @@ with st.sidebar:
     except: is_logged_in = False
 
     if not is_logged_in:
-        auth_mode = st.radio("Account", ["Login", "Sign up"])
+        auth_mode = st.radio("Account", ["Login", "Sign up"], horizontal=True)
         email = st.text_input("Email")
         pw = st.text_input("Password", type="password")
         if auth_mode == "Sign up":
@@ -110,7 +117,7 @@ with st.sidebar:
                 res = sign_up(email, pw, fname)
                 st.success("Check your email!") if hasattr(res, 'user') else st.error("Registration error")
         else:
-            if st.button("Access system"):
+            if st.button("Login"):
                 if hasattr(sign_in(email, pw), 'user'): st.rerun()
                 else: st.error("Invalid credentials!")
     else:
@@ -119,15 +126,9 @@ with st.sidebar:
             supabase.auth.sign_out()
             st.rerun()
 
-    st.markdown("---")
-    selection = st.radio("MENU", ["Measure Body Fat", "Scientific Info", "Settings"])
-    if st.button("RESET"):
-        st.session_state.clear()
-        st.rerun()
-
 # --- 4. MAIN CONTENT ---
 if selection == "Measure Body Fat":
-    tab1, tab2, tab3 = st.tabs(["Manual Input", "AI Scan", "History"])
+    tab1, tab2 = st.tabs(["Manual Input", "AI Scan"])
 
     # --- TAB 1: MANUAL ---
     with tab1:
@@ -158,11 +159,10 @@ if selection == "Measure Body Fat":
                 color, status = get_status_color(res_v1)
                 st.metric("Prediction Result", f"{res_v1}%")
                 st.markdown(f"<h3 style='color:{color}; text-align:center;'>{status}</h3>", unsafe_allow_html=True)
-                components.html(get_human_svg(res_v1, color=color), height=450)
             else:
                 st.image("assets/hd.jpg", caption="Standard Measurement Guide", use_container_width=True)
 
-    # --- TAB 2: AI SCAN v5 (Chỉ lấy 3 vòng) ---
+    # --- TAB 2: AI SCAN ---
     with tab2:
         col_in, col_disp = st.columns([1, 1.2])
         with col_in:
@@ -179,7 +179,7 @@ if selection == "Measure Body Fat":
                     img_f = cv2.imdecode(np.frombuffer(u_f.read(), np.uint8), 1)
                     img_s = cv2.imdecode(np.frombuffer(u_s.read(), np.uint8), 1)
                     
-                    res_scan, viz_f, viz_s, debug_pack = process_body_measurements_v5(
+                    res_scan, viz_f, viz_s, debug_pack, quality_pack  = process_body_measurements_v5(
                         img_f, img_s, h_v, w_v, use_long_pants=use_long_pants
                     )
                     if res_scan:
@@ -187,8 +187,66 @@ if selection == "Measure Body Fat":
                         st.session_state.pipe_v5 = (viz_f, viz_s)
                         st.session_state.debug_pack = debug_pack
                         # Immediate prediction after scan
-                        input_v5 = {"Name": "Scan_User", "Age": age_v, "Weight": w_v, "Height": h_v, **res_scan}
-                        st.session_state.res_final_v5 = predict_body_fat_v5(model_v5, input_v5)
+                        input_v5 = {
+                            "Name": "Scan_User",
+                            "Age": age_v,
+                            "Weight": w_v,
+                            "Height": h_v,
+                            **res_scan
+                        }
+
+                        # ML PREDICTION
+                        predicted_bf = predict_body_fat_v5(model_v5, input_v5)
+
+                        st.session_state.res_final_v5 = predicted_bf
+
+                        # ONTOLOGY REASONING
+                        ontology_result = run_ontology(
+
+                            height=h_v,
+                            weight=w_v,
+
+                            chest=res_scan["Chest"],
+                            abdomen=res_scan["Abdomen"],
+                            hip=res_scan["Hip"],
+
+                            predicted_bf=predicted_bf,
+
+                            pose_visibility=quality_pack["pose_visibility"],
+                            mask_confidence=quality_pack["mask_confidence"],
+                            missing_landmarks=quality_pack["missing_landmarks"]
+                        )
+
+                        st.session_state.ontology_result = ontology_result
+
+                        # DEBUG CONSOLE
+                        print("\n" + "="*60)
+                        print(" ONTOLOGY REASONING ".center(60, "="))
+
+                        print(f"BMI Class: {ontology_result['bmi_class']}")
+                        print(f"Fat Level: {ontology_result['fat_level']}")
+                        print(f"Quality: {ontology_result['quality']}")
+
+                        print(f"WHR: {ontology_result['whr']}")
+                        print(f"WtHR: {ontology_result['wthr']}")
+
+                        print("\n[Semantic Flags]")
+                        for flag in ontology_result['semantic_flags']:
+                            print("-", flag)
+
+                        print("\n[Fat Distribution]")
+                        for f in ontology_result['fat_distribution']:
+                            print("-", f)
+
+                        print("\n[Explanations]")
+                        for e in ontology_result['explanations']:
+                            print("-", e)
+
+                        print("\n[Recommendations]")
+                        for r in ontology_result['recommendations']:
+                            print("-", r)
+
+                        print("="*60)
                         st.session_state.active_mode = "AI"
                         st.rerun()
 
@@ -244,7 +302,7 @@ if selection == "Measure Body Fat":
                 """)
         with col_disp:
             # -------- PHOTO GUIDE (ALWAYS DISPLAYED) --------
-            st.info("📸 Photo guide for accurate measurements")
+            st.info("Photo guide for accurate measurements")
 
             with st.expander("View detailed instructions", expanded=False):
                 st.markdown("""
@@ -257,15 +315,15 @@ if selection == "Measure Body Fat":
                 **2. Lighting:** 
                 - Sufficient lighting, avoid dark or backlit settings  
                 - Clear distinction between body and background  
-                - ❌ Avoid white backgrounds or colors that match your skin/clothing
+                - Avoid white backgrounds or colors that match your skin/clothing
 
                 **3. Pose:**
                 - **Front photo:** Stand straight, arms out to the sides forming a **T** shape  
                 - **Side photo:** Stand sideways, raise both arms high
 
                 **4. Clothing:**  
-                - ❌ Do not wear a shirt  
-                - ✅ Wear tight shorts or thin leggings to clearly show the thigh area  
+                - Do not wear a shirt  
+                - Wear tight shorts or thin leggings to clearly show the thigh area  
                 - Form-fitting attire is preferred for precise measurement
 
                 **5. Background:**
@@ -274,17 +332,17 @@ if selection == "Measure Body Fat":
                 """)
 
             # -------- SAMPLE IMAGES --------
-            st.markdown("### Standard Sample Images")
+            with st.expander("Standard Sample Images", expanded=False):
 
-            sample_f = "assets/anh_chuan/front_Thien_22-163-60-89-80-86-48.jpg"
-            sample_s = "assets/anh_chuan/side_Thien_22-163-60-89-80-86-48.jpg"
+                sample_f = "assets/anh_chuan/front_Thien_22-163-60-89-80-86-48.jpg"
+                sample_s = "assets/anh_chuan/side_Thien_22-163-60-89-80-86-48.jpg"
 
-            if os.path.exists(sample_f) and os.path.exists(sample_s):
-                c1, c2 = st.columns(2)
-                c1.image(sample_f, caption="Sample Front")
-                c2.image(sample_s, caption="Sample Side")
+                if os.path.exists(sample_f) and os.path.exists(sample_s):
+                    c1, c2 = st.columns(2)
+                    c1.image(sample_f, caption="Sample Front")
+                    c2.image(sample_s, caption="Sample Side")
 
-            st.markdown("---")
+                st.markdown("---")
 
             # -------- AI RESULTS --------
             if st.session_state.res_final_v5:
@@ -301,24 +359,76 @@ if selection == "Measure Body Fat":
                 v1, v2 = st.columns(2)
                 v1.image(viz_f, caption="Front Scan")
                 v2.image(viz_s, caption="Side Scan")
+                
+                # ONTOLOGY EXPLANATION UI
+                if "ontology_result" in st.session_state:
 
-                # BODY SVG
-                components.html(get_human_svg(res_v5, color=color_v5), height=350)
+                    onto = st.session_state.ontology_result
 
-                # -------- DEBUG SEGMENT --------
-                if "debug_v5" in st.session_state:
-                    dbg = st.session_state.debug_v5
+                    st.markdown("---")
+                    st.subheader("Ontology Reasoning")
 
-                    st.markdown("### Segmentation Debug")
+                    # ===== MAIN SUMMARY =====
 
-                    d1, d2 = st.columns(2)
-                    d1.image(dbg["mask_f"], caption="Mask Front")
-                    d2.image(dbg["mask_s"], caption="Mask Side")
+                    c1, c2, c3 = st.columns(3)
 
-                    d3, d4 = st.columns(2)
-                    d3.image(dbg["mask_raw_f"], caption="Mask Raw Front")
-                    d4.image(dbg["mask_raw_s"], caption="Mask Raw Side")
+                    c1.metric(
+                        "BMI",
+                        f"{onto['bmi']}",
+                        onto['bmi_class']
+                    )
 
+                    c2.metric(
+                        "WHR",
+                        f"{onto['whr']}"
+                    )
+
+                    c3.metric(
+                        "WtHR",
+                        f"{onto['wthr']}"
+                    )
+
+                    # ===== IMAGE QUALITY =====
+
+                    st.markdown("### Image Quality")
+
+                    st.info(
+                        f"""
+                    Quality Level: {onto['quality']}
+
+                    Pose Visibility: {onto['pose_visibility']}
+                    Mask Confidence: {onto['mask_confidence']}
+                    Missing Landmarks: {onto['missing_landmarks']}
+                    """
+                    )
+
+                    # ===== DETAIL EXPANDER =====
+
+                    with st.expander("View Detailed Reasoning"):
+
+                        st.markdown("### Explanations")
+
+                        for e in onto["explanations"]:
+                            st.write("•", e)
+
+                        st.markdown("### Recommendations")
+
+                        for r in onto["recommendations"]:
+                            st.write("•", r)
+
+                        if onto["semantic_flags"]:
+
+                            st.markdown("### Semantic Flags")
+
+                            for s in onto["semantic_flags"]:
+                                st.write("•", s)
+
+                        if onto["fat_distribution"]:
+
+                            st.markdown("### Fat Distribution")
+
+                            for f in onto["fat_distribution"]:
+                                st.write("•", f)
                 # -------- SAVE --------
                 if is_logged_in:
                     if st.button("SAVE RESULT"):
@@ -335,81 +445,6 @@ if selection == "Measure Body Fat":
                     st.info("Log in to save results to the cloud.")
             else:
                 st.info("Upload 2 images for the AI to start scanning measurements.")
-    # --- TAB 3: HISTORY ---
-    with tab3:
-        st.subheader("Body Transformation Log")
-
-        if is_logged_in:
-            history = get_user_history()
-
-            if history:
-                df = pd.DataFrame(history)
-
-                # -------- CHART --------
-                st.line_chart(df.set_index('created_at')['body_fat'])
-
-                # -------- DROP HIP --------
-                cols_to_show = [c for c in df.columns if c != "hip"]
-
-                st.markdown("### Data Table")
-                st.dataframe(df[cols_to_show])
-
-                # -------- SELECT RECORD --------
-                st.markdown("### View Details")
-
-                df["created_at_fmt"] = pd.to_datetime(df["created_at"]).dt.strftime("%Y-%m-%d %H:%M")
-
-                df["label"] = (
-                    df["created_at_fmt"]
-                    + " | BF: " + df["body_fat"].astype(str)
-                    + "%"
-                )
-
-                selected_label = st.selectbox("Select record", df["label"])
-
-                row = df[df["label"] == selected_label].iloc[0]
-
-                # -------- INFO --------
-                c1, c2 = st.columns(2)
-
-                with c1:
-                    st.markdown("#### Information")
-                    st.write(f" Time: {row['created_at']}")
-                    st.write(f" Weight: {row.get('weight')}")
-                    st.write(f" Height: {row.get('height')}")
-                    st.write(f" Body Fat: {row.get('body_fat')}%")
-                    st.write(f" Method: {row.get('method')}")
-
-                with c2:
-                    st.markdown("#### Metrics")
-                    st.write(f"Chest: {row.get('chest')}")
-                    st.write(f"Abdomen: {row.get('abdomen')}")
-                    st.write(f"WPA: {row.get('wpa')}")
-                    st.write(f"WtHR: {row.get('wthr')}")
-                    st.write(f"WHR: {row.get('whr')}")
-
-                # -------- IMAGE --------
-                st.markdown("### Images")
-
-                img_f = row.get("image_url_front")
-                img_s = row.get("image_url_side")
-
-                c1, c2 = st.columns(2)
-
-                if img_f:
-                    c1.image(img_f, caption="Front")
-                else:
-                    c1.info("No front image available")
-
-                if img_s:
-                    c2.image(img_s, caption="Side")
-                else:
-                    c2.info("No side image available")
-
-            else:
-                st.info("No measurement history found.")
-        else:
-            st.warning("Please log in to view your history.")
     # with tab4:
     #     st.subheader("Batch Test Folder (Compare Model vs AI Scan)")
 
@@ -436,7 +471,7 @@ if selection == "Measure Body Fat":
 
     #         files = [f for f in os.listdir(folder_path) if f.startswith("front")]
 
-    #         # 🔥 LIMIT để tránh OOM
+    #         #  LIMIT để tránh OOM
     #         max_files = st.slider("Số ảnh test", 1, 50, 10)
     #         files = files[:max_files]
 
@@ -447,20 +482,20 @@ if selection == "Measure Body Fat":
     #             progress.progress((idx + 1) / len(files))
 
     #             if not is_valid_filename(file):
-    #                 print(f"❌ Skip file sai format: {file}")
+    #                 print(f" Skip file sai format: {file}")
     #                 continue
 
     #             try:
     #                 info = parse_filename(file)
     #             except:
-    #                 print(f"❌ Lỗi parse: {file}")
+    #                 print(f" Lỗi parse: {file}")
     #                 continue
 
     #             path_f = os.path.join(folder_path, file)
     #             path_s = path_f.replace("front", "side")
 
     #             if not os.path.exists(path_s):
-    #                 print(f"❌ Thiếu side image: {file}")
+    #                 print(f" Thiếu side image: {file}")
     #                 continue
 
     #             try:
@@ -468,10 +503,10 @@ if selection == "Measure Body Fat":
     #                 img_s = cv2.imread(path_s)
 
     #                 if img_f is None or img_s is None:
-    #                     print(f"❌ Lỗi đọc ảnh: {file}")
+    #                     print(f" Lỗi đọc ảnh: {file}")
     #                     continue
 
-    #                 # 🔥 resize giảm RAM
+    #                 #  resize giảm RAM
     #                 def resize_img(img, max_w=640):
     #                     h, w = img.shape[:2]
     #                     if w > max_w:
@@ -495,7 +530,7 @@ if selection == "Measure Body Fat":
     #                 )
 
     #                 if not res_scan1 or not res_scan2:
-    #                     print(f"❌ Scan lỗi: {file}")
+    #                     print(f" Scan lỗi: {file}")
     #                     continue
 
     #                 pred_scan1 = predict_body_fat_v5(model_v5, {**info, **res_scan1})
@@ -513,7 +548,7 @@ if selection == "Measure Body Fat":
     #                     "Abd_AI": res_scan1["Abdomen"],
     #                     "Hip_AI": res_scan1["Hip"],
 
-    #                     # 🔥 chỉ lưu path (KHÔNG lưu ảnh)
+    #                     #  chỉ lưu path (KHÔNG lưu ảnh)
     #                     "img_path_f": path_f,
     #                     "img_path_s": path_s
     #                 })
@@ -529,10 +564,10 @@ if selection == "Measure Body Fat":
     #                 })
 
     #             except Exception as e:
-    #                 print(f"❌ Crash file {file}: {e}")
+    #                 print(f" Crash file {file}: {e}")
     #                 continue
 
-    #         # 🔥 FREE RAM mỗi vòng
+    #         #  FREE RAM mỗi vòng
     #         del img_f, img_s
     #         gc.collect()
 
@@ -578,3 +613,227 @@ if selection == "Measure Body Fat":
     #             st.download_button("Download BodyFat CSV", csv2, "bodyfat.csv")
 elif selection == "Scientific Info":
     show_info_page_v5()
+elif selection == "History":
+    st.subheader("Body Transformation History")
+
+    if is_logged_in:
+
+        history = get_user_history()
+
+        if history:
+
+            df = pd.DataFrame(history)
+
+            # ===== FORMAT =====
+            df["created_at"] = pd.to_datetime(df["created_at"])
+            df = df.sort_values("created_at", ascending=False)
+
+            df["Date"] = df["created_at"].dt.strftime("%Y-%m-%d %H:%M")
+
+            # ===== ROUND =====
+            round_cols = [
+                "weight", "height", "chest", "abdomen",
+                "hip", "body_fat", "wpa", "wthr", "whr"
+            ]
+
+            for c in round_cols:
+                if c in df.columns:
+                    df[c] = df[c].round(2)
+
+            # ===== SIMPLE STATUS =====
+            def get_bf_status(v):
+                if v < 13:
+                    return "Athletic"
+                elif v < 22:
+                    return "Fit"
+                elif v < 28:
+                    return "Average"
+                return "High Fat"
+
+            df["Status"] = df["body_fat"].apply(get_bf_status)
+
+            # ===== CHART =====
+            st.markdown("### Body Fat Trend")
+
+            chart_df = (
+                df.sort_values("created_at")
+                .set_index("Date")[["body_fat"]]
+            )
+
+            st.line_chart(chart_df)
+
+            # ===== CLEAN TABLE =====
+            st.markdown("### Measurement Records")
+
+            table_df = df[[
+                "Date",
+                "body_fat",
+                "Status",
+                "weight",
+                "height",
+                "method"
+            ]].rename(columns={
+                "body_fat": "Body Fat %",
+                "weight": "Weight (kg)",
+                "height": "Height (cm)",
+                "method": "Method"
+            })
+
+            st.dataframe(
+                table_df,
+                use_container_width=True,
+                hide_index=True
+            )
+
+            # ===== SELECT =====
+            st.markdown("### Detailed View")
+
+            df["label"] = (
+                df["Date"]
+                + "  |  BF: "
+                + df["body_fat"].astype(str)
+                + "%"
+            )
+
+            selected = st.selectbox(
+                "Select a record",
+                df["label"]
+            )
+
+            row = df[df["label"] == selected].iloc[0]
+
+            # ===== SUMMARY CARDS =====
+            c1, c2, c3 = st.columns(3)
+
+            c1.metric(
+                "Body Fat",
+                f"{row['body_fat']}%"
+            )
+
+            c2.metric(
+                "Weight",
+                f"{row['weight']} kg"
+            )
+
+            c3.metric(
+                "Status",
+                row["Status"]
+            )
+
+            # ===== MAIN INFO =====
+            left, right = st.columns(2)
+
+            with left:
+
+                st.markdown("### General Information")
+
+                st.info(f"""
+    Date: {row['Date']}
+
+    Method: {row.get('method', '-')}
+
+    Height: {row.get('height', '-')} cm
+
+    Weight: {row.get('weight', '-')} kg
+    """)
+
+            with right:
+
+                st.markdown("### Body Measurements")
+
+                st.info(f"""
+    Chest: {row.get('chest', '-')}
+
+    Abdomen: {row.get('abdomen', '-')}
+
+    Hip: {row.get('hip', '-')}
+    """)
+
+            # ===== BODY INDEX =====
+            st.markdown("### Body Index Analysis")
+
+            i1, i2, i3 = st.columns(3)
+
+            i1.metric(
+                "WPA",
+                row.get("wpa", "-")
+            )
+
+            i2.metric(
+                "WtHR",
+                row.get("wthr", "-")
+            )
+
+            i3.metric(
+                "WHR",
+                row.get("whr", "-")
+            )
+
+            # ===== INTERPRETATION =====
+            st.markdown("### Interpretation")
+
+            bf = row["body_fat"]
+            wthr = row.get("wthr", 0)
+            whr = row.get("whr", 0)
+
+            if bf < 13:
+                st.success(
+                    "Low body fat level with athletic body composition."
+                )
+
+            elif bf < 22:
+                st.info(
+                    "Healthy and balanced body fat range."
+                )
+
+            elif bf < 28:
+                st.warning(
+                    "Moderate fat accumulation detected."
+                )
+
+            else:
+                st.error(
+                    "High body fat percentage detected."
+                )
+
+            if wthr and wthr > 0.5:
+                st.warning(
+                    "WtHR suggests elevated abdominal fat risk."
+                )
+
+            if whr and whr > 0.9:
+                st.warning(
+                    "WHR indicates central fat distribution."
+                )
+
+            # ===== IMAGES =====
+            st.markdown("### Scan Images")
+
+            img_f = row.get("image_url_front")
+            img_s = row.get("image_url_side")
+
+            c1, c2 = st.columns(2)
+
+            if img_f:
+                c1.image(
+                    img_f,
+                    caption="Front Image",
+                    use_container_width=True
+                )
+            else:
+                c1.info("No front image")
+
+            if img_s:
+                c2.image(
+                    img_s,
+                    caption="Side Image",
+                    use_container_width=True
+                )
+            else:
+                c2.info("No side image")
+
+        else:
+            st.info("No history data found.")
+
+    else:
+        st.warning("Please log in to view your history.")

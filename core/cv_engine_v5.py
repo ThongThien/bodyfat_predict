@@ -5,7 +5,6 @@ import mediapipe as mp
 mp_pose = mp.solutions.pose
 mp_segmentation = mp.solutions.selfie_segmentation
 
-# ✅ GLOBAL MODELS (giữ nguyên bản 1)
 SEG_MODEL = mp_segmentation.SelfieSegmentation(model_selection=1)
 POSE_MODEL = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5)
 
@@ -88,12 +87,18 @@ def get_iterator(bmi, part, use_long_pants=False):
 def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_pants=False):
     mask_f, mask_raw_f, res_f = get_body_data_v5(front_img, debug=True)
     mask_s, mask_raw_s, res_s = get_body_data_v5(side_img, debug=True)
-
+    mask_confidence = float(np.mean(mask_raw_f))
     if not all([res_f, res_f.pose_landmarks, res_s, res_s.pose_landmarks]):
         return None, None, None, None
 
     h_img, w_img, _ = front_img.shape
     lm_f = res_f.pose_landmarks.landmark
+    pose_visibility_score = np.mean([
+        lm.visibility for lm in lm_f
+    ])
+    missing_landmark_count = sum(
+        1 for lm in lm_f if lm.visibility < 0.5
+    )
     lm_s = res_s.pose_landmarks.landmark
 
     # ===== SCALE =====
@@ -127,7 +132,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
 
         y_f = y_map_front[part]
 
-        # ===== ITERATOR (giữ bản 1) =====
+        # ===== ITERATOR =====
         iterator = get_iterator(bmi, part, use_long_pants)
 
         # ===== WIDTH (FRONT) =====
@@ -135,7 +140,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
             mask_f, y_f, lm_f, part, ratio, iterator
         )
 
-        # 🔥 DEPTH (SIDE) – dùng scan tốt nhất
+        #  DEPTH (SIDE) 
         d_v, y_s, x1s, x2s = find_best_depth(
             mask_s, y_f, lm_s, part, ratio, iterator
         )
@@ -166,7 +171,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
         print(f"Width: {w_v:.2f} cm")
         print(f"Depth: {d_v:.2f} cm")
         print(f"Circum: {circum_final:.2f}")
-
+        
         # ===== DRAW =====
         y_px_f = int(y_f * h_img)
         y_px_s = int(y_s * h_img)
@@ -186,4 +191,10 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
         "mask_raw_s": mask_raw_s
     }
 
-    return results, viz_f, viz_s, debug_pack
+    quality_pack = {
+        "pose_visibility": pose_visibility_score,
+        "mask_confidence": mask_confidence,
+        "missing_landmarks": missing_landmark_count
+    }
+
+    return results, viz_f, viz_s, debug_pack, quality_pack

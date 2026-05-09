@@ -2,231 +2,116 @@ import streamlit as st
 
 def show_info_page_v5():
 
-    st.title("Body Fat AI v5 - Giải thích hệ thống")
+    st.title("Body Fat AI System")
 
     st.markdown("""
-## 1. Tổng quan hệ thống
+### Overview
 
-Ứng dụng sử dụng mô hình lai (Hybrid System):
+Body Fat AI is a hybrid health-analysis system that estimates body fat percentage from only two body images and several basic physical measurements.  
+The application combines Computer Vision, Geometry-based body measurement, Machine Learning prediction, and Ontology Reasoning into a single pipeline.
 
-- Computer Vision (MediaPipe Pose + Segmentation)
-- Geometry-based estimation
-- Machine Learning (Random Forest - tuned)
+Instead of predicting directly from raw images, the system first extracts meaningful body measurements such as Chest, Abdomen, and Hip circumference.  
+These measurements are then transformed into health-related body indices before being analyzed by the AI model.
 
-Hệ thống thực hiện pipeline:
+The overall workflow is:
 
-**Ảnh → Trích xuất số đo cơ thể → Feature Engineering → Dự đoán BodyFat**
-
----
-
-## 2. Pipeline hoạt động
-
-Image → Segmentation → Landmark → y_map → width/depth scan → ellipse → calibration → ML prediction
+**Images → Body Measurement Extraction → Feature Engineering → AI Prediction → Ontology Reasoning → Explanation & Recommendation**
 
 ---
 
-### Bước 1: Segmentation (Tách cơ thể)
-- Sử dụng MediaPipe Selfie Segmentation
-- Tạo mask nhị phân (body vs background)
+### Computer Vision Pipeline
 
-→ Là nền tảng để đo kích thước chính xác
+The image-processing module is built using MediaPipe Pose and Selfie Segmentation.
 
----
+The segmentation model separates the human body from the background to create a body mask, while the pose model detects important body landmarks such as shoulders, hips, heels, and torso positions.  
+These landmarks are used to estimate body proportions and identify standardized measurement regions.
 
-### Bước 2: Landmark Detection
-Xác định các keypoints chính:
-- Vai (shoulder)
-- Hông (hip)
-- Gót chân (heel)
+The system then scans both the front and side body images to calculate body width and body depth.  
+Instead of using a single fixed line, multiple scan positions are tested to reduce errors caused by posture variation, imperfect landmark detection, or slight body rotation.
 
-→ Dùng để:
-- Scale chiều cao
-- Định vị vùng đo
+To estimate circumference values, the body cross-section is approximated as an ellipse.  
+An ellipse-based geometric formula is then applied to estimate Chest, Abdomen, and Hip measurements in centimeters.
+
+Finally, pixel measurements are converted into real-world scale using the user's actual height.
 
 ---
 
-### Bước 3: Xác định vị trí đo (y_map)
+### AI Prediction Model
 
-Dựa trên tỉ lệ cơ thể:
+The prediction engine uses a tuned Random Forest Regressor trained on body composition data.
 
-- Chest = shoulder + 0.27 * torso  
-- Abdomen = hip - 0.30 * torso  
-- Hip = hip + 0.05 * torso  
+The model does not use raw images directly.  
+Instead, it analyzes engineered body features that are strongly related to fat distribution and obesity patterns.
 
-→ Giúp chuẩn hóa vị trí đo giữa các body type khác nhau
+The final input features are:
 
----
-
-### Bước 4: Scan chiều ngang (Width - Front)
-
-- Quét mask theo từng hàng pixel
-- Giới hạn vùng bằng vai (adaptive margin)
-- Margin được điều chỉnh theo BMI
-
-→ Thu được **width (cm)**
-
----
-
-### Bước 5: Scan chiều sâu (Depth - Side)
-
-- Không dùng 1 vị trí cố định
-- Scan nhiều điểm quanh vùng:
-
-    y ± [0.01 → 0.03]
-
-- Lấy giá trị lớn nhất
-
-→ Giảm lỗi:
-- pose lệch
-- landmark sai
-- occlusion
-
----
-
-### Bước 6: Tính chu vi (Ellipse Approximation)
-
-Giả định mặt cắt cơ thể là ellipse:
-
-- a = width / 2  
-- b = depth / 2  
-
-Áp dụng công thức Ramanujan:
-
-Circumference ≈ π(a+b)[1 + (3h)/(10 + √(4−3h))]
-
-→ Thu được các số đo:
-- Chest
-- Abdomen
-- Hip
-
----
-
-### Bước 7: Scale & Calibration
-
-#### Scale:
-- Dựa trên chiều cao thực tế
-- Chuyển đổi pixel → cm
-
-#### Calibration:
-- Điều chỉnh theo BMI để giảm bias hình ảnh
-- Tăng độ ổn định giữa các body type
-
----
-
-## 3. Feature Engineering
-
-Mô hình **không sử dụng ảnh trực tiếp**, mà chỉ sử dụng các số đo:
-
-### Input Features (7 biến):
 - Weight
-- Chest
-- Abdomen
-- Hip
-- W_per_A
-- WtHR
-- WHR
+- Chest circumference
+- Abdomen circumference
+- Hip circumference
+- WtHR (Waist-to-Height Ratio)
+- WHR (Waist-to-Hip Ratio)
+- W_per_A (Waist Power Index)
+
+The dataset contains 195 labeled samples and was optimized specifically for body fat estimation tasks.
+
+Current performance metrics:
+
+- R² Score: approximately 0.82
+- MAE: approximately 2.3%
+- RMSE: approximately 2.9%
+
+These results indicate relatively stable prediction quality for a lightweight non-contact body analysis system.
 
 ---
 
-### Feature phái sinh:
+### Ontology Reasoning Layer
 
-#### W_per_A
-= Abdomen² / Weight  
-→ Khuếch đại ảnh hưởng mỡ bụng
+Beyond AI prediction, the system also includes an Ontology-based reasoning module developed with OWL and Owlready2.
 
-#### WtHR
-= Abdomen / Height  
-→ Chỉ số sức khỏe phổ biến trong y học
+This layer allows the application to perform semantic interpretation instead of displaying only raw numerical outputs.
 
-#### WHR
-= Abdomen / Hip  
-→ Phản ánh phân bố mỡ (bụng vs hông)
+The ontology engine can:
 
----
+- classify BMI levels
+- identify body fat categories
+- detect central fat accumulation
+- validate image quality
+- identify semantic inconsistencies
+- generate explanations
+- provide health-oriented recommendations
 
-## 4. Model AI
+For example, the system can detect situations such as:
 
-### Thuật toán sử dụng:
-- RandomForestRegressor (đã tối ưu)
+- normal BMI but high abdominal fat risk
+- low BMI with unexpectedly high body fat
+- low-quality images that may reduce prediction reliability
 
-### Tham số cuối:
-- n_estimators = 500  
-- max_depth = 4  
-- max_features = None  
-- min_samples_leaf = 3  
-- min_samples_split = 2  
-
-### Dataset:
-- 195 mẫu
-- 7 features
+This reasoning layer improves explainability and makes the system easier for users to understand.
 
 ---
 
-### Hiệu năng mô hình:
+### Reliability and Limitations
 
-- R² Score: **0.8249**
-- MAE: **~2.38%**
-- RMSE: **~2.90%**
+The system is designed as a practical and accessible body fat estimation tool rather than a replacement for medical equipment such as DEXA or professional InBody scanners.
 
-→ Sai số thấp, ổn định và phù hợp ứng dụng thực tế
+Under standard image conditions, the average prediction error is usually around 2–3% body fat.  
+However, accuracy can decrease when images contain poor lighting, loose clothing, incorrect standing posture, body occlusion, or incomplete segmentation.
 
----
+For best results, users should:
 
-### Feature quan trọng nhất:
-1. Abdomen
-2. WtHR
-3. WHR
-
-→ Vùng bụng là yếu tố quyết định chính
+- capture clear front and side body images
+- stand upright in a standardized pose
+- avoid oversized clothing
+- ensure good lighting and background contrast
 
 ---
 
-## 5. Sai số hệ thống
+### Conclusion
 
-Nguồn sai số chính:
+Body Fat AI demonstrates how Computer Vision, Geometry, Machine Learning, and Ontology Reasoning can be combined into an explainable health-analysis system.
 
-- Quần áo rộng (ảnh hưởng segmentation)
-- Pose không chuẩn (ảnh side lệch)
-- Ánh sáng kém
-- Camera distortion
-- Khác biệt sinh học (xương, cơ)
+The project focuses not only on prediction accuracy, but also on interpretability, semantic validation, and user understanding.
 
----
-
-## 6. Tối ưu độ chính xác
-
-Khuyến nghị:
-
-- Chụp đủ ảnh front + side
-- Đứng thẳng, không nghiêng
-- Không mặc áo (hoặc áo bó)
-- Quần ôm vùng hông
-
----
-
-## 7. Giới hạn hệ thống
-
-- Không thay thế DEXA / InBody
-- Không đo trực tiếp mỡ nội tạng
-- Phụ thuộc vào chất lượng ảnh đầu vào
-
-Sai số thực tế:
-- Trung bình: ~2–3%
-- Trường hợp xấu: ~5–7%
-
----
-
-## 8. Kết luận
-
-Đây là hệ thống:
-
-- Kết hợp Computer Vision + Geometry + Machine Learning
-- Sử dụng feature engineering thay vì ảnh thô
-- Đạt độ chính xác cao với dataset nhỏ
-
-→ Phù hợp cho:
-- Ứng dụng fitness
-- Theo dõi body tại nhà
-- Prototype AI health system
-
+The system is suitable for fitness tracking, personal health monitoring, educational research, and AI-based healthcare prototypes.
 """)
