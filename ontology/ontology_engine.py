@@ -222,8 +222,8 @@ def run_ontology(
 
         # LOW QUALITY
         elif (
-            pose_visibility < 0.65 or
-            mask_confidence < 0.45
+            pose_visibility < 0.30 or
+            mask_confidence < 0.1
         ):
 
             quality = "LowQualityImage"
@@ -232,13 +232,13 @@ def run_ontology(
                 "RULE_LOW_IMAGE_QUALITY"
             )
 
-            if pose_visibility < 0.65:
+            if pose_visibility < 0.30:
 
                 quality_reasons.append(
                     f"Low pose landmark visibility ({pose_visibility:.2f})"
                 )
 
-            if mask_confidence < 0.45:
+            if mask_confidence < 0.1:
 
                 quality_reasons.append(
                     f"Unstable body segmentation confidence ({mask_confidence:.2f})"
@@ -246,8 +246,8 @@ def run_ontology(
 
         # MEDIUM QUALITY
         elif (
-            pose_visibility < 0.80 or
-            mask_confidence < 0.60 or
+            pose_visibility < 0.30 or
+            mask_confidence < 0.1 or
             missing_landmarks > 5
         ):
 
@@ -323,23 +323,6 @@ def run_ontology(
             triggered_rules.append(
                 "RULE_ABDOMINAL_OBESITY"
             )
-
-        # =====================================================
-        # BODY SHAPE REASONING
-        # =====================================================
-
-        if whr < 0.85:
-
-            body_shape = "PearShape"
-
-        elif whr < 0.95:
-
-            body_shape = "BalancedShape"
-
-        else:
-
-            body_shape = "AppleShape"
-
         # =====================================================
         # SEMANTIC ANOMALY DETECTION
         # =====================================================
@@ -405,25 +388,6 @@ def run_ontology(
             )
 
         # =====================================================
-        # SEMANTIC CONSISTENCY SCORE
-        # =====================================================
-
-        semantic_score = 100
-
-        semantic_score -= (
-            len(semantic_flags) * 15
-        )
-
-        semantic_score -= (
-            missing_landmarks * 2
-        )
-
-        semantic_score = max(
-            semantic_score,
-            0
-        )
-
-        # =====================================================
         # EXPLANATION ENGINE
         # =====================================================
 
@@ -435,10 +399,6 @@ def run_ontology(
 
         explanations.append(
             f"Predicted Body Fat = {predicted_bf:.2f}% → {fat_level}"
-        )
-
-        explanations.append(
-            f"Body Shape classified as {body_shape}"
         )
 
         # WHR
@@ -546,7 +506,6 @@ def run_ontology(
             "bmi_class": bmi_class,
             "fat_level": fat_level,
             "quality": quality,
-            "body_shape": body_shape,
 
             # PREDICTION
             "predicted_bf": round(
@@ -570,7 +529,6 @@ def run_ontology(
             # SEMANTIC
             "fat_distribution": fat_distribution,
             "semantic_flags": semantic_flags,
-            "semantic_score": semantic_score,
 
             # EXPLAINABILITY
             "triggered_rules": triggered_rules,
