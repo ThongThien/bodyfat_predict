@@ -1,147 +1,1298 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://www.semanticweb.org/bodyfat#"
      xml:base="http://www.semanticweb.org/bodyfat"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
-
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:swrla="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/bodyfat"/>
+    
 
-    <!-- ===================== -->
-    <!-- CLASSES -->
-    <!-- ===================== -->
 
-    <owl:Class rdf:about="#People"/>
-    <owl:Class rdf:about="#Measurement"/>
-    <owl:Class rdf:about="#Feature"/>
-    <owl:Class rdf:about="#Prediction"/>
-    <owl:Class rdf:about="#QualityAssessment"/>
-    <owl:Class rdf:about="#BMIClass"/>
-    <owl:Class rdf:about="#FatLevel"/>
-    <owl:Class rdf:about="#Explanation"/>
-    <owl:Class rdf:about="#Recommendation"/>
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
-    <!-- ===================== -->
-    <!-- OBJECT PROPERTIES -->
-    <!-- ===================== -->
+    
 
-    <owl:ObjectProperty rdf:about="#hasMeasurement">
-        <rdfs:domain rdf:resource="#People"/>
-        <rdfs:range rdf:resource="#Measurement"/>
+
+    <!-- http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled -->
+
+    <owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.invalid/ontologies/ont.owl#hasQualityAssessment -->
+
+    <owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasQualityAssessment">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#QualityAssessment"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasFeature">
-        <rdfs:domain rdf:resource="#People"/>
-        <rdfs:range rdf:resource="#Feature"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hasBMIClass -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/bodyfat#hasBMIClass">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasPrediction">
-        <rdfs:domain rdf:resource="#People"/>
-        <rdfs:range rdf:resource="#Prediction"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hasFatLevel -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/bodyfat#hasFatLevel">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Prediction"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasQuality">
-        <rdfs:domain rdf:resource="#People"/>
-        <rdfs:range rdf:resource="#QualityAssessment"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hasFeature -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/bodyfat#hasFeature">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#People"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasBMIClass">
-        <rdfs:domain rdf:resource="#Prediction"/>
-        <rdfs:range rdf:resource="#BMIClass"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hasMeasurement -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/bodyfat#hasMeasurement">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#People"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#Measurement"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasFatLevel">
-        <rdfs:domain rdf:resource="#Prediction"/>
-        <rdfs:range rdf:resource="#FatLevel"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hasPrediction -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/bodyfat#hasPrediction">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#People"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#Prediction"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasExplanation">
-        <rdfs:domain rdf:resource="#Prediction"/>
-        <rdfs:range rdf:resource="#Explanation"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hasQuality -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/bodyfat#hasQuality">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#People"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/bodyfat#QualityAssessment"/>
     </owl:ObjectProperty>
+    
 
-    <owl:ObjectProperty rdf:about="#hasRecommendation">
-        <rdfs:domain rdf:resource="#Prediction"/>
-        <rdfs:range rdf:resource="#Recommendation"/>
-    </owl:ObjectProperty>
 
-    <!-- ===================== -->
-    <!-- DATA PROPERTIES -->
-    <!-- ===================== -->
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
-    <owl:DatatypeProperty rdf:about="#heightCm">
-        <rdfs:domain rdf:resource="#Measurement"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#abdomenCm -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#abdomenCm">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Measurement"/>
     </owl:DatatypeProperty>
+    
 
-    <owl:DatatypeProperty rdf:about="#weightKg">
-        <rdfs:domain rdf:resource="#Measurement"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#bmiValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#bmiValue">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
     </owl:DatatypeProperty>
+    
 
-    <owl:DatatypeProperty rdf:about="#bmiValue">
-        <rdfs:domain rdf:resource="#Feature"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#heightCm -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#heightCm">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Measurement"/>
     </owl:DatatypeProperty>
+    
 
-    <owl:DatatypeProperty rdf:about="#predictedBodyFat">
-        <rdfs:domain rdf:resource="#Prediction"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#hipCm -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#hipCm">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Measurement"/>
     </owl:DatatypeProperty>
+    
 
-    <owl:DatatypeProperty rdf:about="#poseVisibility">
-        <rdfs:domain rdf:resource="#QualityAssessment"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#maskConfidence -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#maskConfidence">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#QualityAssessment"/>
     </owl:DatatypeProperty>
+    
 
-    <owl:DatatypeProperty rdf:about="#maskConfidence">
-        <rdfs:domain rdf:resource="#QualityAssessment"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+
+    <!-- http://www.semanticweb.org/bodyfat#poseVisibility -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#poseVisibility">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
     </owl:DatatypeProperty>
+    
 
-    <!-- ===================== -->
-    <!-- INDIVIDUALS (IMPORTANT FOR ONTOGRAF) -->
-    <!-- ===================== -->
 
-    <owl:NamedIndividual rdf:about="#person1">
-        <rdf:type rdf:resource="#People"/>
-        <hasMeasurement rdf:resource="#m1"/>
-        <hasFeature rdf:resource="#f1"/>
-        <hasPrediction rdf:resource="#p1"/>
-        <hasQuality rdf:resource="#q1"/>
+    <!-- http://www.semanticweb.org/bodyfat#predictedBodyFat -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#predictedBodyFat">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Prediction"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#weightKg -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#weightKg">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Measurement"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#whrValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#whrValue">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#wthrValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/bodyfat#wthrValue">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#AbdominalObesity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#AbdominalObesity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#SemanticFlag"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#BMIClass -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#BMIClass"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#FatLevel -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#FatLevel"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Feature -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Feature"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#HiddenObesity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#HiddenObesity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#SemanticFlag"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#HighFat -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#HighFat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Lean -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Lean">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#LowFat -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#LowFat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#LowImageQuality -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#LowImageQuality">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#QualityAssessment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Measurement -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Measurement"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Normal -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Normal">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#NormalFat -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#NormalFat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Obese -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Obese">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Overweight -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Overweight">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#People -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#People"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#Prediction -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#Prediction"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#QualityAssessment -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#QualityAssessment"/>
+    
+
+
+    <!-- http://www.semanticweb.org/bodyfat#SemanticFlag -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bodyfat#SemanticFlag"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#AbdominalObesity"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#SemanticFlag"/>
     </owl:NamedIndividual>
+    
 
-    <owl:NamedIndividual rdf:about="#m1">
-        <rdf:type rdf:resource="#Measurement"/>
-        <heightCm rdf:datatype="xsd:float">170</heightCm>
-        <weightKg rdf:datatype="xsd:float">65</weightKg>
+
+    <!-- http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#HiddenObesity"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#SemanticFlag"/>
     </owl:NamedIndividual>
+    
 
-    <owl:NamedIndividual rdf:about="#f1">
-        <rdf:type rdf:resource="#Feature"/>
-        <bmiValue rdf:datatype="xsd:float">22.5</bmiValue>
+
+    <!-- http://example.invalid/ontologies/ont.owl#HighFat_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HighFat_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#HighFat"/>
     </owl:NamedIndividual>
+    
 
-    <owl:NamedIndividual rdf:about="#p1">
-        <rdf:type rdf:resource="#Prediction"/>
-        <predictedBodyFat rdf:datatype="xsd:float">18.2</predictedBodyFat>
-        <hasBMIClass rdf:resource="#Normal"/>
-        <hasFatLevel rdf:resource="#NormalFat"/>
+
+    <!-- http://example.invalid/ontologies/ont.owl#Lean_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Lean_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#Lean"/>
     </owl:NamedIndividual>
+    
 
-    <owl:NamedIndividual rdf:about="#q1">
-        <rdf:type rdf:resource="#QualityAssessment"/>
-        <poseVisibility rdf:datatype="xsd:float">0.9</poseVisibility>
-        <maskConfidence rdf:datatype="xsd:float">0.85</maskConfidence>
+
+    <!-- http://example.invalid/ontologies/ont.owl#LowFat_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowFat_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#LowFat"/>
     </owl:NamedIndividual>
+    
 
-    <!-- BMI CLASS -->
-    <owl:NamedIndividual rdf:about="#Normal"/>
-    <owl:NamedIndividual rdf:about="#Overweight"/>
 
-    <!-- FAT LEVEL -->
-    <owl:NamedIndividual rdf:about="#NormalFat"/>
-    <owl:NamedIndividual rdf:about="#HighFat"/>
+    <!-- http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance -->
 
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#LowImageQuality"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.invalid/ontologies/ont.owl#NormalFat_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#NormalFat_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#FatLevel"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#NormalFat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.invalid/ontologies/ont.owl#Normal_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Normal_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#Normal"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.invalid/ontologies/ont.owl#Obese_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Obese_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#Obese"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://example.invalid/ontologies/ont.owl#Overweight_Instance -->
+
+    <owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Overweight_Instance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#BMIClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/bodyfat#Overweight"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/bodyfat#f">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/bodyfat#b">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/bodyfat#w">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/bodyfat#p">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/bodyfat#bf">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_HIDDEN_OBESITY</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#bmiValue"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#whrValue"/>
+                                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#w"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                                <swrl:arguments>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </swrl:arguments>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                                        <swrl:arguments>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                                <rdf:rest>
+                                                                    <rdf:Description>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                                    </rdf:Description>
+                                                                </rdf:rest>
+                                                            </rdf:Description>
+                                                        </swrl:arguments>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                        <rdf:first>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                                                                <swrl:arguments>
+                                                                    <rdf:Description>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                        <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#w"/>
+                                                                        <rdf:rest>
+                                                                            <rdf:Description>
+                                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</rdf:first>
+                                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                                            </rdf:Description>
+                                                                        </rdf:rest>
+                                                                    </rdf:Description>
+                                                                </swrl:arguments>
+                                                            </rdf:Description>
+                                                        </rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasBMIClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BODYFAT_HIGH</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Prediction"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#predictedBodyFat"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasFatLevel"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BODYFAT_LOW</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Prediction"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#predictedBodyFat"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">12.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasFatLevel"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowFat_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BMI_NORMAL</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#bmiValue"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                                <swrl:arguments>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </swrl:arguments>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasBMIClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Normal_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BMI_OVERWEIGHT</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#bmiValue"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                                <swrl:arguments>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</rdf:first>
+                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </swrl:arguments>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasBMIClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BMI_OBESE</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#bmiValue"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasBMIClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Obese_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BMI_LEAN</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#bmiValue"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#b"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasBMIClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Lean_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_LOW_IMAGE_QUALITY</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#poseVisibility"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasQualityAssessment"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_ABDOMINAL_OBESITY</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Feature"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#wthrValue"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#w"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#w"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.5</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasBMIClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#f"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>RULE_BODYFAT_NORMAL</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/bodyfat#Prediction"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#predictedBodyFat"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">12.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                                <swrl:arguments>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:resource="http://www.semanticweb.org/bodyfat#bf"/>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</rdf:first>
+                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </swrl:arguments>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/bodyfat#hasFatLevel"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/bodyfat#p"/>
+                        <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#NormalFat_Instance"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
 </rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

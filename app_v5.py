@@ -1,6 +1,7 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from ontology.ontology_engine import run_ontology
+from streamlit_modal import Modal
+import plotly.express as px
 import os
 import cv2
 import numpy as np
@@ -36,6 +37,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+ontology_modal = Modal(
+    "Ontology Semantic Dashboard",
+    key="ontology_dashboard",
+    max_width=1000
+)
+
 # Session State cho v5
 for key, default in {
     'active_mode': None, 
@@ -46,11 +53,141 @@ for key, default in {
     if key not in st.session_state: 
         st.session_state[key] = default
 
+@st.dialog("Ontology Semantic Dashboard", width="large")
+def show_ontology_dashboard(onto):
+    st.markdown(
+        """
+        <style>
+        .block-container { padding-top: 1rem; padding-bottom: 1rem; }
+        div[data-testid="stExpander"] div { padding: 8px; }
+        </style>
+        """, 
+        unsafe_allow_html=True
+    )
+    
+    st.caption("This dashboard explains how the hybrid AI + Ontology system generated the final prediction.")
+    st.divider()
+    # layout 3 columns: input/pipeline → logic/rules → final inference/recommendation
+    col_left, col_mid, col_right = st.columns([1, 1, 1.1])
+
+    # =========================================================================
+    # column 1: Inputs & Pipeline (Raw data from AI pipeline)
+    # =========================================================================
+    with col_left:
+        st.markdown("### 1. Inputs & Pipeline")
+        
+        sub_c1, sub_c2 = st.columns(2)
+        sub_c1.metric("BMI", f"{onto.get('BMI', 0):.2f}", onto.get("BMI_Class", "Unknown"))
+        sub_c2.metric("Body Fat %", f"{onto.get('BodyFat', 0):.2f}", onto.get("Fat_Level", "Unknown"))
+        
+        sub_c3, sub_c4 = st.columns(2)
+        sub_c3.metric("WHR", f"{onto.get('WHR', 0):.2f}")
+        sub_c4.metric("WtHR", f"{onto.get('WtHR', 0):.2f}")
+
+        st.markdown("##### System Status")
+        status_c1, status_c2 = st.columns(2)
+        status_c1.metric("Reasoner", onto.get("Reasoning_Status", "Unknown"))
+        status_c2.metric("Confidence", f"{onto.get('Confidence_Score', 0):.2f}")
+        
+        st.markdown("##### Input Image Quality")
+
+        quality_score = onto.get("Pose_Visibility", 0)
+
+        if quality_score >= 0.75:
+            st.success("Good Image")
+        elif quality_score >= 0.4:
+            st.warning("Medium Image")
+        else:
+            st.error("Low Quality Image")
+            
+        st.markdown("---")
+        with st.expander("Reasoning Pipeline Trace", expanded=False):
+            pipeline = onto.get("Semantic_Pipeline", [])
+            if pipeline:
+                pipeline_text = " ➜ ".join(pipeline)
+                st.caption(pipeline_text)
+            else:
+                st.caption("Pipeline trace unavailable.")        
+        reasoning_error = onto.get("Reasoning_Error", None)
+        if reasoning_error:
+            st.error(reasoning_error)
+
+
+    # =========================================================================
+    # column 2: Logic & Semantic Rules (Why did it reach this conclusion?)
+    # =========================================================================
+    with col_mid:
+        st.markdown("### 2. Semantic Rules & Logic")
+        
+        semantic_flags = onto.get("Semantic_Flags", [])
+        if semantic_flags:
+            for flag in semantic_flags:
+                st.info(f"{flag}")
+        else:
+            st.success("No semantic anomaly detected.")
+
+        st.markdown("##### Triggered Semantic Rules (SWRL)")
+        triggered_rules = onto.get("Triggered_Rules", [])
+        if triggered_rules:
+            for idx, rule in enumerate(triggered_rules, start=1):
+                st.markdown(f"**Rule #{idx}**")
+                st.code(rule, language="text")
+        else:
+            st.caption("No ontology rule was triggered.")
+
+        with st.expander("Inferred Ontology Classes", expanded=False):
+            inferred_trace = onto.get("Inferred_Class_Trace", {})
+            if inferred_trace:
+                for k, v in inferred_trace.items():
+                    st.markdown(f"**{k}**")
+                    if v:
+                        for item in v:
+                            st.code(item, language="text")
+                    else:
+                        st.caption("No inferred classes.")
+            else:
+                st.caption("No trace available.")
+
+
+    # =========================================================================
+    # column 3: Final Inferences & Recommendations (The ultimate output and actionable insights)
+    # =========================================================================
+    with col_right:
+        st.markdown("### 3. Final Inferences & Actions")
+        
+        validation_status = onto.get("Validation_Status", "Unknown")
+        if validation_status == "Valid":
+            st.success("Semantic Validation: PASSED")
+        else:
+            st.error("Semantic Validation: FAILED")
+            
+        validation_errors = onto.get("Validation_Errors", [])
+        for err in validation_errors:
+            st.error(err)
+
+        st.markdown("##### AI Explanation Trace")
+        explanations = onto.get("Explanations", [])
+        if explanations:
+            for e in explanations:
+                st.warning(f"• {e}")
+        else:
+            st.caption("No semantic explanation generated.")
+
+        st.markdown("---")
+
+        st.markdown("##### Ontology-based Recommendations")
+        recommendations = onto.get("Recommendations", [])
+        if recommendations:
+            for r in recommendations:
+                st.success(f" {r}")
+        else:
+            st.info("Maintain current healthy lifestyle.")
+            
 # --- 2. HELPERS ---
 def get_status_color(bf_value):
-    if bf_value < 13: return "#34D399", "Athletic (Vận động viên)"
-    if bf_value < 22: return "#60A5FA", "Fitness/Normal (Cân đối)"
-    if bf_value < 28: return "#FBBF24", "Average (Bình thường)"
+    if bf_value < 13: return "#34D399", "Athletic"
+    if bf_value < 22: return "#60A5FA", "Fitness/Normal"
+    if bf_value < 28: return "#FBBF24", "Average "
     return "#F87171", "High Body Fat (Thừa mỡ)"
 
 def parse_filename(file_name):
@@ -182,6 +319,10 @@ if selection == "Measure Body Fat":
                     res_scan, viz_f, viz_s, debug_pack, quality_pack  = process_body_measurements_v5(
                         img_f, img_s, h_v, w_v, use_long_pants=use_long_pants
                     )
+                    if res_scan is not None:
+                        st.success("Measurement extraction successful!")
+                    else:
+                        st.error("Measurement extraction failed! Please ensure the photos are clear and follow the guidelines.")
                     if res_scan:
                         st.session_state.res_scan_v5 = res_scan
                         st.session_state.pipe_v5 = (viz_f, viz_s)
@@ -206,49 +347,17 @@ if selection == "Measure Body Fat":
                             height=h_v,
                             weight=w_v,
 
-                            chest=res_scan["Chest"],
                             abdomen=res_scan["Abdomen"],
                             hip=res_scan["Hip"],
 
                             predicted_bf=predicted_bf,
 
                             pose_visibility=quality_pack["pose_visibility"],
-                            mask_confidence=quality_pack["mask_confidence"],
-                            missing_landmarks=quality_pack["missing_landmarks"]
+                            mask_confidence=quality_pack["mask_confidence"]
+                            
                         )
 
                         st.session_state.ontology_result = ontology_result
-
-                        # DEBUG CONSOLE
-                        print("\n" + "="*60)
-                        print(" ONTOLOGY REASONING ".center(60, "="))
-
-                        print(f"BMI Class: {ontology_result['bmi_class']}")
-                        print(f"Fat Level: {ontology_result['fat_level']}")
-                        print(f"Quality: {ontology_result['quality']}")
-
-                        print(f"WHR: {ontology_result['whr']}")
-                        print(f"WtHR: {ontology_result['wthr']}")
-
-                        print("\n[Semantic Flags]")
-                        for flag in ontology_result['semantic_flags']:
-                            print("-", flag)
-
-                        print("\n[Fat Distribution]")
-                        for f in ontology_result['fat_distribution']:
-                            print("-", f)
-
-                        print("\n[Explanations]")
-                        for e in ontology_result['explanations']:
-                            print("-", e)
-
-                        print("\n[Recommendations]")
-                        for r in ontology_result['recommendations']:
-                            print("-", r)
-
-                        print("="*60)
-                        st.session_state.active_mode = "AI"
-                        st.rerun()
 
             if st.session_state.res_scan_v5:
                 r = st.session_state.res_scan_v5
@@ -302,9 +411,7 @@ if selection == "Measure Body Fat":
                 """)
         with col_disp:
             # -------- PHOTO GUIDE (ALWAYS DISPLAYED) --------
-            st.info("Photo guide for accurate measurements")
-
-            with st.expander("View detailed instructions", expanded=False):
+            with st.expander("Photo guide for accurate measurements", expanded=False):
                 st.markdown("""
                 Standard photography conditions:
                 
@@ -350,85 +457,19 @@ if selection == "Measure Body Fat":
                 res_v5 = st.session_state.res_final_v5
                 color_v5, status_v5 = get_status_color(res_v5)
 
-                # RESULT
-                st.metric("Prediction", f"{res_v5}%")
-                st.markdown(f"**Status:** {status_v5}")
-
                 # SCAN IMAGE
                 viz_f, viz_s = st.session_state.pipe_v5
                 v1, v2 = st.columns(2)
                 v1.image(viz_f, caption="Front Scan")
                 v2.image(viz_s, caption="Side Scan")
                 
-                # ONTOLOGY EXPLANATION UI
-                if "ontology_result" in st.session_state:
+                # RESULT
+                st.metric("Prediction", f"{res_v5}%")
+                st.markdown(f"**Status:** {status_v5}")
 
-                    onto = st.session_state.ontology_result
-
-                    st.markdown("---")
-                    st.subheader("Ontology Reasoning")
-
-                    # ===== MAIN SUMMARY =====
-
-                    c1, c2, c3 = st.columns(3)
-
-                    c1.metric(
-                        "BMI",
-                        f"{onto['bmi']}",
-                        onto['bmi_class']
-                    )
-
-                    c2.metric(
-                        "WHR",
-                        f"{onto['whr']}"
-                    )
-
-                    c3.metric(
-                        "WtHR",
-                        f"{onto['wthr']}"
-                    )
-
-                    # ===== IMAGE QUALITY =====
-
-                    st.markdown("### Image Quality")
-
-                    st.info(
-                        f"""
-                    Quality Level: {onto['quality']}
-
-                    Pose Visibility: {onto['pose_visibility']}
-                    Mask Confidence: {onto['mask_confidence']}
-                    Missing Landmarks: {onto['missing_landmarks']}
-                    """
-                    )
-
-                    # ===== DETAIL EXPANDER =====
-
-                    with st.expander("View Detailed Reasoning"):
-
-                        st.markdown("### Explanations")
-
-                        for e in onto["explanations"]:
-                            st.write("•", e)
-
-                        st.markdown("### Recommendations")
-
-                        for r in onto["recommendations"]:
-                            st.write("•", r)
-
-                        if onto["semantic_flags"]:
-
-                            st.markdown("### Semantic Flags")
-
-                            for s in onto["semantic_flags"]:
-                                st.write("•", s)
-
-                        if onto["fat_distribution"]:
-
-                            st.markdown("### Fat Distribution")
-
-                            for f in onto["fat_distribution"]:
-                                st.write("•", f)
+                if st.button("View Full Ontology Dashboard", use_container_width=True):
+                    show_ontology_dashboard(st.session_state.ontology_result)
+                
                 # -------- SAVE --------
                 if is_logged_in:
                     if st.button("SAVE RESULT"):
@@ -442,7 +483,7 @@ if selection == "Measure Body Fat":
                             method_name="AI Scan v5"
                         )
                 else:
-                    st.info("Log in to save results to the cloud.")
+                    st.info("Log in to save results.")
             else:
                 st.info("Upload 2 images for the AI to start scanning measurements.")
     # with tab4:
@@ -681,7 +722,7 @@ elif selection == "History":
 
             st.dataframe(
                 table_df,
-                use_container_width=True,
+                width="stretch",
                 hide_index=True
             )
 
@@ -728,26 +769,26 @@ elif selection == "History":
                 st.markdown("### General Information")
 
                 st.info(f"""
-    Date: {row['Date']}
+        Date: {row['Date']}
 
-    Method: {row.get('method', '-')}
+        Method: {row.get('method', '-')}
 
-    Height: {row.get('height', '-')} cm
+        Height: {row.get('height', '-')} cm
 
-    Weight: {row.get('weight', '-')} kg
-    """)
+        Weight: {row.get('weight', '-')} kg
+        """)
 
-            with right:
+                with right:
 
-                st.markdown("### Body Measurements")
+                    st.markdown("### Body Measurements")
 
-                st.info(f"""
-    Chest: {row.get('chest', '-')}
+                    st.info(f"""
+        Chest: {row.get('chest', '-')}
 
-    Abdomen: {row.get('abdomen', '-')}
+        Abdomen: {row.get('abdomen', '-')}
 
-    Hip: {row.get('hip', '-')}
-    """)
+        Hip: {row.get('hip', '-')}
+        """)
 
             # ===== BODY INDEX =====
             st.markdown("### Body Index Analysis")
@@ -818,7 +859,7 @@ elif selection == "History":
                 c1.image(
                     img_f,
                     caption="Front Image",
-                    use_container_width=True
+                    width="stretch"
                 )
             else:
                 c1.info("No front image")
@@ -827,7 +868,7 @@ elif selection == "History":
                 c2.image(
                     img_s,
                     caption="Side Image",
-                    use_container_width=True
+                    width="stretch"
                 )
             else:
                 c2.info("No side image")

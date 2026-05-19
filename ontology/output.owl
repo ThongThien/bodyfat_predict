@@ -1,0 +1,954 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://www.semanticweb.org/bodyfat"
+         xmlns="http://www.semanticweb.org/bodyfat#"
+         xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+         xmlns:swrl2="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#">
+
+<owl:Ontology rdf:about="http://www.semanticweb.org/bodyfat"/>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasQualityAssessment">
+  <rdfs:domain rdf:resource="#Feature"/>
+  <rdfs:range rdf:resource="#QualityAssessment"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasBMIClass">
+  <rdfs:domain rdf:resource="#Feature"/>
+  <rdfs:range rdf:resource="#BMIClass"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasFatLevel">
+  <rdfs:domain rdf:resource="#Prediction"/>
+  <rdfs:range rdf:resource="#FatLevel"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasFeature">
+  <rdfs:domain rdf:resource="#People"/>
+  <rdfs:range rdf:resource="#Feature"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasMeasurement">
+  <rdfs:domain rdf:resource="#People"/>
+  <rdfs:range rdf:resource="#Measurement"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasPrediction">
+  <rdfs:domain rdf:resource="#People"/>
+  <rdfs:range rdf:resource="#Prediction"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasQuality">
+  <rdfs:domain rdf:resource="#People"/>
+  <rdfs:range rdf:resource="#QualityAssessment"/>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#abdomenCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#bmiValue">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#heightCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hipCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#maskConfidence">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#poseVisibility">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#predictedBodyFat">
+  <rdfs:domain rdf:resource="#Prediction"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#weightKg">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#whrValue">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#wthrValue">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+
+<owl:Class rdf:about="#Feature"/>
+
+<owl:Class rdf:about="#QualityAssessment"/>
+
+<owl:Class rdf:about="#BMIClass"/>
+
+<owl:Class rdf:about="#Prediction"/>
+
+<owl:Class rdf:about="#FatLevel"/>
+
+<owl:Class rdf:about="#People"/>
+
+<owl:Class rdf:about="#Measurement"/>
+
+<owl:Class rdf:about="#AbdominalObesity">
+  <rdfs:subClassOf rdf:resource="#SemanticFlag"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SemanticFlag"/>
+
+<owl:Class rdf:about="#HiddenObesity">
+  <rdfs:subClassOf rdf:resource="#SemanticFlag"/>
+</owl:Class>
+
+<owl:Class rdf:about="#HighFat">
+  <rdfs:subClassOf rdf:resource="#FatLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Lean">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:Class rdf:about="#LowFat">
+  <rdfs:subClassOf rdf:resource="#FatLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="#LowImageQuality">
+  <rdfs:subClassOf rdf:resource="#QualityAssessment"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Normal">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:Class rdf:about="#NormalFat">
+  <rdfs:subClassOf rdf:resource="#FatLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Obese">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Overweight">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance">
+  <rdf:type rdf:resource="#AbdominalObesity"/>
+  <rdf:type rdf:resource="#SemanticFlag"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance">
+  <rdf:type rdf:resource="#HiddenObesity"/>
+  <rdf:type rdf:resource="#SemanticFlag"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HighFat_Instance">
+  <rdf:type rdf:resource="#FatLevel"/>
+  <rdf:type rdf:resource="#HighFat"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Lean_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Lean"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowFat_Instance">
+  <rdf:type rdf:resource="#FatLevel"/>
+  <rdf:type rdf:resource="#LowFat"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance">
+  <rdf:type rdf:resource="#LowImageQuality"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#NormalFat_Instance">
+  <rdf:type rdf:resource="#FatLevel"/>
+  <rdf:type rdf:resource="#NormalFat"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Normal_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Normal"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Obese_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Obese"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Overweight_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Overweight"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#person_3439d415">
+  <rdf:type rdf:resource="#People"/>
+  <hasMeasurement rdf:resource="#measurement_3439d415"/>
+  <hasFeature rdf:resource="#feature_3439d415"/>
+  <hasPrediction rdf:resource="#prediction_3439d415"/>
+  <hasQuality rdf:resource="#quality_3439d415"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_3439d415">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">169.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">61.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">70.48</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">98.88</hipCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_3439d415">
+  <rdf:type rdf:resource="#Feature"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Normal_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">21.36</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.71</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.42</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_3439d415">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#LowFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">11.25</predictedBodyFat>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_3439d415">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <rdf:type rdf:resource="#Feature"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.97</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.13</maskConfidence>
+</owl:NamedIndividual>
+
+<swrl:Variable rdf:about="#f"/>
+
+<swrl:Variable rdf:about="#b"/>
+
+<swrl:Variable rdf:about="#w"/>
+
+<swrl:Variable rdf:about="#p"/>
+
+<swrl:Variable rdf:about="#bf"/>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Prediction"/>
+          <swrl:argument1 rdf:resource="#p"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+              <swrl:argument1 rdf:resource="#p"/>
+              <swrl:argument2 rdf:resource="#bf"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#bf"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">12.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#bf"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasFatLevel"/>
+          <swrl:argument1 rdf:resource="#p"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#NormalFat_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BODYFAT_NORMAL</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#wthrValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#w"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#w"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_ABDOMINAL_OBESITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#poseVisibility"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#p"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#p"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasQualityAssessment"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_LOW_IMAGE_QUALITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Lean_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_LEAN</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Obese_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_OBESE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#b"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_OVERWEIGHT</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#b"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Normal_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_NORMAL</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Prediction"/>
+          <swrl:argument1 rdf:resource="#p"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+              <swrl:argument1 rdf:resource="#p"/>
+              <swrl:argument2 rdf:resource="#bf"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#bf"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">12.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasFatLevel"/>
+          <swrl:argument1 rdf:resource="#p"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowFat_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BODYFAT_LOW</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Prediction"/>
+          <swrl:argument1 rdf:resource="#p"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+              <swrl:argument1 rdf:resource="#p"/>
+              <swrl:argument2 rdf:resource="#bf"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#bf"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasFatLevel"/>
+          <swrl:argument1 rdf:resource="#p"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BODYFAT_HIGH</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:DatavaluedPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="#whrValue"/>
+                  <swrl:argument1 rdf:resource="#f"/>
+                  <swrl:argument2 rdf:resource="#w"/>
+                </swrl:DatavaluedPropertyAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#b"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest>
+                    <swrl:AtomList>
+                      <rdf:first>
+                        <swrl:BuiltinAtom>
+                          <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                          <swrl:arguments>
+                            <rdf:List>
+                              <rdf:first rdf:resource="#b"/>
+                              <rdf:rest>
+                                <rdf:List>
+                                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                  <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                                </rdf:List>
+                              </rdf:rest>
+                            </rdf:List>
+                          </swrl:arguments>
+                        </swrl:BuiltinAtom>
+                      </rdf:first>
+                      <rdf:rest>
+                        <swrl:AtomList>
+                          <rdf:first>
+                            <swrl:BuiltinAtom>
+                              <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                              <swrl:arguments>
+                                <rdf:List>
+                                  <rdf:first rdf:resource="#w"/>
+                                  <rdf:rest>
+                                    <rdf:List>
+                                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.9</rdf:first>
+                                    </rdf:List>
+                                  </rdf:rest>
+                                </rdf:List>
+                              </swrl:arguments>
+                            </swrl:BuiltinAtom>
+                          </rdf:first>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </swrl:AtomList>
+                      </rdf:rest>
+                    </swrl:AtomList>
+                  </rdf:rest>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_HIDDEN_OBESITY</rdfs:label>
+</swrl:Imp>
+
+
+</rdf:RDF>

@@ -89,7 +89,7 @@ def process_body_measurements_v5(front_img, side_img, real_h, weight, use_long_p
     mask_s, mask_raw_s, res_s = get_body_data_v5(side_img, debug=True)
     mask_confidence = float(np.mean(mask_raw_f))
     if not all([res_f, res_f.pose_landmarks, res_s, res_s.pose_landmarks]):
-        return None, None, None, None
+        return None, None, None, None, None
 
     h_img, w_img, _ = front_img.shape
     lm_f = res_f.pose_landmarks.landmark

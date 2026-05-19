@@ -1,541 +1,552 @@
-from owlready2 import *
+import os
 import uuid
-import numpy as np
+import owlready2
 
+JAVA17_HOME = r"C:\Program Files\Java\jdk-17"
+
+os.environ["JAVA_HOME"] = JAVA17_HOME
+os.environ["PATH"] = JAVA17_HOME + r"\bin;" + os.environ["PATH"]
+
+owlready2.JAVA_EXE = JAVA17_HOME + r"\bin\java.exe"
+
+os.system("java -version")
+
+from owlready2 import *
+
+# FORCE JAVA EXEC
+owlready2.JAVA_EXE = "java"
+
+def owl_name(obj):
+    if obj is None:
+        return None
+    return getattr(obj, "name", str(obj))
+
+def owl_list(obj_list):
+    if not obj_list:
+        return []
+    return [owl_name(x) for x in obj_list]
+
+def to_name(obj):
+    if obj is None:
+        return None
+    return getattr(obj, "name", str(obj)).split(".")[-1]
+
+def owl_contains(obj_list, target):
+    return target in owl_list(obj_list)
 
 def run_ontology(
     height,
     weight,
-    chest,
     abdomen,
     hip,
     predicted_bf,
     pose_visibility=1.0,
-    mask_confidence=1.0,
-    missing_landmarks=0
+    mask_confidence=1.0
 ):
+    # 1. ĐƯỜNG DẪN FILE GỐC VÀ FILE KẾT QUẢ TÁCH BIỆT RẠCH RÒI
+    onto_path = os.path.abspath("ontology/BodyFatOntology.owl")
+    output_path = os.path.abspath("ontology/output.owl")
 
-    # =========================================================
-    # LOAD ONTOLOGY
-    # =========================================================
+    # 2. LOAD FILE GỐC (TUYỆT ĐỐI KHÔNG DÙNG reload=True Ở ĐÂY)
+    onto = get_ontology(f"file://{onto_path}").load()
 
-    onto = get_ontology(
-        "ontology/BodyFatOntology.owl"
-    ).load()
-
+    # 3. TẠO MỘT UID ĐỘC NHẤT CHO LƯỢT QUÉT NÀY
+    uid = uuid.uuid4().hex[:8]
     with onto:
-
-        # =====================================================
-        # CREATE UNIQUE PERSON
-        # =====================================================
-
-        uid = str(uuid.uuid4())[:8]
-
-        person = onto.People(f"person_{uid}")
-
-        # =====================================================
-        # RAW DATA
-        # =====================================================
-
-        person.heightCm = [float(height)]
-        person.weightKg = [float(weight)]
-
-        person.chestCm = [float(chest)]
-        person.abdomenCm = [float(abdomen)]
-        person.hipCm = [float(hip)]
-
-        # =====================================================
-        # QUALITY DATA
-        # =====================================================
-
-        pose_visibility = float(pose_visibility)
-        mask_confidence = float(mask_confidence)
-        missing_landmarks = int(missing_landmarks)
-
-        person.poseVisibility = [pose_visibility]
-        person.maskConfidence = [mask_confidence]
-        person.missingLandmarkCount = [missing_landmarks]
-
-        # =====================================================
-        # FEATURE ENGINEERING
-        # =====================================================
-
-        bmi = (
-            weight / ((height / 100) ** 2)
-            if height != 0 else 0
-        )
-
-        whr = (
-            abdomen / hip
-            if hip != 0 else 0
-        )
-
-        wthr = (
-            abdomen / height
-            if height != 0 else 0
-        )
-
-        # FIXED FORMULA
-        wpa = (
-            (abdomen ** 2) / weight
-            if weight != 0 else 0
-        )
-
-        person.bmiValue = [float(bmi)]
-        person.whrValue = [float(whr)]
-        person.wthrValue = [float(wthr)]
-        person.wpaValue = [float(wpa)]
-
-        # =====================================================
-        # PREDICTION
-        # =====================================================
-
-        person.predictedBodyFat = [
-            float(predicted_bf)
-        ]
-
-        # =====================================================
-        # CONFIDENCE REASONING
-        # =====================================================
-
-        confidence_score = (
-            pose_visibility * 0.6 +
-            mask_confidence * 0.4
-        )
-
-        person.confidenceScore = [
-            float(confidence_score)
-        ]
-
-        person.qualityScore = [
-            float(confidence_score)
-        ]
-
-        # =====================================================
-        # BMI REASONING
-        # =====================================================
-
-        triggered_rules = []
-
-        if bmi < 18.5:
-
-            bmi_class = "Lean"
-
-            triggered_rules.append(
-                "RULE_BMI_LEAN"
-            )
-
-        elif bmi < 25:
-
-            bmi_class = "Normal"
-
-            triggered_rules.append(
-                "RULE_BMI_NORMAL"
-            )
-
-        elif bmi < 30:
-
-            bmi_class = "Overweight"
-
-            triggered_rules.append(
-                "RULE_BMI_OVERWEIGHT"
-            )
-
-        else:
-
-            bmi_class = "Obese"
-
-            triggered_rules.append(
-                "RULE_BMI_OBESE"
-            )
-
-        # =====================================================
-        # FAT LEVEL REASONING
-        # =====================================================
-
-        if predicted_bf < 12:
-
-            fat_level = "LowFat"
-
-            triggered_rules.append(
-                "RULE_BODYFAT_LOW"
-            )
-
-        elif predicted_bf < 20:
-
-            fat_level = "NormalFat"
-
-            triggered_rules.append(
-                "RULE_BODYFAT_NORMAL"
-            )
-
-        else:
-
-            fat_level = "HighFat"
-
-            triggered_rules.append(
-                "RULE_BODYFAT_HIGH"
-            )
-
-        # =====================================================
-        # IMAGE QUALITY REASONING
-        # =====================================================
-
-        quality = "GoodImage"
-
-        quality_reasons = []
-
-        invalid_input = False
-
-        # INVALID
-        if (
-            abdomen == 0 or
-            chest == 0 or
-            hip == 0
-        ):
-
-            quality = "InvalidInput"
-
-            invalid_input = True
-
-            triggered_rules.append(
-                "RULE_INVALID_MEASUREMENTS"
-            )
-
-            quality_reasons.append(
-                "Missing body measurements detected"
-            )
-
-        elif missing_landmarks > 10:
-
-            quality = "InvalidInput"
-
-            invalid_input = True
-
-            triggered_rules.append(
-                "RULE_TOO_MANY_MISSING_LANDMARKS"
-            )
-
-            quality_reasons.append(
-                f"{missing_landmarks} landmarks are missing"
-            )
-
-        # LOW QUALITY
-        elif (
-            pose_visibility < 0.30 or
-            mask_confidence < 0.1
-        ):
-
-            quality = "LowQualityImage"
-
-            triggered_rules.append(
-                "RULE_LOW_IMAGE_QUALITY"
-            )
-
-            if pose_visibility < 0.30:
-
-                quality_reasons.append(
-                    f"Low pose landmark visibility ({pose_visibility:.2f})"
-                )
-
-            if mask_confidence < 0.1:
-
-                quality_reasons.append(
-                    f"Unstable body segmentation confidence ({mask_confidence:.2f})"
-                )
-
-        # MEDIUM QUALITY
-        elif (
-            pose_visibility < 0.30 or
-            mask_confidence < 0.1 or
-            missing_landmarks > 5
-        ):
-
-            quality = "MediumImage"
-
-            triggered_rules.append(
-                "RULE_MEDIUM_IMAGE_QUALITY"
-            )
-
-            quality_reasons.append(
-                "Image quality is acceptable but not optimal"
-            )
-
-        # GOOD QUALITY
-        else:
-
-            quality = "GoodImage"
-
-            triggered_rules.append(
-                "RULE_GOOD_IMAGE_QUALITY"
-            )
-
-            quality_reasons.append(
-                "Pose landmarks and body segmentation are stable"
-            )
-
-        # =====================================================
-        # FAT DISTRIBUTION REASONING
-        # =====================================================
-
-        fat_distribution = []
-
-        # MILD
-        if 0.90 <= whr < 0.95:
-
-            fat_distribution.append(
-                "MildCentralFat"
-            )
-
-            triggered_rules.append(
-                "RULE_MILD_CENTRAL_FAT"
-            )
-
-        # MEDIUM
-        elif 0.95 <= whr < 1.0:
-
-            fat_distribution.append(
-                "CentralFatRisk"
-            )
-
-            triggered_rules.append(
-                "RULE_CENTRAL_FAT_RISK"
-            )
-
-        # SEVERE
-        elif whr >= 1.0:
-
-            fat_distribution.append(
-                "SevereCentralFat"
-            )
-
-            triggered_rules.append(
-                "RULE_SEVERE_CENTRAL_FAT"
-            )
-
-        # WtHR
-        if wthr > 0.5:
-
-            fat_distribution.append(
-                "AbdominalObesityRisk"
-            )
-
-            triggered_rules.append(
-                "RULE_ABDOMINAL_OBESITY"
-            )
-        # =====================================================
-        # SEMANTIC ANOMALY DETECTION
-        # =====================================================
-
-        semantic_flags = []
-
-        # Skinny fat
-        if bmi < 20 and predicted_bf > 25:
-
-            semantic_flags.append(
-                "SkinnyFatAnomaly"
-            )
-
-            triggered_rules.append(
-                "RULE_SKINNY_FAT"
-            )
-
-        # Hidden obesity
-        if bmi_class == "Normal" and whr > 0.9:
-
-            semantic_flags.append(
-                "HiddenCentralObesity"
-            )
-
-            triggered_rules.append(
-                "RULE_HIDDEN_OBESITY"
-            )
-
-        # Athletic
-        if bmi > 25 and predicted_bf < 12:
-
-            semantic_flags.append(
-                "AthleticBodyType"
-            )
-
-            triggered_rules.append(
-                "RULE_ATHLETIC_BODY"
-            )
-
-        # Geometry inconsistency
-        if chest < abdomen and predicted_bf < 10:
-
-            semantic_flags.append(
-                "GeometryInconsistency"
-            )
-
-            triggered_rules.append(
-                "RULE_GEOMETRY_INCONSISTENCY"
-            )
-
-        # Landmark instability
-        if (
-            pose_visibility < 0.4 and
-            missing_landmarks > 10
-        ):
-
-            semantic_flags.append(
-                "PoseDetectionFailure"
-            )
-
-            triggered_rules.append(
-                "RULE_POSE_FAILURE"
-            )
-
-        # =====================================================
-        # EXPLANATION ENGINE
-        # =====================================================
-
-        explanations = []
-
-        explanations.append(
-            f"BMI = {bmi:.2f} → {bmi_class}"
-        )
-
-        explanations.append(
-            f"Predicted Body Fat = {predicted_bf:.2f}% → {fat_level}"
-        )
-
-        # WHR
-        if whr > 0.90:
-
-            explanations.append(
-                f"WHR = {whr:.2f} indicates central fat accumulation"
-            )
-
-        # WtHR
-        if wthr > 0.50:
-
-            explanations.append(
-                f"WtHR = {wthr:.2f} suggests abdominal obesity tendency"
-            )
-
-        # Quality reasons
-        for q in quality_reasons:
-
-            explanations.append(q)
-
-        # Semantic flags
-        for flag in semantic_flags:
-
-            explanations.append(
-                f"Semantic anomaly detected: {flag}"
-            )
-
-        # =====================================================
-        # RECOMMENDATION ENGINE
-        # =====================================================
-
-        recommendations = []
-
-        # Fat recommendations
-        if (
-            "MildCentralFat" in fat_distribution or
-            "CentralFatRisk" in fat_distribution
-        ):
-
-            recommendations.append(
-                "Increase aerobic exercise and monitor waist ratio"
-            )
-
-        if "SevereCentralFat" in fat_distribution:
-
-            recommendations.append(
-                "Consider medical consultation for visceral fat assessment"
-            )
-
-        if "AbdominalObesityRisk" in fat_distribution:
-
-            recommendations.append(
-                "Reduce abdominal fat through calorie control"
-            )
-
-        # Skinny fat
-        if "SkinnyFatAnomaly" in semantic_flags:
-
-            recommendations.append(
-                "Increase resistance training and protein intake"
-            )
-
-        # Low quality
-        if quality != "GoodImage":
-
-            recommendations.append(
-                "Retake images under better lighting and standing posture"
-            )
-
-        # High fat
-        if fat_level == "HighFat":
-
-            recommendations.append(
-                "Maintain calorie deficit and increase weekly activity"
-            )
-
-        # Low fat
-        if fat_level == "LowFat":
-
-            recommendations.append(
-                "Maintain balanced nutrition and resistance training"
-            )
-
-        # Fallback
-        if not recommendations:
-
-            recommendations.append(
-                "Maintain current healthy lifestyle"
-            )
-
-        # =====================================================
-        # FINAL OUTPUT
-        # =====================================================
-
-        output = {
-
-            # FEATURES
-            "bmi": round(bmi, 2),
-            "whr": round(whr, 2),
-            "wthr": round(wthr, 2),
-            "wpa": round(wpa, 2),
-
-            # REASONING
-            "bmi_class": bmi_class,
-            "fat_level": fat_level,
-            "quality": quality,
-
-            # PREDICTION
-            "predicted_bf": round(
-                predicted_bf,
-                2
-            ),
-
-            "confidence_score": round(
-                confidence_score,
-                2
-            ),
-            
-            # image quality detail
-            "pose_visibility": round(float(pose_visibility), 3),
-            "mask_confidence": round(float(mask_confidence), 3),
-            "missing_landmarks": int(missing_landmarks),
-
-            # image quality reasons
-            "quality_reasons": quality_reasons,
-
-            # SEMANTIC
-            "fat_distribution": fat_distribution,
-            "semantic_flags": semantic_flags,
-
-            # EXPLAINABILITY
-            "triggered_rules": triggered_rules,
-            "explanations": explanations,
-
-            # RECOMMENDATION
-            "recommendations": recommendations
+        # CREATE INSTANCES
+        with onto:
+            person, measurement, feature, prediction, quality = [
+                cls(f"{name}_{uid}")
+                for cls, name in [
+                    (onto.People, "person"),
+                    (onto.Measurement, "measurement"),
+                    (onto.Feature, "feature"),
+                    (onto.Prediction, "prediction"),
+                    (onto.QualityAssessment, "quality")
+                ]
+            ]
+
+        # LINK OBJECT PROPERTIES
+        for prop, obj in [
+            (person.hasMeasurement, measurement),
+            (person.hasFeature, feature),
+            (person.hasPrediction, prediction),
+            (person.hasQuality, quality),
+        ]:
+            prop.append(obj)
+
+        # VALIDATION STATUS
+        validation_status = "Valid"
+        validation_errors = []
+
+        # SAFE FLOAT CONVERSION
+        fields = {
+            "height": height,
+            "weight": weight,
+            "abdomen": abdomen,
+            "hip": hip,
+            "predicted_bf": predicted_bf,
+            "pose_visibility": pose_visibility,
+            "mask_confidence": mask_confidence
         }
 
-        return output
+        try:
+            fields = {
+                k: float(v)
+                for k, v in fields.items()
+            }
+
+        except Exception:
+            return {
+                "Validation_Status": "Invalid",
+                "Validation_Errors": [
+                    "Input datatype conversion failed"
+                ]
+            }
+
+        # EXTRACT VALUES
+        height = fields["height"]
+        weight = fields["weight"]
+        abdomen = fields["abdomen"]
+        hip = fields["hip"]
+
+        predicted_bf = fields["predicted_bf"]
+        pose_visibility = fields["pose_visibility"]
+        mask_confidence = fields["mask_confidence"]
+
+        # RANGE VALIDATION
+        for name, value in {
+            "Height": height,
+            "Weight": weight,
+            "Hip": hip,
+            "Abdomen": abdomen
+        }.items():
+
+            if value <= 0:
+                validation_errors.append(
+                    f"{name} must be > 0"
+                )
+
+        if validation_errors:
+            return {
+                "Validation_Status": "Invalid",
+                "Validation_Errors": validation_errors
+            }
+
+        # RAW INPUT DATA
+        raw_data_mapping = [
+            (measurement.heightCm, round(float(height), 2)),
+            (measurement.weightKg, round(float(weight), 2)),
+            (measurement.abdomenCm, round(float(abdomen), 2)),
+            (measurement.hipCm, round(float(hip), 2)),
+            (prediction.predictedBodyFat, round(float(predicted_bf), 2)),
+            (quality.poseVisibility, round(float(pose_visibility), 2)),
+            (quality.maskConfidence, round(float(mask_confidence), 2))
+        ]
+
+        for prop, value in raw_data_mapping:
+            prop.clear()
+            prop.append(value)
+
+        # FEATURE ENGINEERING
+        bmi = weight / ((height / 100) ** 2)
+        whr = abdomen / hip
+        wthr = abdomen / height
+
+        # STORE FEATURES
+        feature_mapping = [
+            (feature.bmiValue, round(float(bmi), 2)),
+            (feature.whrValue, round(float(whr), 2)),
+            (feature.wthrValue, round(float(wthr), 2))
+        ]
+
+        for prop, value in feature_mapping:
+            prop.clear()
+            prop.append(value)
+
+        # CONFIDENCE SCORE
+        confidence_score = round(
+            (
+                pose_visibility * 0.6 +
+                mask_confidence * 0.4
+            ),
+            3
+        )
+
+        # SEMANTIC PIPELINE TRACE
+        semantic_pipeline = [
+            "Input Data Loaded",
+            "Feature Engineering Completed",
+            "Ontology Instances Created"
+        ]
+
+        # RUN REASONER
+        reasoning_status = "Success"
+        reasoning_error = None
+
+        try:
+
+            sync_reasoner_pellet(
+                infer_property_values=True,
+                infer_data_property_values=True
+            )
+
+            semantic_pipeline.append(
+                "Pellet Reasoner Executed"
+            )
+            
+            print("========== QUALITY DEBUG ==========")
+
+            print("POSE VISIBILITY:")
+            print(quality.poseVisibility)
+
+            print("QUALITY FLAGS:")
+            if hasattr(quality, "hasQualityAssessment"):
+                print(quality.hasQualityAssessment)
+
+            print("PERSON FLAGS:")
+            if hasattr(person, "hasSemanticFlag"):
+                print(person.hasSemanticFlag)
+
+            print("===================================")
+            
+            print("\n========== [SIÊU DEBUG] KIỂM TRA THUỘC TÍNH TRONG ONTOLOGY ==========")
+            print("FEATURE TYPES:", feature.is_a)
+            print("PREDICTION TYPES:", prediction.is_a)
+            print("QUALITY TYPES:", quality.is_a)
+            print("-" * 50)
+            
+            # Kiểm tra xem các thuộc tính chuẩn của Protégé có dữ liệu không
+            print("Dữ liệu trong feature.bmiValue :", getattr(feature, "bmiValue", "❌ Không tồn tại thuộc tính này!"))
+            print("Dữ liệu trong feature.whrValue :", getattr(feature, "whrValue", "❌ Không tồn tại thuộc tính này!"))
+            print("Dữ liệu trong feature.wthrValue:", getattr(feature, "wthrValue", "❌ Không tồn tại thuộc tính này!"))
+            print("Dữ liệu trong prediction.predictedBodyFat:", getattr(prediction, "predictedBodyFat", "❌ Không tồn tại thuộc tính này!"))
+            print("-" * 50)
+            
+            # Kiểm tra xem có bị gán nhầm sang tên viết tắt không
+            print("Dữ liệu trong feature.BMI       :", getattr(feature, "BMI", "Không có"))
+            print("Dữ liệu trong feature.WHR       :", getattr(feature, "WHR", "Không có"))
+            print("Dữ liệu trong feature.WtHR      :", getattr(feature, "WtHR", "Không có"))
+            print("Dữ liệu trong prediction.BF     :", getattr(prediction, "BF", "Không có"))
+            print("======================================================================\n")
+            
+        except Exception as e:
+            reasoning_status = "Failed"
+            reasoning_error = str(e)
+            semantic_pipeline.append(
+                "Pellet Reasoner Failed"
+            )
+
+    # SAVE OUTPUT ONTOLOGY
+    try:
+        print("\n========== [DEBUG] CHẠY PELLET REASONER ==========")
+        
+        # LƯU RA FILE OUTPUT RIÊNG BIỆT ĐỂ STREAMLIT ĐỌC HACK CACHE
+        onto.save(file=output_path)
+        print("✅ Đã lưu kết quả suy luận ra file:", output_path)
+        
+        semantic_pipeline.append("Pellet Reasoner Executed")
+
+    except Exception as e:
+        reasoning_status = "Failed"
+        reasoning_error = str(e)
+        semantic_pipeline.append("Pellet Reasoner Failed")
+
+    # EXTRACT INFERRED CLASSES
+    def extract_classes(instance):
+
+        return [
+            cls.name
+            for cls in instance.INDIRECT_is_a
+            if hasattr(cls, "name")
+        ]
+
+    inferred_trace = {
+        "Feature_Classes":
+            extract_classes(feature),
+
+        "Prediction_Classes":
+            extract_classes(prediction),
+
+        "Quality_Classes":
+            extract_classes(quality)
+    }
+
+    # DEFAULT VALUES
+    bmi_class = "Unknown"
+    fat_level = "Unknown"
+
+    semantic_flags = []
+    triggered_rules = []
+    
+    bmi_map_output = {
+        "Lean_Instance": "Lean",
+        "Normal_Instance": "Normal",
+        "Overweight_Instance": "Overweight",
+        "Obese_Instance": "Obese"
+    }
+    
+    bmi_mapping = {
+        "Lean_Instance": ("Lean", "RULE_BMI_LEAN"),
+        "Normal_Instance": ("Normal", "RULE_BMI_NORMAL"),
+        "Overweight_Instance": ("Overweight", "RULE_BMI_OVERWEIGHT"),
+        "Obese_Instance": ("Obese", "RULE_BMI_OBESE"),
+        "AbdominalObesity_Instance": (
+            "AbdominalObesity",
+            "RULE_ABDOMINAL_OBESITY"
+        ),
+        "HiddenObesity_Instance": (
+            "HiddenObesity",
+            "RULE_HIDDEN_OBESITY"
+        )
+    }
+    # normalize inferred ontology values
+    bmi_classes = {
+        to_name(v)
+        for v in getattr(feature, "hasBMIClass", [])
+        if v is not None
+    }
+    print("========== BMI DEBUG ==========")
+    print("RAW:", feature.hasBMIClass)
+    print("NORMALIZED:", bmi_classes)
+
+    for instance_name, (label, rule) in bmi_mapping.items():
+
+        print("CHECK:", instance_name)
+
+        if instance_name in bmi_classes:
+
+            print("MATCHED:", label)
+
+            # BMI CATEGORY
+            if label in [
+                "Lean",
+                "Normal",
+                "Overweight",
+                "Obese"
+            ]:
+                bmi_class = label
+
+            # SEMANTIC FLAGS
+            else:
+                if label not in semantic_flags:
+                    semantic_flags.append(label)
+
+            # RULE TRACE
+            if rule not in triggered_rules:
+                triggered_rules.append(rule)
+
+    print("FINAL BMI:", bmi_class)
+    print("==============================")
+    # 2. ĐỌC KẾT QUẢ FAT LEVEL TỪ THUỘC TÍNH hasFatLevel CỦA PREDICTION
+    if hasattr(prediction, "hasFatLevel"):
+
+        fat_set = {to_name(v) for v in prediction.hasFatLevel if v}
+
+        if "HighFat_Instance" in fat_set:
+            fat_level = "HighFat"
+
+        elif "NormalFat_Instance" in fat_set:
+            fat_level = "NormalFat"
+
+        elif "LowFat_Instance" in fat_set:
+            fat_level = "LowFat"
+
+    if fat_level != "Unknown":
+        triggered_rules.append(f"RULE_BODYFAT_{fat_level.upper()}")
+
+    # 3. ĐỌC KẾT QUẢ CHẤT LƯỢNG ẢNH TỪ THUỘC TÍNH hasBMIClass CỦA QUALITY ASSESSMENT
+    if hasattr(quality, "hasQualityAssessment"):
+
+        for v in getattr(quality, "hasQualityAssessment", []):
+
+            name = getattr(v, "name", str(v))
+
+            if "LowImageQuality" in name:
+                if "LowImageQuality" not in semantic_flags:
+                    semantic_flags.append("LowImageQuality")
+
+                triggered_rules.append("RULE_LOW_IMAGE_QUALITY")
+
+    # =========================================================================
+    # KẾT THÚC ĐOẠN SỬA ĐỔI - GIỮ NGUYÊN TOÀN BỘ LOGIC BÊN DƯỚI
+    # =========================================================================
+
+    # IMAGE QUALITY
+    image_quality = "GoodImage"
+
+    if hasattr(quality, "hasQualityAssessment"):
+
+        for v in quality.hasQualityAssessment:
+
+            if to_name(v) == "LowImageQuality_Instance":
+                image_quality = "LowImageQuality"
+                break
+
+    # EXPLANATIONS
+    explanations = []
+
+    # BMI explanation
+    if bmi_class != "Unknown":
+        explanations.append(
+            f"BMI = {bmi:.2f} → Body state: {bmi_class}"
+        )
+
+    # Fat explanation
+    if fat_level != "Unknown":
+        explanations.append(
+            f"Body Fat = {predicted_bf:.2f}% → Fat level: {fat_level}"
+        )
+    
+    # Semantic flags (IMPORTANT)
+    for flag in semantic_flags:
+        if flag == "AbdominalObesity_Instance":
+            explanations.append(
+                "High waist ratio detected → abdominal obesity risk"
+            )
+
+        if flag == "HiddenObesity_Instance":
+            explanations.append(
+                "Normal BMI but high WHR → hidden obesity risk"
+            )
+
+        if flag == "LowImageQuality":
+            explanations.append(
+                "Image quality too low → reduced confidence"
+            )
+
+    if "AbdominalObesity" in semantic_flags:
+
+        explanations.append(
+            f"WtHR = {wthr:.2f} suggests abdominal obesity"
+        )
+
+    if "HiddenObesity" in semantic_flags:
+
+        explanations.append(
+            "Normal BMI but high waist ratio detected"
+        )
+
+    if image_quality == "LowImageQuality":
+
+        explanations.append(
+            "Low image quality detected"
+        )
+
+    # RECOMMENDATIONS
+    recommendations = []
+
+    recommendation_rules = {
+        "AbdominalObesity":
+            "Reduce abdominal fat through calorie control",
+
+        "LowImageQuality":
+            "Retake image under better lighting"
+    }
+
+    for flag, recommendation in recommendation_rules.items():
+
+        if flag in semantic_flags:
+
+            recommendations.append(
+                recommendation
+            )
+
+    fat_recommendations = {
+        "HighFat":
+            "Increase physical activity and maintain calorie deficit",
+
+        "LowFat":
+            "Maintain balanced nutrition and resistance training"
+    }
+
+    if fat_level in fat_recommendations:
+
+        recommendations.append(
+            fat_recommendations[fat_level]
+        )
+
+    if not recommendations:
+
+        recommendations.append(
+            "Maintain current healthy lifestyle"
+        )
+
+    # FINAL OUTPUT
+    output = {
+
+        # VALIDATION
+        "Validation_Status":
+            validation_status,
+
+        "Validation_Errors":
+            validation_errors,
+
+        # REASONER
+        "Reasoning_Status":
+            reasoning_status,
+
+        "Reasoning_Error":
+            reasoning_error,
+
+        # FEATURES
+        "BMI":
+            round(bmi, 2),
+
+        "WHR":
+            round(whr, 2),
+
+        "WtHR":
+            round(wthr, 2),
+
+        # PREDICTION
+        "BodyFat":
+            round(predicted_bf, 2),
+
+        # CONFIDENCE
+        "Confidence_Score":
+            confidence_score,
+
+        # INFERRED CLASSES
+        "BMI_Class":
+            bmi_class,
+
+        "Fat_Level":
+            fat_level,
+
+        # SEMANTIC FLAGS
+        "Semantic_Flags":
+            semantic_flags,
+
+        # RULE TRACE
+        "Triggered_Rules":
+            triggered_rules,
+
+        # INFERRED TRACE
+        "Inferred_Class_Trace":
+            inferred_trace,
+
+        # PIPELINE TRACE
+        "Semantic_Pipeline":
+            semantic_pipeline,
+
+        # EXPLANATIONS
+        "Explanations":
+            explanations,
+
+        # RECOMMENDATIONS
+        "Recommendations":
+            recommendations,
+
+        # IMAGE QUALITY
+        "Image_Quality":
+            image_quality,
+        
+        "Pose_Visibility":
+            round(pose_visibility, 2),
+
+        "Mask_Confidence":
+            round(mask_confidence, 2)
+    }
+
+    return output

@@ -8,6 +8,6 @@ joblib
 mysql-connector-python
 supabase==2.28.2
 scikit-learn
-owlready2
-rdflib
 openpyxl
+owlready2==0.42
+rdflib==6.3.2
