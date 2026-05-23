@@ -11,3 +11,4 @@ scikit-learn
 openpyxl
 owlready2==0.42
 rdflib==6.3.2
+streamlit-modal
