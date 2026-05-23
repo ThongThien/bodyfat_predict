@@ -43,14 +43,14 @@ def run_ontology(
     pose_visibility=1.0,
     mask_confidence=1.0
 ):
-    # 1. ĐƯỜNG DẪN FILE GỐC VÀ FILE KẾT QUẢ TÁCH BIỆT RẠCH RÒI
+    # 1. DEFINE PATHS
     onto_path = os.path.abspath("ontology/BodyFatOntology.owl")
     output_path = os.path.abspath("ontology/output.owl")
 
-    # 2. LOAD FILE GỐC (TUYỆT ĐỐI KHÔNG DÙNG reload=True Ở ĐÂY)
+    # 2. LOAD FILE 
     onto = get_ontology(f"file://{onto_path}").load()
 
-    # 3. TẠO MỘT UID ĐỘC NHẤT CHO LƯỢT QUÉT NÀY
+    # 3. CREATE A UNIQUE UID FOR THIS RUN
     uid = uuid.uuid4().hex[:8]
     with onto:
         # CREATE INSTANCES
@@ -195,41 +195,6 @@ def run_ontology(
                 "Pellet Reasoner Executed"
             )
             
-            print("========== QUALITY DEBUG ==========")
-
-            print("POSE VISIBILITY:")
-            print(quality.poseVisibility)
-
-            print("QUALITY FLAGS:")
-            if hasattr(quality, "hasQualityAssessment"):
-                print(quality.hasQualityAssessment)
-
-            print("PERSON FLAGS:")
-            if hasattr(person, "hasSemanticFlag"):
-                print(person.hasSemanticFlag)
-
-            print("===================================")
-            
-            print("\n========== [SIÊU DEBUG] KIỂM TRA THUỘC TÍNH TRONG ONTOLOGY ==========")
-            print("FEATURE TYPES:", feature.is_a)
-            print("PREDICTION TYPES:", prediction.is_a)
-            print("QUALITY TYPES:", quality.is_a)
-            print("-" * 50)
-            
-            # Kiểm tra xem các thuộc tính chuẩn của Protégé có dữ liệu không
-            print("Dữ liệu trong feature.bmiValue :", getattr(feature, "bmiValue", "❌ Không tồn tại thuộc tính này!"))
-            print("Dữ liệu trong feature.whrValue :", getattr(feature, "whrValue", "❌ Không tồn tại thuộc tính này!"))
-            print("Dữ liệu trong feature.wthrValue:", getattr(feature, "wthrValue", "❌ Không tồn tại thuộc tính này!"))
-            print("Dữ liệu trong prediction.predictedBodyFat:", getattr(prediction, "predictedBodyFat", "❌ Không tồn tại thuộc tính này!"))
-            print("-" * 50)
-            
-            # Kiểm tra xem có bị gán nhầm sang tên viết tắt không
-            print("Dữ liệu trong feature.BMI       :", getattr(feature, "BMI", "Không có"))
-            print("Dữ liệu trong feature.WHR       :", getattr(feature, "WHR", "Không có"))
-            print("Dữ liệu trong feature.WtHR      :", getattr(feature, "WtHR", "Không có"))
-            print("Dữ liệu trong prediction.BF     :", getattr(prediction, "BF", "Không có"))
-            print("======================================================================\n")
-            
         except Exception as e:
             reasoning_status = "Failed"
             reasoning_error = str(e)
@@ -239,11 +204,8 @@ def run_ontology(
 
     # SAVE OUTPUT ONTOLOGY
     try:
-        print("\n========== [DEBUG] CHẠY PELLET REASONER ==========")
-        
-        # LƯU RA FILE OUTPUT RIÊNG BIỆT ĐỂ STREAMLIT ĐỌC HACK CACHE
         onto.save(file=output_path)
-        print("✅ Đã lưu kết quả suy luận ra file:", output_path)
+        print("Saved results to:", output_path)
         
         semantic_pipeline.append("Pellet Reasoner Executed")
 
@@ -306,17 +268,11 @@ def run_ontology(
         for v in getattr(feature, "hasBMIClass", [])
         if v is not None
     }
-    print("========== BMI DEBUG ==========")
-    print("RAW:", feature.hasBMIClass)
-    print("NORMALIZED:", bmi_classes)
 
     for instance_name, (label, rule) in bmi_mapping.items():
 
-        print("CHECK:", instance_name)
 
         if instance_name in bmi_classes:
-
-            print("MATCHED:", label)
 
             # BMI CATEGORY
             if label in [
@@ -336,9 +292,7 @@ def run_ontology(
             if rule not in triggered_rules:
                 triggered_rules.append(rule)
 
-    print("FINAL BMI:", bmi_class)
-    print("==============================")
-    # 2. ĐỌC KẾT QUẢ FAT LEVEL TỪ THUỘC TÍNH hasFatLevel CỦA PREDICTION
+    # 2. READ FAT LEVEL RESULT FROM hasFatLevel PROPERTY OF PREDICTION
     if hasattr(prediction, "hasFatLevel"):
 
         fat_set = {to_name(v) for v in prediction.hasFatLevel if v}
@@ -355,7 +309,7 @@ def run_ontology(
     if fat_level != "Unknown":
         triggered_rules.append(f"RULE_BODYFAT_{fat_level.upper()}")
 
-    # 3. ĐỌC KẾT QUẢ CHẤT LƯỢNG ẢNH TỪ THUỘC TÍNH hasBMIClass CỦA QUALITY ASSESSMENT
+    # 3. READ IMAGE QUALITY RESULT FROM hasQualityAssessment PROPERTY OF QUALITY ASSESSMENT
     if hasattr(quality, "hasQualityAssessment"):
 
         for v in getattr(quality, "hasQualityAssessment", []):
@@ -367,10 +321,6 @@ def run_ontology(
                     semantic_flags.append("LowImageQuality")
 
                 triggered_rules.append("RULE_LOW_IMAGE_QUALITY")
-
-    # =========================================================================
-    # KẾT THÚC ĐOẠN SỬA ĐỔI - GIỮ NGUYÊN TOÀN BỘ LOGIC BÊN DƯỚI
-    # =========================================================================
 
     # IMAGE QUALITY
     image_quality = "GoodImage"

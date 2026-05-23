@@ -1,5 +1,5 @@
 import streamlit as st
-from ontology.ontology_engine import run_ontology
+from ontology.ontology_engine_v2 import run_ontology
 from streamlit_modal import Modal
 import plotly.express as px
 import os
@@ -46,7 +46,7 @@ ontology_modal = Modal(
 # Session State cho v5
 for key, default in {
     'active_mode': None, 
-    'vals': [25, 65.0, 170.0], 
+    'vals': [25, 82.0, 172.0], 
     'res_tab1': None, 
     'res_scan_v5': None, 'res_final_v5': None, 'pipe_v5': (None, None)
 }.items():
@@ -61,72 +61,99 @@ def show_ontology_dashboard(onto):
         .block-container { padding-top: 1rem; padding-bottom: 1rem; }
         div[data-testid="stExpander"] div { padding: 8px; }
         </style>
-        """, 
+        """,
         unsafe_allow_html=True
     )
-    
-    st.caption("This dashboard explains how the hybrid AI + Ontology system generated the final prediction.")
+
+    st.caption(
+        "This dashboard explains the runtime reasoning graph of the Hybrid AI + Ontology system."
+    )
     st.divider()
-    # layout 3 columns: input/pipeline → logic/rules → final inference/recommendation
+
+    session_id = onto.get("Session_ID", "Unknown")
+    validation_status = onto.get("Validation_Status", "Unknown")
+    confidence_level = onto.get("Confidence_Level", "Unknown")
+    warning_level = onto.get("Warning_Level", "None")
+    anomaly_type = onto.get("Anomaly_Type", [])
+    image_quality = onto.get("Image_Quality", "Unknown")
+
+    st.markdown(f"### Prediction Session: `{session_id}`")
+
+    top1, top2, top3, top4 = st.columns(4)
+
+    top1.metric("Validation", validation_status)
+    top2.metric("Confidence Level", confidence_level)
+    top3.metric("Warning Level", warning_level)
+    top4.metric("Image Quality", image_quality)
+
+    st.divider()
+
     col_left, col_mid, col_right = st.columns([1, 1, 1.1])
 
-    # =========================================================================
-    # column 1: Inputs & Pipeline (Raw data from AI pipeline)
-    # =========================================================================
+    # =========================================================
+    # 1. INPUT + FEATURE + PREDICTION
+    # =========================================================
     with col_left:
-        st.markdown("### 1. Inputs & Pipeline")
-        
-        sub_c1, sub_c2 = st.columns(2)
-        sub_c1.metric("BMI", f"{onto.get('BMI', 0):.2f}", onto.get("BMI_Class", "Unknown"))
-        sub_c2.metric("Body Fat %", f"{onto.get('BodyFat', 0):.2f}", onto.get("Fat_Level", "Unknown"))
-        
-        sub_c3, sub_c4 = st.columns(2)
-        sub_c3.metric("WHR", f"{onto.get('WHR', 0):.2f}")
-        sub_c4.metric("WtHR", f"{onto.get('WtHR', 0):.2f}")
+        st.markdown("### 1. Input → Feature → Prediction")
 
-        st.markdown("##### System Status")
-        status_c1, status_c2 = st.columns(2)
-        status_c1.metric("Reasoner", onto.get("Reasoning_Status", "Unknown"))
-        status_c2.metric("Confidence", f"{onto.get('Confidence_Score', 0):.2f}")
-        
-        st.markdown("##### Input Image Quality")
+        c1, c2 = st.columns(2)
+        c1.metric("BMI", f"{onto.get('BMI', 0):.2f}", onto.get("BMI_Class", "Unknown"))
+        c2.metric("Body Fat %", f"{onto.get('BodyFat', 0):.2f}", onto.get("Fat_Level", "Unknown"))
 
-        quality_score = onto.get("Pose_Visibility", 0)
+        c3, c4 = st.columns(2)
+        c3.metric("WHR", f"{onto.get('WHR', 0):.2f}")
+        c4.metric("WtHR", f"{onto.get('WtHR', 0):.2f}")
 
-        if quality_score >= 0.75:
-            st.success("Good Image")
-        elif quality_score >= 0.4:
-            st.warning("Medium Image")
+        st.markdown("##### Image Quality Metrics")
+
+        q1, q2 = st.columns(2)
+        q1.metric("Pose Visibility", f"{onto.get('Pose_Visibility', 0):.2f}")
+        q2.metric("Mask Confidence", f"{onto.get('Mask_Confidence', 0):.2f}")
+
+        q3, q4 = st.columns(2)
+        q3.metric("Confidence Score", f"{onto.get('Confidence_Score', 0):.2f}")
+        q4.metric("Missing Landmarks", onto.get("Missing_Landmark_Count", 0))
+
+        st.markdown("##### Reasoner Status")
+
+        if onto.get("Reasoning_Status") == "Success":
+            st.success("Pellet Reasoner: Success")
         else:
-            st.error("Low Quality Image")
-            
-        st.markdown("---")
-        with st.expander("Reasoning Pipeline Trace", expanded=False):
-            pipeline = onto.get("Semantic_Pipeline", [])
-            if pipeline:
-                pipeline_text = " ➜ ".join(pipeline)
-                st.caption(pipeline_text)
-            else:
-                st.caption("Pipeline trace unavailable.")        
-        reasoning_error = onto.get("Reasoning_Error", None)
+            st.error("Pellet Reasoner: Failed")
+
+        reasoning_error = onto.get("Reasoning_Error")
         if reasoning_error:
             st.error(reasoning_error)
 
+        with st.expander("Semantic Pipeline Trace", expanded=False):
+            pipeline = onto.get("Semantic_Pipeline", [])
+            if pipeline:
+                st.caption(" ➜ ".join(pipeline))
+            else:
+                st.caption("Pipeline trace unavailable.")
 
-    # =========================================================================
-    # column 2: Logic & Semantic Rules (Why did it reach this conclusion?)
-    # =========================================================================
+    # =========================================================
+    # 2. SEMANTIC RULES + ANOMALY
+    # =========================================================
     with col_mid:
-        st.markdown("### 2. Semantic Rules & Logic")
-        
+        st.markdown("### 2. Semantic Rules & Anomaly")
+
+        st.markdown("##### Semantic Flags")
         semantic_flags = onto.get("Semantic_Flags", [])
         if semantic_flags:
             for flag in semantic_flags:
-                st.info(f"{flag}")
+                st.info(flag)
         else:
-            st.success("No semantic anomaly detected.")
+            st.success("No semantic flag detected.")
 
-        st.markdown("##### Triggered Semantic Rules (SWRL)")
+        st.markdown("##### Anomaly Type")
+        if anomaly_type:
+            for anomaly in anomaly_type:
+                st.error(anomaly)
+        else:
+            st.success("No anomaly detected.")
+
+        st.markdown("##### Triggered SWRL Rules")
         triggered_rules = onto.get("Triggered_Rules", [])
         if triggered_rules:
             for idx, rule in enumerate(triggered_rules, start=1):
@@ -135,7 +162,7 @@ def show_ontology_dashboard(onto):
         else:
             st.caption("No ontology rule was triggered.")
 
-        with st.expander("Inferred Ontology Classes", expanded=False):
+        with st.expander("Inferred Ontology Trace", expanded=False):
             inferred_trace = onto.get("Inferred_Class_Trace", {})
             if inferred_trace:
                 for k, v in inferred_trace.items():
@@ -144,28 +171,29 @@ def show_ontology_dashboard(onto):
                         for item in v:
                             st.code(item, language="text")
                     else:
-                        st.caption("No inferred classes.")
+                        st.caption("No inferred value.")
             else:
-                st.caption("No trace available.")
+                st.caption("No inferred trace available.")
 
-
-    # =========================================================================
-    # column 3: Final Inferences & Recommendations (The ultimate output and actionable insights)
-    # =========================================================================
+    # =========================================================
+    # 3. VALIDATION + EXPLANATION + RECOMMENDATION
+    # =========================================================
     with col_right:
-        st.markdown("### 3. Final Inferences & Actions")
-        
-        validation_status = onto.get("Validation_Status", "Unknown")
+        st.markdown("### 3. Validation → Explanation → Action")
+
         if validation_status == "Valid":
             st.success("Semantic Validation: PASSED")
-        else:
+        elif validation_status == "Invalid":
             st.error("Semantic Validation: FAILED")
-            
-        validation_errors = onto.get("Validation_Errors", [])
-        for err in validation_errors:
-            st.error(err)
+        else:
+            st.warning(f"Semantic Validation: {validation_status}")
 
-        st.markdown("##### AI Explanation Trace")
+        validation_errors = onto.get("Validation_Errors", [])
+        if validation_errors:
+            for err in validation_errors:
+                st.error(err)
+
+        st.markdown("##### Semantic Explanations")
         explanations = onto.get("Explanations", [])
         if explanations:
             for e in explanations:
@@ -173,15 +201,27 @@ def show_ontology_dashboard(onto):
         else:
             st.caption("No semantic explanation generated.")
 
-        st.markdown("---")
-
         st.markdown("##### Ontology-based Recommendations")
         recommendations = onto.get("Recommendations", [])
         if recommendations:
             for r in recommendations:
-                st.success(f" {r}")
+                st.success(f"• {r}")
         else:
             st.info("Maintain current healthy lifestyle.")
+
+        st.markdown("##### Ontology Latency")
+        st.metric("Latency", f"{onto.get('Ontology_Latency_Ms', 0):.2f} ms")
+
+    st.divider()
+
+    with st.expander("Runtime Reasoning Graph Trace", expanded=False):
+        graph_trace = onto.get("Reasoning_Graph_Trace", [])
+
+        if graph_trace:
+            for edge in graph_trace:
+                st.code(edge, language="text")
+        else:
+            st.caption("Reasoning graph trace unavailable.")
             
 # --- 2. HELPERS ---
 def get_status_color(bf_value):
@@ -343,19 +383,19 @@ if selection == "Measure Body Fat":
 
                         # ONTOLOGY REASONING
                         ontology_result = run_ontology(
-
-                            height=h_v,
-                            weight=w_v,
-
-                            abdomen=res_scan["Abdomen"],
-                            hip=res_scan["Hip"],
-
-                            predicted_bf=predicted_bf,
-
-                            pose_visibility=quality_pack["pose_visibility"],
-                            mask_confidence=quality_pack["mask_confidence"]
-                            
-                        )
+                        height=h_v,
+                        weight=w_v,
+                        chest=res_scan["Chest"],
+                        abdomen=res_scan["Abdomen"],
+                        hip=res_scan["Hip"],
+                        predicted_bf=predicted_bf,
+                        pose_visibility=quality_pack.get("pose_visibility", 1.0),
+                        mask_confidence=quality_pack.get("mask_confidence", 1.0),
+                        missing_landmark_count=quality_pack.get("missing_landmark_count", 0),
+                        source_type="AI Scan",
+                        image_name=f"{u_f.name} | {u_s.name}",
+                        image_path=None
+                    )
 
                         st.session_state.ontology_result = ontology_result
 
