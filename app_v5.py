@@ -43,6 +43,12 @@ ontology_modal = Modal(
     max_width=1000
 )
 
+if "ontology_result" not in st.session_state:
+    st.session_state.ontology_result = None
+
+if "prediction_result" not in st.session_state:
+    st.session_state.prediction_result = None
+    
 # Session State cho v5
 for key, default in {
     'active_mode': None, 
@@ -77,6 +83,29 @@ def show_ontology_dashboard(onto):
     anomaly_type = onto.get("Anomaly_Type", [])
     image_quality = onto.get("Image_Quality", "Unknown")
 
+    st.markdown("""
+        <style>
+        /* Làm nhỏ toàn bộ metric */
+        [data-testid="stMetric"] {
+            padding: 8px 10px;
+        }
+
+        /* Label: Validation, Confidence Level... */
+        [data-testid="stMetricLabel"] {
+            font-size: 13px !important;
+        }
+
+        /* Value chính */
+        [data-testid="stMetricValue"] {
+            font-size: 20px !important;
+        }
+
+        /* Delta nếu có */
+        [data-testid="stMetricDelta"] {
+            font-size: 12px !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
     st.markdown(f"### Prediction Session: `{session_id}`")
 
     top1, top2, top3, top4 = st.columns(4)
@@ -508,7 +537,12 @@ if selection == "Measure Body Fat":
                 st.markdown(f"**Status:** {status_v5}")
 
                 if st.button("View Full Ontology Dashboard", use_container_width=True):
-                    show_ontology_dashboard(st.session_state.ontology_result)
+                    ontology_result = st.session_state.get("ontology_result")
+
+                    if ontology_result is not None:
+                        show_ontology_dashboard(ontology_result)
+                    else:
+                        st.warning("Vui lòng chạy dự đoán trước khi xem Ontology Dashboard.")
                 
                 # -------- SAVE --------
                 if is_logged_in:
