@@ -400,6 +400,8 @@ if selection == "Measure Body Fat":
                         st.session_state.pipe_v5 = (viz_f, viz_s)
                         st.session_state.debug_pack = debug_pack
                         st.session_state.quality_pack = quality_pack
+                        st.session_state.ontology_result = None
+                        st.session_state.show_ontology_dashboard = False
                         st.session_state.scan_input_v5 = {
                             "age": age_v,
                             "weight": w_v,
@@ -548,35 +550,11 @@ if selection == "Measure Body Fat":
                 st.markdown(f"**Status:** {status_v5}")
 
                 if st.button("View Full Ontology Dashboard", width="stretch"):
-                    st.session_state.show_ontology_dashboard = True
-                    
-                if st.session_state.get("show_ontology_dashboard"):
-                    if st.session_state.get("ontology_result") is None:
-
-                        scan_res = st.session_state.get("res_scan_v5")
-                        predicted_bf = st.session_state.get("res_final_v5")
-                        quality_pack = st.session_state.get("quality_pack") or {}
-                        scan_input = st.session_state.get("scan_input_v5") or {}
-
-                        if scan_res is not None and predicted_bf is not None:
-
-                            st.session_state.ontology_result = run_ontology(
-                                height=scan_input.get("height", h_v),
-                                weight=scan_input.get("weight", w_v),
-                                chest=scan_res["Chest"],
-                                abdomen=scan_res["Abdomen"],
-                                hip=scan_res["Hip"],
-                                predicted_bf=predicted_bf,
-                                pose_visibility=quality_pack.get("pose_visibility", 1.0),
-                                mask_confidence=quality_pack.get("mask_confidence", 1.0),
-                                missing_landmark_count=quality_pack.get("missing_landmark_count", 0),
-                                source_type="AI Scan",
-                                image_name=f"{scan_input.get('front_name', 'front')} | {scan_input.get('side_name', 'side')}",
-                                image_path=None
-                            )
-
                     if st.session_state.get("ontology_result") is not None:
                         show_ontology_dashboard(st.session_state.ontology_result)
+                    else:
+                        st.warning("Ontology result is not available. Please run prediction again.")
+                    
                 # -------- SAVE --------
                 if is_logged_in:
                     if st.button("SAVE RESULT"):
