@@ -214,7 +214,7 @@ def run_ontology(
     image_name: Optional[str] = None,
     image_path: Optional[str] = None,
     ontology_path: str = "ontology/BodyFatOntology.owl",
-    output_path: str = "ontology/output.owl",
+    output_path: str = "/tmp/output.owl",
 ) -> Dict[str, Any]:
     """
     Hybrid AI + Ontology semantic reasoning layer.
