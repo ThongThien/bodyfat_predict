@@ -56,6 +56,7 @@ for key, default in {
     'ontology_result': None,
     'quality_pack': None,
     'scan_input_v5': None,
+    'show_ontology_dashboard': False
 
 }.items():
     if key not in st.session_state:
@@ -546,15 +547,19 @@ if selection == "Measure Body Fat":
                 st.metric("Prediction", f"{res_v5}%")
                 st.markdown(f"**Status:** {status_v5}")
 
-                if st.button("View Full Ontology Dashboard", use_container_width=True):
-
+                if st.button("View Full Ontology Dashboard", width="stretch"):
+                    st.session_state.show_ontology_dashboard = True
+                    
+                if st.session_state.get("show_ontology_dashboard"):
                     if st.session_state.get("ontology_result") is None:
+
                         scan_res = st.session_state.get("res_scan_v5")
                         predicted_bf = st.session_state.get("res_final_v5")
                         quality_pack = st.session_state.get("quality_pack") or {}
                         scan_input = st.session_state.get("scan_input_v5") or {}
 
                         if scan_res is not None and predicted_bf is not None:
+
                             st.session_state.ontology_result = run_ontology(
                                 height=scan_input.get("height", h_v),
                                 weight=scan_input.get("weight", w_v),
@@ -572,9 +577,6 @@ if selection == "Measure Body Fat":
 
                     if st.session_state.get("ontology_result") is not None:
                         show_ontology_dashboard(st.session_state.ontology_result)
-                    else:
-                        st.warning("Please run predictions before viewing the Ontology Dashboard.")
-                
                 # -------- SAVE --------
                 if is_logged_in:
                     if st.button("SAVE RESULT"):
