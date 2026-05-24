@@ -56,7 +56,6 @@ for key, default in {
     'ontology_result': None,
     'quality_pack': None,
     'scan_input_v5': None,
-    'show_ontology_dashboard': False
 
 }.items():
     if key not in st.session_state:
@@ -424,22 +423,21 @@ if selection == "Measure Body Fat":
                         st.session_state.res_final_v5 = predicted_bf
 
                         # ONTOLOGY REASONING
-                        ontology_result = run_ontology(
-                        height=h_v,
-                        weight=w_v,
-                        chest=res_scan["Chest"],
-                        abdomen=res_scan["Abdomen"],
-                        hip=res_scan["Hip"],
-                        predicted_bf=predicted_bf,
-                        pose_visibility=quality_pack.get("pose_visibility", 1.0),
-                        mask_confidence=quality_pack.get("mask_confidence", 1.0),
-                        missing_landmark_count=quality_pack.get("missing_landmark_count", 0),
-                        source_type="AI Scan",
-                        image_name=f"{u_f.name} | {u_s.name}",
-                        image_path=None
-                    )
-
-                        st.session_state.ontology_result = ontology_result
+                        st.session_state.ontology_result = run_ontology(
+                            height=h_v,
+                            weight=w_v,
+                            chest=res_scan["Chest"],
+                            abdomen=res_scan["Abdomen"],
+                            hip=res_scan["Hip"],
+                            predicted_bf=predicted_bf,
+                            pose_visibility=quality_pack.get("pose_visibility", 1.0),
+                            mask_confidence=quality_pack.get("mask_confidence", 1.0),
+                            missing_landmark_count=quality_pack.get("missing_landmark_count", 0),
+                            source_type="AI Scan",
+                            image_name=f"{u_f.name} | {u_s.name}",
+                            image_path=None
+                        )
+                        st.session_state.dashboard_open = False
 
             if st.session_state.res_scan_v5:
                 r = st.session_state.res_scan_v5
@@ -550,10 +548,16 @@ if selection == "Measure Body Fat":
                 st.markdown(f"**Status:** {status_v5}")
 
                 if st.button("View Full Ontology Dashboard", width="stretch"):
-                    if st.session_state.get("ontology_result") is not None:
-                        show_ontology_dashboard(st.session_state.ontology_result)
+                    st.session_state.dashboard_open = True
+                
+                if st.session_state.get("dashboard_open"):
+
+                    onto = st.session_state.get("ontology_result")
+
+                    if onto is not None:
+                        show_ontology_dashboard(onto)
                     else:
-                        st.warning("Ontology result is not available. Please run prediction again.")
+                        st.error("Ontology result is missing after deployment rerun. Please press RUN again.")
                     
                 # -------- SAVE --------
                 if is_logged_in:
