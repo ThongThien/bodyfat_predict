@@ -42,21 +42,21 @@ ontology_modal = Modal(
     key="ontology_dashboard",
     max_width=1000
 )
-
-if "ontology_result" not in st.session_state:
-    st.session_state.ontology_result = None
-
-if "prediction_result" not in st.session_state:
-    st.session_state.prediction_result = None
-    
 # Session State cho v5
 for key, default in {
-    'active_mode': None, 
-    'vals': [25, 82.0, 172.0], 
-    'res_tab1': None, 
-    'res_scan_v5': None, 'res_final_v5': None, 'pipe_v5': (None, None)
+    'active_mode': None,
+    'vals': [25, 82.0, 172.0],
+    'res_tab1': None,
+
+    'res_scan_v5': None,
+    'res_final_v5': None,
+    'pipe_v5': (None, None),
+
+    'debug_pack': None,
+    'ontology_result': None,
+
 }.items():
-    if key not in st.session_state: 
+    if key not in st.session_state:
         st.session_state[key] = default
 
 @st.dialog("Ontology Semantic Dashboard", width="large")
@@ -239,7 +239,7 @@ def show_ontology_dashboard(onto):
             st.info("Maintain current healthy lifestyle.")
 
         st.markdown("##### Ontology Latency")
-        st.metric("Latency", f"{onto.get('Ontology_Latency_Ms', 0):.2f} ms")
+        st.metric("Latency", f"{onto.get('Ontology_Latency_ms', 0):.2f} ms")
 
     st.divider()
 
@@ -384,22 +384,19 @@ if selection == "Measure Body Fat":
                 with st.spinner("Analyzing 7 parameters..."):
                     img_f = cv2.imdecode(np.frombuffer(u_f.read(), np.uint8), 1)
                     img_s = cv2.imdecode(np.frombuffer(u_s.read(), np.uint8), 1)
-
-                    res_scan, viz_f, viz_s, debug_pack, quality_pack = process_body_measurements_v5(
-                        img_f,
-                        img_s,
-                        h_v,
-                        w_v,
-                        use_long_pants=use_long_pants
+                    
+                    res_scan, viz_f, viz_s, debug_pack, quality_pack  = process_body_measurements_v5(
+                        img_f, img_s, h_v, w_v, use_long_pants=use_long_pants
                     )
-
                     if res_scan is not None:
                         st.success("Measurement extraction successful!")
-
+                    else:
+                        st.error("Measurement extraction failed! Please ensure the photos are clear and follow the guidelines.")
+                    if res_scan:
                         st.session_state.res_scan_v5 = res_scan
                         st.session_state.pipe_v5 = (viz_f, viz_s)
                         st.session_state.debug_pack = debug_pack
-
+                        # Immediate prediction after scan
                         input_v5 = {
                             "Name": "Scan_User",
                             "Age": age_v,
@@ -410,31 +407,26 @@ if selection == "Measure Body Fat":
 
                         # ML PREDICTION
                         predicted_bf = predict_body_fat_v5(model_v5, input_v5)
+
                         st.session_state.res_final_v5 = predicted_bf
 
                         # ONTOLOGY REASONING
                         ontology_result = run_ontology(
-                            height=h_v,
-                            weight=w_v,
-                            chest=res_scan["Chest"],
-                            abdomen=res_scan["Abdomen"],
-                            hip=res_scan["Hip"],
-                            predicted_bf=predicted_bf,
-                            pose_visibility=quality_pack.get("pose_visibility", 1.0),
-                            mask_confidence=quality_pack.get("mask_confidence", 1.0),
-                            missing_landmark_count=quality_pack.get("missing_landmark_count", 0),
-                            source_type="AI Scan",
-                            image_name=f"{u_f.name} | {u_s.name}",
-                            image_path=None
-                        )
+                        height=h_v,
+                        weight=w_v,
+                        chest=res_scan["Chest"],
+                        abdomen=res_scan["Abdomen"],
+                        hip=res_scan["Hip"],
+                        predicted_bf=predicted_bf,
+                        pose_visibility=quality_pack.get("pose_visibility", 1.0),
+                        mask_confidence=quality_pack.get("mask_confidence", 1.0),
+                        missing_landmark_count=quality_pack.get("missing_landmark_count", 0),
+                        source_type="AI Scan",
+                        image_name=f"{u_f.name} | {u_s.name}",
+                        image_path=None
+                    )
 
                         st.session_state.ontology_result = ontology_result
-
-                    else:
-                        st.error(
-                            "Measurement extraction failed! Please ensure the photos are clear and follow the guidelines."
-                        )
-                        st.session_state.ontology_result = None
 
             if st.session_state.res_scan_v5:
                 r = st.session_state.res_scan_v5
@@ -544,13 +536,11 @@ if selection == "Measure Body Fat":
                 st.metric("Prediction", f"{res_v5}%")
                 st.markdown(f"**Status:** {status_v5}")
 
-            if st.button("View Full Ontology Dashboard", use_container_width=True):
-                ontology_result = st.session_state.get("ontology_result")
-
-                if ontology_result is not None:
-                    show_ontology_dashboard(ontology_result)
-                else:
-                    st.warning("Please run predictions before viewing the Ontology Dashboard..")
+                if st.button("View Full Ontology Dashboard", use_container_width=True):
+                    if st.session_state.get("ontology_result") is not None:
+                        show_ontology_dashboard(st.session_state.ontology_result)
+                    else:
+                        st.warning("Please run predictions before viewing the Ontology Dashboard.")
                 
                 # -------- SAVE --------
                 if is_logged_in:
