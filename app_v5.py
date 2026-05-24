@@ -544,13 +544,13 @@ if selection == "Measure Body Fat":
                 st.metric("Prediction", f"{res_v5}%")
                 st.markdown(f"**Status:** {status_v5}")
 
-                if st.button("View Full Ontology Dashboard", use_container_width=True):
-                    ontology_result = st.session_state.get("ontology_result")
+            if st.button("View Full Ontology Dashboard", use_container_width=True):
+                ontology_result = st.session_state.get("ontology_result")
 
-                    if ontology_result is not None:
-                        show_ontology_dashboard(ontology_result)
-                    else:
-                        st.warning("Please run predictions before viewing the Ontology Dashboard..")
+                if ontology_result is not None:
+                    show_ontology_dashboard(ontology_result)
+                else:
+                    st.warning("Please run predictions before viewing the Ontology Dashboard..")
                 
                 # -------- SAVE --------
                 if is_logged_in:
