@@ -214,7 +214,7 @@ def run_ontology(
     image_name: Optional[str] = None,
     image_path: Optional[str] = None,
     ontology_path: str = "ontology/BodyFatOntology.owl",
-    output_path: str = "/tmp/output.owl",
+    output_path: str = "output.owl",
 ) -> Dict[str, Any]:
     """
     Hybrid AI + Ontology semantic reasoning layer.
@@ -779,12 +779,26 @@ def run_ontology(
         # Instead, the warning explanation is represented through dynamic SemanticExplanation nodes.
 
         try:
+            # save ontology runtime output
+            out_file = os.path.abspath(output_path)
+
             onto.save(file=out_file)
-            semantic_pipeline.append(f"Output ontology saved: {out_file}")
+
+            semantic_pipeline.append(
+                f"Output ontology saved: {out_file}"
+            )
+
         except Exception as e:
             reasoning_status = "Failed"
-            reasoning_error = f"{reasoning_error}; Save failed: {e}" if reasoning_error else f"Save failed: {e}"
-            semantic_pipeline.append("Failed to save output ontology")
+            reasoning_error = (
+                f"{reasoning_error}; Save failed: {e}"
+                if reasoning_error
+                else f"Save failed: {e}"
+            )
+
+            semantic_pipeline.append(
+                "Failed to save output ontology"
+            )
 
     # ------------------------------------------------------------
     # 9. Build output for UI/dashboard/batch evaluation

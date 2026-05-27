@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 from ontology.ontology_engine_v2 import run_ontology
 from streamlit_modal import Modal
 import plotly.express as px
@@ -29,25 +30,274 @@ model_v5 = load_model_v5("models/bodyfat_ai_super_clean_v5.pkl")
 # CSS Setup
 st.markdown(f"{get_custom_css()}", unsafe_allow_html=True)
 st.markdown("""
-    <style>
-    [data-testid="stSidebar"] { background-color: #0E1117; }
-    .stMetric { background-color: #1E293B; padding: 15px; border-radius: 10px; border: 1px solid #3B82F6; }
-    .stButton>button { border-radius: 8px; height: 3em; transition: 0.3s; }
-    .stButton>button:hover { border: 1px solid #3B82F6; color: #3B82F6; }
-    </style>
+<style>
+/* ===== SIMPLE CLEAN RED LIGHT THEME ===== */
+
+.stApp {
+    background: #F3F4F6 !important;
+    color: #111827 !important;
+}
+
+/* ===== TEXT ===== */
+
+h1, h2, h3, h4, h5, h6, p, label, span {
+    color: #111827 !important;
+}
+
+/* ===== SIDEBAR ===== */
+
+[data-testid="stSidebar"] {
+    background: #FFFFFF !important;
+    border-right: 1px solid #E5E7EB !important;
+}
+
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] p {
+    color: #111827 !important;
+}
+
+/* ===== INPUT ===== */
+
+.stTextInput input,
+.stNumberInput input,
+.stPasswordInput input,
+textarea {
+    background: #F9FAFB !important;
+    color: #111827 !important;
+    border: 1px solid #D1D5DB !important;
+}
+
+/* number input wrapper */
+
+[data-testid="stNumberInput"] div[data-baseweb="input"] {
+    background: #F9FAFB !important;
+    border: 1px solid #D1D5DB !important;
+}
+
+/* +/- button */
+
+[data-testid="stNumberInput"] button {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+    border-left: 1px solid #D1D5DB !important;
+}
+
+/* ===== PASSWORD EYE ===== */
+
+.stPasswordInput button {
+    background: #FFFFFF !important;
+    border-left: 1px solid #D1D5DB !important;
+}
+
+.stPasswordInput button svg {
+    color: #6B7280 !important;
+    fill: #6B7280 !important;
+}
+
+/* ===== FILE UPLOADER ===== */
+
+[data-testid="stFileUploader"] section {
+    background: #FFFFFF !important;
+    border: 1px solid #111827 !important;
+}
+
+/* upload buttons */
+
+[data-testid="stFileUploader"] button {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+    border: 1px solid #111827 !important;
+    border-radius: 8px !important;
+}
+
+/* upload icons */
+
+[data-testid="stFileUploader"] button svg,
+[data-testid="stFileUploader"] svg {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+    fill: #111827 !important;
+}
+
+/* upload text */
+
+[data-testid="stFileUploader"] small,
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploader"] div {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+}
+
+/* ===== RADIO ===== */
+
+/* remove red bg behind text */
+
+[data-testid="stRadio"] label {
+    background: transparent !important;
+}
+
+[data-testid="stRadio"] label p,
+[data-testid="stRadio"] label span,
+[data-testid="stRadio"] label div {
+    background: transparent !important;
+    color: #111827 !important;
+}
+
+/* selected dot only */
+
+/* ===== CHECKBOX ===== */
+
+.check-status {
+    margin-top: -8px;
+    padding: 6px 10px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    background: #FFFFFF;
+    color: #111827;
+    font-size: 14px;
+}
+
+.check-status.checked {
+    border-color: #DC2626;
+    background: #FFFFFF;
+    color: #111827;
+    font-weight: 600;
+}
+/* ===== BUTTON ===== */
+
+.stButton > button,
+.stButton > button p,
+.stButton > button span,
+.stButton > button div {
+    background: #e6272d !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+}
+
+.stButton > button:hover,
+.stButton > button:hover p,
+.stButton > button:hover span,
+.stButton > button:hover div {
+    background: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+/* ===== TABS ===== */
+
+.stTabs [data-baseweb="tab"] {
+    color: #374151 !important;
+}
+
+.stTabs [aria-selected="true"] {
+    color: #DC2626 !important;
+    border-bottom-color: #DC2626 !important;
+}
+
+/* ===== EXPANDER ===== */
+
+[data-testid="stExpander"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+[data-testid="stExpander"] summary {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+    font-weight: 600 !important;
+}
+
+/* ===== METRIC ===== */
+
+[data-testid="stMetric"] {
+    background: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #374151 !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #111827 !important;
+}
+
+/* ===== ALERT ===== */
+
+[data-testid="stAlert"] {
+    border-radius: 10px !important;
+}
+
+/* ===== CODE ===== */
+
+code, pre {
+    background: #F9FAFB !important;
+    color: #111827 !important;
+    border: 1px solid #E5E7EB !important;
+}
+
+/* ===== TOOLBAR ===== */
+
+.stAppToolbar,
+.st-emotion-cache-14vh5up,
+[data-testid="stToolbar"] {
+    background: #DC2626 !important;
+    color: #FFFFFF !important;
+}
+
+.stAppToolbar *,
+.st-emotion-cache-14vh5up *,
+[data-testid="stToolbar"] * {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+}
+
+/* ===== RESTORE RADIO CIRCLE ===== */
+
+[data-testid="stRadio"] label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: transparent !important;
+}
+
+[data-testid="stRadio"] input[type="radio"] {
+    display: inline-block !important;
+    appearance: auto !important;
+    accent-color: #ff0019 !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    position: static !important;
+}
+
+[data-testid="stRadio"] label p,
+[data-testid="stRadio"] label span,
+[data-testid="stRadio"] label div {
+    background: transparent !important;
+    color: #111827 !important;
+}
+
+
+</style>
 """, unsafe_allow_html=True)
 
 ontology_modal = Modal(
-    "Ontology Semantic Dashboard",
+    "### Ontology Semantic Dashboard",
     key="ontology_dashboard",
-    max_width=1000
 )
 # Session State cho v5
 for key, default in {
     'active_mode': None,
     'vals': [25, 82.0, 172.0],
     'res_tab1': None,
-
     'res_scan_v5': None,
     'res_final_v5': None,
     'pipe_v5': (None, None),
@@ -63,20 +313,125 @@ for key, default in {
 
 @st.dialog("Ontology Semantic Dashboard", width="large")
 def show_ontology_dashboard(onto):
-    st.markdown(
-        """
-        <style>
-        .block-container { padding-top: 1rem; padding-bottom: 1rem; }
-        div[data-testid="stExpander"] div { padding: 8px; }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    
+    st.markdown("""
+    <style>
+    /* ===== ONTOLOGY DASHBOARD LIGHT FIX ===== */
 
+    [data-testid="stDialog"] {
+        background: #F3F4F6 !important;
+        color: #111827 !important;
+
+        /* border tổng */
+        border: 2px solid #DC2626 !important;
+        border-radius: 18px !important;
+        padding: 6px !important;
+    }
+
+    /* toàn bộ text */
+    [data-testid="stDialog"] * {
+        color: #111827 !important;
+    }
+
+    /* heading đỏ */
+    [data-testid="stDialog"] h1,
+    [data-testid="stDialog"] h2,
+    [data-testid="stDialog"] h3,
+    [data-testid="stDialog"] h4,
+    [data-testid="stDialog"] strong {
+        color: #DC2626 !important;
+    }
+
+    /* bỏ nền tối */
+    [data-testid="stDialog"] section,
+    [data-testid="stDialog"] div {
+        background-color: transparent;
+    }
+
+    /* ===== METRIC ===== */
+
+    [data-testid="stDialog"] [data-testid="stMetric"] {
+        background: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+        padding: 14px !important;
+    }
+
+    /* label metric */
+    [data-testid="stDialog"] [data-testid="stMetricLabel"] {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: #DC2626 !important;
+    }
+
+    /* value metric */
+    [data-testid="stDialog"] [data-testid="stMetricValue"] {
+        font-size: 24px !important;
+        font-weight: 700 !important;
+
+        /* chống tràn chữ */
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+        line-height: 1.15 !important;
+    }
+
+    /* riêng 4 ô đầu */
+    [data-testid="stDialog"] [data-testid="stHorizontalBlock"] 
+    [data-testid="stMetricValue"] {
+        font-size: 20px !important;
+    }
+
+    /* ===== EXPANDER ===== */
+
+    [data-testid="stDialog"] [data-testid="stExpander"] {
+        background: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 10px !important;
+    }
+
+    /* ===== CODE BLOCK ===== */
+
+    [data-testid="stDialog"] code,
+    [data-testid="stDialog"] pre {
+        background: #F9FAFB !important;
+        color: #111827 !important;
+        border: 1px solid #E5E7EB !important;
+    }
+
+    /* ===== ALERT ===== */
+
+    [data-testid="stDialog"] [data-testid="stAlert"] {
+        border-radius: 10px !important;
+    }
+
+    /* ===== DIVIDER ===== */
+
+    [data-testid="stDialog"] hr {
+        border-color: #D1D5DB !important;
+    }
+
+    /* ===== CAPTION ===== */
+
+    [data-testid="stDialog"] .stCaption {
+        color: #6B7280 !important;
+    }
+    
+    [data-testid="column"] {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    }
+
+    /* đường kẻ dọc giữa columns */
+    [data-testid="column"]:not(:last-child) {
+        border-right: 2px solid #D1D5DB;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.caption(
         "This dashboard explains the runtime reasoning graph of the Hybrid AI + Ontology system."
     )
-    st.divider()
 
     session_id = onto.get("Session_ID", "Unknown")
     validation_status = onto.get("Validation_Status", "Unknown")
@@ -84,30 +439,7 @@ def show_ontology_dashboard(onto):
     warning_level = onto.get("Warning_Level", "None")
     anomaly_type = onto.get("Anomaly_Type", [])
     image_quality = onto.get("Image_Quality", "Unknown")
-
-    st.markdown("""
-        <style>
-        /* Làm nhỏ toàn bộ metric */
-        [data-testid="stMetric"] {
-            padding: 8px 10px;
-        }
-
-        /* Label: Validation, Confidence Level... */
-        [data-testid="stMetricLabel"] {
-            font-size: 13px !important;
-        }
-
-        /* Value chính */
-        [data-testid="stMetricValue"] {
-            font-size: 20px !important;
-        }
-
-        /* Delta nếu có */
-        [data-testid="stMetricDelta"] {
-            font-size: 12px !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    
     st.markdown(f"### Prediction Session: `{session_id}`")
 
     top1, top2, top3, top4 = st.columns(4)
@@ -116,8 +448,6 @@ def show_ontology_dashboard(onto):
     top2.metric("Confidence Level", confidence_level)
     top3.metric("Warning Level", warning_level)
     top4.metric("Image Quality", image_quality)
-
-    st.divider()
 
     col_left, col_mid, col_right = st.columns([1, 1, 1.1])
 
@@ -243,8 +573,6 @@ def show_ontology_dashboard(onto):
         st.markdown("##### Ontology Latency")
         st.metric("Latency", f"{onto.get('Ontology_Latency_ms', 0):.2f} ms")
 
-    st.divider()
-
     with st.expander("Runtime Reasoning Graph Trace", expanded=False):
         graph_trace = onto.get("Reasoning_Graph_Trace", [])
 
@@ -254,12 +582,6 @@ def show_ontology_dashboard(onto):
         else:
             st.caption("Reasoning graph trace unavailable.")
             
-# --- 2. HELPERS ---
-def get_status_color(bf_value):
-    if bf_value < 13: return "#34D399", "Athletic"
-    if bf_value < 22: return "#60A5FA", "Fitness/Normal"
-    if bf_value < 28: return "#FBBF24", "Average "
-    return "#F87171", "High Body Fat (Thừa mỡ)"
 
 def parse_filename(file_name):
     base = os.path.basename(file_name)
@@ -301,41 +623,96 @@ def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, meth
 
 # --- 3. SIDEBAR ---
 with st.sidebar:
-    st.title(" PREDICT BODYFAT AI ")
-    
-    st.markdown("---")
-    selection = st.radio("MENU", ["Measure Body Fat", "Scientific Info","History",])
-    if st.button("Reset Input Data"):
-        st.session_state.clear()
-        st.rerun()
-        
+    st.markdown(
+        """
+        <h1 style="
+            font-size: 32px;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        ">
+            PREDICT BODYFAT
+        </h1>
+        """,
+        unsafe_allow_html=True
+    )
+            
+    with st.expander("MENU", expanded=True):
+        selection = st.radio(
+            "Navigation",
+            ["Measure Body Fat", "Scientific Info", "History"],
+            label_visibility="collapsed"
+        )
+
     is_logged_in = False
     try:
         user_res = get_current_user()
         is_logged_in = True if user_res and user_res.user else False
-    except: is_logged_in = False
+    except:
+        is_logged_in = False
 
-    if not is_logged_in:
-        auth_mode = st.radio("Account", ["Login", "Sign up"], horizontal=True)
-        email = st.text_input("Email")
-        pw = st.text_input("Password", type="password")
-        if auth_mode == "Sign up":
-            fname = st.text_input("Full name")
-            if st.button("Create account"):
-                res = sign_up(email, pw, fname)
-                st.success("Check your email!") if hasattr(res, 'user') else st.error("Registration error")
+    with st.expander("Account", expanded=False):
+        if not is_logged_in:
+            auth_mode = st.radio(
+                "Account",
+                ["Login", "Sign up"],
+                horizontal=True,
+                label_visibility="collapsed"
+            )
+
+            email = st.text_input("Email")
+            pw = st.text_input("Password", type="password")
+
+            if auth_mode == "Sign up":
+                fname = st.text_input("Full name")
+                if st.button("Create account", use_container_width=True):
+                    res = sign_up(email, pw, fname)
+                    st.success("Check your email!") if hasattr(res, "user") else st.error("Registration error")
+            else:
+                if st.button("Login", use_container_width=True):
+                    if hasattr(sign_in(email, pw), "user"):
+                        st.rerun()
+                    else:
+                        st.error("Invalid credentials!")
         else:
-            if st.button("Login"):
-                if hasattr(sign_in(email, pw), 'user'): st.rerun()
-                else: st.error("Invalid credentials!")
-    else:
-        st.success(f"Hi, {user_res.user.email}")
-        if st.button("Log out"):
-            supabase.auth.sign_out()
-            st.rerun()
+            st.success(f"Hi, {user_res.user.email}")
+            if st.button("Log out", use_container_width=True):
+                supabase.auth.sign_out()
+                st.rerun()
+    
 
 # --- 4. MAIN CONTENT ---
 if selection == "Measure Body Fat":
+    st.markdown("""
+    <style>
+
+    /* tab button */
+    button[data-baseweb="tab"] {
+        background: transparent !important;
+        border-radius: 10px 10px 0 0 !important;
+        padding: 10px 22px !important;
+    }
+
+    /* text thường */
+    button[data-baseweb="tab"] p {
+        font-size: 22px !important;
+        font-weight: 600 !important;
+        color: #111827 !important;
+    }
+
+    /* tab đang active */
+    button[data-baseweb="tab"][aria-selected="true"] {
+        background: #DC2626 !important;
+    }
+
+    /* text active */
+    button[data-baseweb="tab"][aria-selected="true"] p {
+        color: #FFFFFF !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
     tab1, tab2 = st.tabs(["Manual Input", "AI Scan"])
 
     # --- TAB 1: MANUAL ---
@@ -352,7 +729,7 @@ if selection == "Measure Body Fat":
             chest1 = st.number_input("Chest", 50.0, 180.0, 95.0)
             abd1 = st.number_input("Abdomen (Navel level)", 50.0, 180.0, 85.0)
             hip1 = st.number_input("Hip (Buttocks)", 50.0, 180.0, 95.0)
-
+            st.markdown("---")
             if st.button("ANALYZE", use_container_width=True):
                 data_v5 = {
                     "Name": "Manual_User", "Age": age1, "Weight": w1, "Height": h1,
@@ -364,11 +741,9 @@ if selection == "Measure Body Fat":
         with c2:
             if st.session_state.res_tab1:
                 res_v1 = st.session_state.res_tab1
-                color, status = get_status_color(res_v1)
                 st.metric("Prediction Result", f"{res_v1}%")
-                st.markdown(f"<h3 style='color:{color}; text-align:center;'>{status}</h3>", unsafe_allow_html=True)
             else:
-                st.image("assets/hd.jpg", caption="Standard Measurement Guide", use_container_width=True)
+                st.image("assets/hd.jpg", caption="Standard Body Measurement Guide", use_container_width=True)
 
     # --- TAB 2: AI SCAN ---
     with tab2:
@@ -442,6 +817,16 @@ if selection == "Measure Body Fat":
             if st.session_state.res_scan_v5:
                 r = st.session_state.res_scan_v5
                 st.success(f"Extraction successful: Chest: {r['Chest']} | Abdomen: {r['Abdomen']} | Hip: {r['Hip']}")
+                st.markdown("""
+                    <style>
+
+                    /* force light dataframe */
+                    [data-testid="stDataFrame"] canvas {
+                        filter: invert(1) hue-rotate(180deg);
+                    }
+
+                    </style>
+                    """, unsafe_allow_html=True)
                 with st.expander("View measurement details", expanded=False):
                     input_debug = {
                         "Weight": w_v,
@@ -468,7 +853,7 @@ if selection == "Measure Body Fat":
                         "WHR": round(whr,3) if whr else None,
                     }])
 
-                    st.dataframe(debug_df)
+                    st.dataframe(debug_df, use_container_width=True)
             
             with st.expander("Index explanations", expanded=False):
                 st.markdown("""
@@ -526,8 +911,8 @@ if selection == "Measure Body Fat":
 
                 if os.path.exists(sample_f) and os.path.exists(sample_s):
                     c1, c2 = st.columns(2)
-                    c1.image(sample_f, caption="Sample Front")
-                    c2.image(sample_s, caption="Sample Side")
+                    c1.image(sample_f, caption="Sample Front Pose")
+                    c2.image(sample_s, caption="Sample Side Pose")
 
                 st.markdown("---")
 
@@ -535,17 +920,15 @@ if selection == "Measure Body Fat":
             if st.session_state.res_final_v5:
 
                 res_v5 = st.session_state.res_final_v5
-                color_v5, status_v5 = get_status_color(res_v5)
 
                 # SCAN IMAGE
                 viz_f, viz_s = st.session_state.pipe_v5
                 v1, v2 = st.columns(2)
-                v1.image(viz_f, caption="Front Scan")
-                v2.image(viz_s, caption="Side Scan")
+                v1.image(viz_f, caption="Front Scan - AI Measurement Overlay")
+                v2.image(viz_s, caption="Side Scan - AI Measurement Overlay")
                 
                 # RESULT
                 st.metric("Prediction", f"{res_v5}%")
-                st.markdown(f"**Status:** {status_v5}")
 
                 if st.button("View Full Ontology Dashboard", width="stretch"):
                     st.session_state.dashboard_open = True
@@ -555,9 +938,95 @@ if selection == "Measure Body Fat":
                     onto = st.session_state.get("ontology_result")
 
                     if onto is not None:
+
                         show_ontology_dashboard(onto)
+
+                        # ===== EXPORT FILE NAME =====
+                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+                        # ===== SHOW DATAFRAME =====
+                        ontology_csv_df = pd.DataFrame([{
+                            "Session_ID": onto.get("Session_ID", "Unknown"),
+
+                            "Validation_Status": onto.get("Validation_Status", "Unknown"),
+                            "Reasoning_Status": onto.get("Reasoning_Status", "Unknown"),
+                            "Reasoning_Error": onto.get("Reasoning_Error", ""),
+
+                            "BMI": onto.get("BMI"),
+                            "BMI_Class": onto.get("BMI_Class"),
+                            "BodyFat": onto.get("BodyFat"),
+                            "Fat_Level": onto.get("Fat_Level"),
+                            "WHR": onto.get("WHR"),
+                            "WtHR": onto.get("WtHR"),
+
+                            "Pose_Visibility": onto.get("Pose_Visibility"),
+                            "Mask_Confidence": onto.get("Mask_Confidence"),
+                            "Confidence_Score": onto.get("Confidence_Score"),
+                            "Confidence_Level": onto.get("Confidence_Level"),
+                            "Missing_Landmark_Count": onto.get("Missing_Landmark_Count"),
+                            "Image_Quality": onto.get("Image_Quality"),
+
+                            "Warning_Level": onto.get("Warning_Level"),
+                            "Anomaly_Type": " | ".join(onto.get("Anomaly_Type", [])),
+                            "Semantic_Flags": " | ".join(onto.get("Semantic_Flags", [])),
+                            "Triggered_Rules": " | ".join(onto.get("Triggered_Rules", [])),
+
+                            "Explanations": " | ".join(onto.get("Explanations", [])),
+                            "Recommendations": " | ".join(onto.get("Recommendations", [])),
+
+                            "Ontology_Latency_ms": onto.get("Ontology_Latency_ms"),
+                            "Semantic_Pipeline": " -> ".join(onto.get("Semantic_Pipeline", [])),
+                        }])
+
+                        st.dataframe(
+                            ontology_csv_df,
+                            use_container_width=True
+                        )
+
+                        csv_bytes = ontology_csv_df.to_csv(index=False).encode("utf-8-sig")
+
+                        # ===== STYLE =====
+                        st.markdown("""
+                        <style>
+
+                        /* ===== DOWNLOAD BUTTON ===== */
+
+                        div.stDownloadButton > button {
+                            background: #FFFFFF !important;
+                            color: #111827 !important;
+                            border: 1px solid #D1D5DB !important;
+                            border-radius: 10px !important;
+                            font-weight: 600 !important;
+                        }
+
+                        div.stDownloadButton > button:hover {
+                            background: #F3F4F6 !important;
+                            color: #111827 !important;
+                            border: 1px solid #9CA3AF !important;
+                        }
+
+                        /* ===== DATAFRAME ===== */
+
+                        [data-testid="stDataFrame"] {
+                            width: 100% !important;
+                        }
+
+                        </style>
+                        """, unsafe_allow_html=True)
+
+                        # ===== DOWNLOAD BUTTON =====
+                        st.download_button(
+                            "Download Ontology CSV Summary",
+                            data=csv_bytes,
+                            file_name=f"ontology_summary_{timestamp}.csv",
+                            mime="text/csv",
+                            use_container_width=True
+                        )
+
                     else:
-                        st.error("Ontology result is missing after deployment rerun. Please press RUN again.")
+                        st.error(
+                            "Ontology result is missing after deployment rerun. Please press RUN again."
+                        )
                     
                 # -------- SAVE --------
                 if is_logged_in:
@@ -751,7 +1220,79 @@ elif selection == "History":
         history = get_user_history()
 
         if history:
+            st.markdown("""
+            <style>
 
+            /* ===== DATAFRAME LIGHT ===== */
+
+            [data-testid="stDataFrame"] canvas {
+                filter: invert(1) hue-rotate(180deg);
+            }
+
+            /* ===== SELECTBOX LIGHT ===== */
+
+            [data-baseweb="select"] > div {
+                background: #FFFFFF !important;
+                color: #111827 !important;
+                border: 1px solid #D1D5DB !important;
+            }
+
+            [data-baseweb="select"] * {
+                color: #111827 !important;
+            }
+
+            /* ===== DROPDOWN MENU ===== */
+
+            ul {
+                background: #FFFFFF !important;
+            }
+
+            li {
+                background: #FFFFFF !important;
+                color: #111827 !important;
+            }
+
+            /* item hover */
+            li:hover {
+                background: #F3F4F6 !important;
+                color: #111827 !important;
+            }
+
+            /* selected item */
+            [aria-selected="true"] {
+                background: #E5E7EB !important;
+                color: #111827 !important;
+            }
+
+            /* dropdown */
+            div[role="listbox"] {
+                background: #FFFFFF !important;
+            }
+
+            div[role="option"] {
+                background: #FFFFFF !important;
+                color: #111827 !important;
+            }
+
+            /* ===== LINE CHART LIGHT ===== */
+
+            /* vega lite */
+            [data-testid="stVegaLiteChart"] canvas {
+                filter: invert(1) hue-rotate(180deg);
+            }
+
+            /* altair fallback */
+            .vega-embed canvas {
+                filter: invert(1) hue-rotate(180deg);
+            }
+
+            /* svg fallback */
+            [data-testid="stVegaLiteChart"] svg {
+                filter: invert(1) hue-rotate(180deg);
+            }
+
+            </style>
+            """, unsafe_allow_html=True)
             df = pd.DataFrame(history)
 
             # ===== FORMAT =====

@@ -1,0 +1,3077 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://www.semanticweb.org/bodyfat"
+         xmlns="http://www.semanticweb.org/bodyfat#"
+         xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+         xmlns:swrl2="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#"
+         xmlns:ont.="http://example.invalid/ontologies/ont.owl#">
+
+<owl:Ontology rdf:about="http://www.semanticweb.org/bodyfat"/>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#derivedFromImage">
+  <rdfs:domain rdf:resource="#Feature"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#derivedFromMeasurement">
+  <rdfs:domain rdf:resource="#Feature"/>
+  <rdfs:range rdf:resource="#Measurement"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#AnomalyType"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasConfidenceLevel">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#ConfidenceLevel"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasExplanation">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasImageInput">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasInputSource">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#InputSource"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasQualityAssessment">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+  <rdfs:range rdf:resource="#QualityAssessment"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasRecommendation">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasSemanticFlag">
+  <rdfs:domain rdf:resource="#Feature"/>
+  <rdfs:range rdf:resource="#SemanticFlag"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasValidationResult">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#hasWarningLevel">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#WarningLevel"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#triggeredByRule">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <rdfs:range rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.invalid/ontologies/ont.owl#usesModelOutput">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="#Prediction"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasBMIClass">
+  <rdfs:domain rdf:resource="#Feature"/>
+  <rdfs:range rdf:resource="#BMIClass"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasFatLevel">
+  <rdfs:domain rdf:resource="#Prediction"/>
+  <rdfs:range rdf:resource="#FatLevel"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasFeature">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="#Feature"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasMeasurement">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="#Measurement"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasPrediction">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="#Prediction"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasQuality">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <rdfs:range rdf:resource="#QualityAssessment"/>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#chestCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#confidenceScore">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#explanationText">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#imageName">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#imagePath">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#latencyMs">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#missingLandmarkCount">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#predictedBodyFat_raw">
+  <rdfs:domain rdf:resource="#Prediction"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#predictedBodyFat_validated">
+  <rdfs:domain rdf:resource="#Prediction"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#recommendationText">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#sessionId">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#sourceType">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#InputSource"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#timestamp">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#validationStatus">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.invalid/ontologies/ont.owl#warningText">
+  <rdfs:domain rdf:resource="http://example.invalid/ontologies/ont.owl#WarningLevel"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#abdomenCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#bmiValue">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#heightCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hipCm">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#maskConfidence">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#poseVisibility">
+  <rdfs:domain rdf:resource="#QualityAssessment"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#predictedBodyFat">
+  <rdfs:domain rdf:resource="#Prediction"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#weightKg">
+  <rdfs:domain rdf:resource="#Measurement"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#whrValue">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#wthrValue">
+  <rdfs:domain rdf:resource="#Feature"/>
+</owl:DatatypeProperty>
+
+<owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+
+<owl:Class rdf:about="#Feature"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#ImageInput">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#InputSource"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Measurement"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#AnomalyType"/>
+
+<owl:Class rdf:about="#QualityAssessment"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#ConfidenceLevel"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#InputSource"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+
+<owl:Class rdf:about="#SemanticFlag"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#WarningLevel"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+
+<owl:Class rdf:about="#Prediction"/>
+
+<owl:Class rdf:about="#BMIClass"/>
+
+<owl:Class rdf:about="#FatLevel"/>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#HighConfidence">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#ConfidenceLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#HighWarning">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#WarningLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#InvalidResult">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#LowConfidence">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#ConfidenceLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#LowWarning">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#WarningLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#MeasurementInconsistency">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#AnomalyType"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#MeasurementSource">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#InputSource"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#MediumConfidence">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#ConfidenceLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#MediumWarning">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#WarningLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#QualityAnomaly">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#AnomalyType"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#SemanticInconsistency">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#AnomalyType"/>
+</owl:Class>
+
+<owl:Class rdf:about="http://example.invalid/ontologies/ont.owl#ValidResult">
+  <rdfs:subClassOf rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+</owl:Class>
+
+<owl:Class rdf:about="#AbdominalObesity">
+  <rdfs:subClassOf rdf:resource="#SemanticFlag"/>
+</owl:Class>
+
+<owl:Class rdf:about="#HiddenObesity">
+  <rdfs:subClassOf rdf:resource="#SemanticFlag"/>
+</owl:Class>
+
+<owl:Class rdf:about="#HighFat">
+  <rdfs:subClassOf rdf:resource="#FatLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Lean">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:Class rdf:about="#LowFat">
+  <rdfs:subClassOf rdf:resource="#FatLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="#LowImageQuality">
+  <rdfs:subClassOf rdf:resource="#QualityAssessment"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Normal">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:Class rdf:about="#NormalFat">
+  <rdfs:subClassOf rdf:resource="#FatLevel"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Obese">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Overweight">
+  <rdfs:subClassOf rdf:resource="#BMIClass"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance">
+  <rdf:type rdf:resource="#AbdominalObesity"/>
+  <rdf:type rdf:resource="#SemanticFlag"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance">
+  <rdf:type rdf:resource="#HiddenObesity"/>
+  <rdf:type rdf:resource="#SemanticFlag"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HighConfidence_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#HighConfidence"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HighFat_Instance">
+  <rdf:type rdf:resource="#FatLevel"/>
+  <rdf:type rdf:resource="#HighFat"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#HighWarning_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#HighWarning"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#InvalidResult_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#InvalidResult"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Lean_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Lean"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowConfidenceAnomaly_Instance">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowConfidence_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#LowConfidence"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowFat_Instance">
+  <rdf:type rdf:resource="#FatLevel"/>
+  <rdf:type rdf:resource="#LowFat"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance">
+  <rdf:type rdf:resource="#LowImageQuality"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#LowWarning_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#LowWarning"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#MeasurementInconsistency_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#MeasurementInconsistency"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#NormalFat_Instance">
+  <rdf:type rdf:resource="#FatLevel"/>
+  <rdf:type rdf:resource="#NormalFat"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Normal_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Normal"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Obese_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Obese"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#Overweight_Instance">
+  <rdf:type rdf:resource="#BMIClass"/>
+  <rdf:type rdf:resource="#Overweight"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#QualityAnomaly_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#QualityAnomaly"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_HIGH_CONFIDENCE_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_HIGH_WARNING_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_LOW_CONFIDENCE_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_LOW_IMAGE_QUALITY_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_LOW_WARNING_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_MEASUREMENT_INCONSISTENCY_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_WARNING_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#RULE_SEMANTIC_INCONSISTENCY_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticRule"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#SemanticInconsistency_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticInconsistency"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="http://example.invalid/ontologies/ont.owl#ValidResult_Instance">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidResult"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_396e45bb">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_396e45bb"/>
+  <hasFeature rdf:resource="#feature_396e45bb"/>
+  <hasPrediction rdf:resource="#prediction_396e45bb"/>
+  <hasQuality rdf:resource="#quality_396e45bb"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_396e45bb"/>
+  <ont.:hasInputSource rdf:resource="#image_input_396e45bb"/>
+  <ont.:hasImageInput rdf:resource="#image_input_396e45bb"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_396e45bb_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_396e45bb</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:34:51</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1255.29</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_396e45bb">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_396e45bb">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_396e45bb"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_396e45bb"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_396e45bb">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_396e45bb">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_396e45bb">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_396e45bb_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_396e45bb_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_396e45bb_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_396e45bb_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_396e45bb_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_86a622d3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_86a622d3"/>
+  <hasFeature rdf:resource="#feature_86a622d3"/>
+  <hasPrediction rdf:resource="#prediction_86a622d3"/>
+  <hasQuality rdf:resource="#quality_86a622d3"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_86a622d3"/>
+  <ont.:hasInputSource rdf:resource="#image_input_86a622d3"/>
+  <ont.:hasImageInput rdf:resource="#image_input_86a622d3"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_86a622d3_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_86a622d3</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:37:55</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1475.42</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_86a622d3">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_86a622d3">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_86a622d3"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_86a622d3"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_86a622d3">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_86a622d3">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_86a622d3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_86a622d3_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_86a622d3_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_86a622d3_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_86a622d3_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_86a622d3_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_f328ccb7">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_f328ccb7"/>
+  <hasFeature rdf:resource="#feature_f328ccb7"/>
+  <hasPrediction rdf:resource="#prediction_f328ccb7"/>
+  <hasQuality rdf:resource="#quality_f328ccb7"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_f328ccb7"/>
+  <ont.:hasInputSource rdf:resource="#image_input_f328ccb7"/>
+  <ont.:hasImageInput rdf:resource="#image_input_f328ccb7"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_f328ccb7_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_f328ccb7</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:38:20</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2598.3</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_f328ccb7">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_f328ccb7">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_f328ccb7"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_f328ccb7"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_f328ccb7">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_f328ccb7">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_f328ccb7">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_f328ccb7_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_f328ccb7_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_f328ccb7_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_f328ccb7_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_f328ccb7_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_a60fd87b">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_a60fd87b"/>
+  <hasFeature rdf:resource="#feature_a60fd87b"/>
+  <hasPrediction rdf:resource="#prediction_a60fd87b"/>
+  <hasQuality rdf:resource="#quality_a60fd87b"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_a60fd87b"/>
+  <ont.:hasInputSource rdf:resource="#image_input_a60fd87b"/>
+  <ont.:hasImageInput rdf:resource="#image_input_a60fd87b"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_a60fd87b_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_a60fd87b</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:38:42</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1325.85</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_a60fd87b">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_a60fd87b">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_a60fd87b"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_a60fd87b"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_a60fd87b">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_a60fd87b">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_a60fd87b">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a60fd87b_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a60fd87b_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a60fd87b_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_a60fd87b_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a60fd87b_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_3e22d040">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_3e22d040"/>
+  <hasFeature rdf:resource="#feature_3e22d040"/>
+  <hasPrediction rdf:resource="#prediction_3e22d040"/>
+  <hasQuality rdf:resource="#quality_3e22d040"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_3e22d040"/>
+  <ont.:hasInputSource rdf:resource="#image_input_3e22d040"/>
+  <ont.:hasImageInput rdf:resource="#image_input_3e22d040"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_3e22d040_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_3e22d040</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:39:25</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1323.65</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_3e22d040">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_3e22d040">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_3e22d040"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_3e22d040"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_3e22d040">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_3e22d040">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_3e22d040">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_3e22d040_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_3e22d040_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_3e22d040_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_3e22d040_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_3e22d040_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_7d2c9d9a">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_7d2c9d9a"/>
+  <hasFeature rdf:resource="#feature_7d2c9d9a"/>
+  <hasPrediction rdf:resource="#prediction_7d2c9d9a"/>
+  <hasQuality rdf:resource="#quality_7d2c9d9a"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_7d2c9d9a"/>
+  <ont.:hasInputSource rdf:resource="#image_input_7d2c9d9a"/>
+  <ont.:hasImageInput rdf:resource="#image_input_7d2c9d9a"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_7d2c9d9a_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_7d2c9d9a</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:47:53</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1453.76</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_7d2c9d9a">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_7d2c9d9a">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_7d2c9d9a"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_7d2c9d9a"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_7d2c9d9a">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_7d2c9d9a">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_7d2c9d9a">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_7d2c9d9a_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_5f2a8c2c">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_5f2a8c2c"/>
+  <hasFeature rdf:resource="#feature_5f2a8c2c"/>
+  <hasPrediction rdf:resource="#prediction_5f2a8c2c"/>
+  <hasQuality rdf:resource="#quality_5f2a8c2c"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_5f2a8c2c"/>
+  <ont.:hasInputSource rdf:resource="#image_input_5f2a8c2c"/>
+  <ont.:hasImageInput rdf:resource="#image_input_5f2a8c2c"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_5f2a8c2c_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_5f2a8c2c</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:48:42</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1383.54</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_5f2a8c2c">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_5f2a8c2c">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_5f2a8c2c"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_5f2a8c2c"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_5f2a8c2c">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_5f2a8c2c">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_5f2a8c2c">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_5f2a8c2c_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#session_a7559258">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+  <hasMeasurement rdf:resource="#measurement_a7559258"/>
+  <hasFeature rdf:resource="#feature_a7559258"/>
+  <hasPrediction rdf:resource="#prediction_a7559258"/>
+  <hasQuality rdf:resource="#quality_a7559258"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_a7559258"/>
+  <ont.:hasInputSource rdf:resource="#image_input_a7559258"/>
+  <ont.:hasImageInput rdf:resource="#image_input_a7559258"/>
+  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a7559258_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a7559258_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a7559258_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_a7559258_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_a7559258_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_a7559258</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:49:19</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1364.31</ont.:latencyMs>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#measurement_a7559258">
+  <rdf:type rdf:resource="#Measurement"/>
+  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
+  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
+  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#feature_a7559258">
+  <rdf:type rdf:resource="#Feature"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_a7559258"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_a7559258"/>
+  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#prediction_a7559258">
+  <rdf:type rdf:resource="#Prediction"/>
+  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#quality_a7559258">
+  <rdf:type rdf:resource="#QualityAssessment"/>
+  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
+  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
+  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
+  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#image_input_a7559258">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
+  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
+  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a7559258_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a7559258_2">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a7559258_3">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#recommendation_a7559258_1">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
+  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#explanation_a7559258_4">
+  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
+  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
+</owl:NamedIndividual>
+
+<swrl:Variable rdf:about="#s"/>
+
+<swrl:Variable rdf:about="#q"/>
+
+<swrl:Variable rdf:about="#f"/>
+
+<swrl:Variable rdf:about="#p"/>
+
+<swrl:Variable rdf:about="#bmi"/>
+
+<swrl:Variable rdf:about="#whr"/>
+
+<swrl:Variable rdf:about="#bf"/>
+
+<swrl:Variable rdf:about="#m"/>
+
+<swrl:Variable rdf:about="#abdomen"/>
+
+<swrl:Variable rdf:about="#b"/>
+
+<swrl:Variable rdf:about="#w"/>
+
+<swrl:Variable rdf:about="#c"/>
+
+<swrl:Variable rdf:about="#mc"/>
+
+<swrl:Variable rdf:about="#pv"/>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)">
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)">
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)">
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
+  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
+  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
+  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
+</rdf:Description>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MeasurementInconsistency_Instance"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasWarningLevel"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighWarning_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_HIGH_WARNING_MEASUREMENT</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#hasFeature"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="#f"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="#hasPrediction"/>
+                  <swrl:argument1 rdf:resource="#s"/>
+                  <swrl:argument2 rdf:resource="#p"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:DatavaluedPropertyAtom>
+                      <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+                      <swrl:argument1 rdf:resource="#f"/>
+                      <swrl:argument2 rdf:resource="#bmi"/>
+                    </swrl:DatavaluedPropertyAtom>
+                  </rdf:first>
+                  <rdf:rest>
+                    <swrl:AtomList>
+                      <rdf:first>
+                        <swrl:DatavaluedPropertyAtom>
+                          <swrl:propertyPredicate rdf:resource="#whrValue"/>
+                          <swrl:argument1 rdf:resource="#f"/>
+                          <swrl:argument2 rdf:resource="#whr"/>
+                        </swrl:DatavaluedPropertyAtom>
+                      </rdf:first>
+                      <rdf:rest>
+                        <swrl:AtomList>
+                          <rdf:first>
+                            <swrl:DatavaluedPropertyAtom>
+                              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+                              <swrl:argument1 rdf:resource="#p"/>
+                              <swrl:argument2 rdf:resource="#bf"/>
+                            </swrl:DatavaluedPropertyAtom>
+                          </rdf:first>
+                          <rdf:rest>
+                            <swrl:AtomList>
+                              <rdf:first>
+                                <swrl:BuiltinAtom>
+                                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                  <swrl:arguments>
+                                    <rdf:List>
+                                      <rdf:first rdf:resource="#bmi"/>
+                                      <rdf:rest>
+                                        <rdf:List>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">18.5</rdf:first>
+                                        </rdf:List>
+                                      </rdf:rest>
+                                    </rdf:List>
+                                  </swrl:arguments>
+                                </swrl:BuiltinAtom>
+                              </rdf:first>
+                              <rdf:rest>
+                                <swrl:AtomList>
+                                  <rdf:first>
+                                    <swrl:BuiltinAtom>
+                                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                      <swrl:arguments>
+                                        <rdf:List>
+                                          <rdf:first rdf:resource="#bmi"/>
+                                          <rdf:rest>
+                                            <rdf:List>
+                                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.0</rdf:first>
+                                            </rdf:List>
+                                          </rdf:rest>
+                                        </rdf:List>
+                                      </swrl:arguments>
+                                    </swrl:BuiltinAtom>
+                                  </rdf:first>
+                                  <rdf:rest>
+                                    <swrl:AtomList>
+                                      <rdf:first>
+                                        <swrl:BuiltinAtom>
+                                          <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                                          <swrl:arguments>
+                                            <rdf:List>
+                                              <rdf:first rdf:resource="#whr"/>
+                                              <rdf:rest>
+                                                <rdf:List>
+                                                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                  <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</rdf:first>
+                                                </rdf:List>
+                                              </rdf:rest>
+                                            </rdf:List>
+                                          </swrl:arguments>
+                                        </swrl:BuiltinAtom>
+                                      </rdf:first>
+                                      <rdf:rest>
+                                        <swrl:AtomList>
+                                          <rdf:first>
+                                            <swrl:BuiltinAtom>
+                                              <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                                              <swrl:arguments>
+                                                <rdf:List>
+                                                  <rdf:first rdf:resource="#bf"/>
+                                                  <rdf:rest>
+                                                    <rdf:List>
+                                                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                      <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">20.0</rdf:first>
+                                                    </rdf:List>
+                                                  </rdf:rest>
+                                                </rdf:List>
+                                              </swrl:arguments>
+                                            </swrl:BuiltinAtom>
+                                          </rdf:first>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </swrl:AtomList>
+                                      </rdf:rest>
+                                    </swrl:AtomList>
+                                  </rdf:rest>
+                                </swrl:AtomList>
+                              </rdf:rest>
+                            </swrl:AtomList>
+                          </rdf:rest>
+                        </swrl:AtomList>
+                      </rdf:rest>
+                    </swrl:AtomList>
+                  </rdf:rest>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticInconsistency_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_SEMANTIC_INCONSISTENCY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#hasFeature"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="#f"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasSemanticFlag"/>
+                  <swrl:argument1 rdf:resource="#f"/>
+                  <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasWarningLevel"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_MEDIUM_WARNING_ABDOMINAL_OBESITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#hasQuality"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="#q"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasQualityAssessment"/>
+                  <swrl:argument1 rdf:resource="#q"/>
+                  <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasWarningLevel"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_MEDIUM_WARNING_LOW_IMAGE_QUALITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#hasQuality"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="#q"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasConfidenceLevel"/>
+                  <swrl:argument1 rdf:resource="#q"/>
+                  <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowConfidence_Instance"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#QualityAnomaly_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_QUALITY_ANOMALY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#hasQuality"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="#q"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasConfidenceLevel"/>
+                  <swrl:argument1 rdf:resource="#q"/>
+                  <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighConfidence_Instance"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasValidationResult"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#ValidResult_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_VALID_HIGH_CONFIDENCE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#QualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#poseVisibility"/>
+              <swrl:argument1 rdf:resource="#q"/>
+              <swrl:argument2 rdf:resource="#pv"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#pv"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasQualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_LOW_IMAGE_QUALITY_POSE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticInconsistency_Instance"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasWarningLevel"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighWarning_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_HIGH_WARNING_SEMANTIC</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#QualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#maskConfidence"/>
+              <swrl:argument1 rdf:resource="#q"/>
+              <swrl:argument2 rdf:resource="#mc"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#mc"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.1</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasQualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowImageQuality_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_LOW_IMAGE_QUALITY_MASK</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#QualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#confidenceScore"/>
+              <swrl:argument1 rdf:resource="#q"/>
+              <swrl:argument2 rdf:resource="#c"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#c"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasConfidenceLevel"/>
+          <swrl:argument1 rdf:resource="#q"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowConfidence_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_LOW_CONFIDENCE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#QualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#confidenceScore"/>
+              <swrl:argument1 rdf:resource="#q"/>
+              <swrl:argument2 rdf:resource="#c"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#c"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.75</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasConfidenceLevel"/>
+          <swrl:argument1 rdf:resource="#q"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighConfidence_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_HIGH_CONFIDENCE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#QualityAssessment"/>
+          <swrl:argument1 rdf:resource="#q"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#confidenceScore"/>
+              <swrl:argument1 rdf:resource="#q"/>
+              <swrl:argument2 rdf:resource="#c"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#c"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#c"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.75</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasConfidenceLevel"/>
+          <swrl:argument1 rdf:resource="#q"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_MEDIUM_CONFIDENCE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Prediction"/>
+          <swrl:argument1 rdf:resource="#p"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+              <swrl:argument1 rdf:resource="#p"/>
+              <swrl:argument2 rdf:resource="#bf"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#bf"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">12.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasFatLevel"/>
+          <swrl:argument1 rdf:resource="#p"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#LowFat_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BODYFAT_LOW</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Prediction"/>
+          <swrl:argument1 rdf:resource="#p"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+              <swrl:argument1 rdf:resource="#p"/>
+              <swrl:argument2 rdf:resource="#bf"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#bf"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasFatLevel"/>
+          <swrl:argument1 rdf:resource="#p"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BODYFAT_HIGH</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticInconsistency_Instance"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasValidationResult"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#InvalidResult_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_INVALID_BY_SEMANTIC_INCONSISTENCY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Prediction"/>
+          <swrl:argument1 rdf:resource="#p"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+              <swrl:argument1 rdf:resource="#p"/>
+              <swrl:argument2 rdf:resource="#bf"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#bf"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">12.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#bf"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">20.0</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasFatLevel"/>
+          <swrl:argument1 rdf:resource="#p"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#NormalFat_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BODYFAT_NORMAL</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#wthrValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#w"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#w"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasSemanticFlag"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_ABDOMINAL_OBESITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Lean_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_LEAN</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Obese_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_OBESE</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#b"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_OVERWEIGHT</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#QualityAnomaly_Instance"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasWarningLevel"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_MEDIUM_WARNING_QUALITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:BuiltinAtom>
+                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                  <swrl:arguments>
+                    <rdf:List>
+                      <rdf:first rdf:resource="#b"/>
+                      <rdf:rest>
+                        <rdf:List>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">18.5</rdf:first>
+                        </rdf:List>
+                      </rdf:rest>
+                    </rdf:List>
+                  </swrl:arguments>
+                </swrl:BuiltinAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#b"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float">25.0</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="#hasBMIClass"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#Normal_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_BMI_NORMAL</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="#Feature"/>
+          <swrl:argument1 rdf:resource="#f"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:DatavaluedPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#bmiValue"/>
+              <swrl:argument1 rdf:resource="#f"/>
+              <swrl:argument2 rdf:resource="#b"/>
+            </swrl:DatavaluedPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:DatavaluedPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="#whrValue"/>
+                  <swrl:argument1 rdf:resource="#f"/>
+                  <swrl:argument2 rdf:resource="#w"/>
+                </swrl:DatavaluedPropertyAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:BuiltinAtom>
+                      <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                      <swrl:arguments>
+                        <rdf:List>
+                          <rdf:first rdf:resource="#b"/>
+                          <rdf:rest>
+                            <rdf:List>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">18.5</rdf:first>
+                            </rdf:List>
+                          </rdf:rest>
+                        </rdf:List>
+                      </swrl:arguments>
+                    </swrl:BuiltinAtom>
+                  </rdf:first>
+                  <rdf:rest>
+                    <swrl:AtomList>
+                      <rdf:first>
+                        <swrl:BuiltinAtom>
+                          <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                          <swrl:arguments>
+                            <rdf:List>
+                              <rdf:first rdf:resource="#b"/>
+                              <rdf:rest>
+                                <rdf:List>
+                                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                  <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.0</rdf:first>
+                                </rdf:List>
+                              </rdf:rest>
+                            </rdf:List>
+                          </swrl:arguments>
+                        </swrl:BuiltinAtom>
+                      </rdf:first>
+                      <rdf:rest>
+                        <swrl:AtomList>
+                          <rdf:first>
+                            <swrl:BuiltinAtom>
+                              <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                              <swrl:arguments>
+                                <rdf:List>
+                                  <rdf:first rdf:resource="#w"/>
+                                  <rdf:rest>
+                                    <rdf:List>
+                                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</rdf:first>
+                                    </rdf:List>
+                                  </rdf:rest>
+                                </rdf:List>
+                              </swrl:arguments>
+                            </swrl:BuiltinAtom>
+                          </rdf:first>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </swrl:AtomList>
+                      </rdf:rest>
+                    </swrl:AtomList>
+                  </rdf:rest>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasSemanticFlag"/>
+          <swrl:argument1 rdf:resource="#f"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#HiddenObesity_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_HIDDEN_OBESITY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="#hasMeasurement"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="#m"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest>
+            <swrl:AtomList>
+              <rdf:first>
+                <swrl:IndividualPropertyAtom>
+                  <swrl:propertyPredicate rdf:resource="#hasPrediction"/>
+                  <swrl:argument1 rdf:resource="#s"/>
+                  <swrl:argument2 rdf:resource="#p"/>
+                </swrl:IndividualPropertyAtom>
+              </rdf:first>
+              <rdf:rest>
+                <swrl:AtomList>
+                  <rdf:first>
+                    <swrl:DatavaluedPropertyAtom>
+                      <swrl:propertyPredicate rdf:resource="#abdomenCm"/>
+                      <swrl:argument1 rdf:resource="#m"/>
+                      <swrl:argument2 rdf:resource="#abdomen"/>
+                    </swrl:DatavaluedPropertyAtom>
+                  </rdf:first>
+                  <rdf:rest>
+                    <swrl:AtomList>
+                      <rdf:first>
+                        <swrl:DatavaluedPropertyAtom>
+                          <swrl:propertyPredicate rdf:resource="#predictedBodyFat"/>
+                          <swrl:argument1 rdf:resource="#p"/>
+                          <swrl:argument2 rdf:resource="#bf"/>
+                        </swrl:DatavaluedPropertyAtom>
+                      </rdf:first>
+                      <rdf:rest>
+                        <swrl:AtomList>
+                          <rdf:first>
+                            <swrl:BuiltinAtom>
+                              <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThan"/>
+                              <swrl:arguments>
+                                <rdf:List>
+                                  <rdf:first rdf:resource="#abdomen"/>
+                                  <rdf:rest>
+                                    <rdf:List>
+                                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">95.0</rdf:first>
+                                    </rdf:List>
+                                  </rdf:rest>
+                                </rdf:List>
+                              </swrl:arguments>
+                            </swrl:BuiltinAtom>
+                          </rdf:first>
+                          <rdf:rest>
+                            <swrl:AtomList>
+                              <rdf:first>
+                                <swrl:BuiltinAtom>
+                                  <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                  <swrl:arguments>
+                                    <rdf:List>
+                                      <rdf:first rdf:resource="#bf"/>
+                                      <rdf:rest>
+                                        <rdf:List>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                          <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">12.0</rdf:first>
+                                        </rdf:List>
+                                      </rdf:rest>
+                                    </rdf:List>
+                                  </swrl:arguments>
+                                </swrl:BuiltinAtom>
+                              </rdf:first>
+                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </swrl:AtomList>
+                          </rdf:rest>
+                        </swrl:AtomList>
+                      </rdf:rest>
+                    </swrl:AtomList>
+                  </rdf:rest>
+                </swrl:AtomList>
+              </rdf:rest>
+            </swrl:AtomList>
+          </rdf:rest>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MeasurementInconsistency_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_MEASUREMENT_INCONSISTENCY</rdfs:label>
+</swrl:Imp>
+
+<swrl:Imp>
+  <swrl:body>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:ClassAtom>
+          <swrl:classPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
+          <swrl:argument1 rdf:resource="#s"/>
+        </swrl:ClassAtom>
+      </rdf:first>
+      <rdf:rest>
+        <swrl:AtomList>
+          <rdf:first>
+            <swrl:IndividualPropertyAtom>
+              <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasAnomalyFlag"/>
+              <swrl:argument1 rdf:resource="#s"/>
+              <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#MeasurementInconsistency_Instance"/>
+            </swrl:IndividualPropertyAtom>
+          </rdf:first>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </swrl:AtomList>
+      </rdf:rest>
+    </swrl:AtomList>
+  </swrl:body>
+  <swrl:head>
+    <swrl:AtomList>
+      <rdf:first>
+        <swrl:IndividualPropertyAtom>
+          <swrl:propertyPredicate rdf:resource="http://example.invalid/ontologies/ont.owl#hasValidationResult"/>
+          <swrl:argument1 rdf:resource="#s"/>
+          <swrl:argument2 rdf:resource="http://example.invalid/ontologies/ont.owl#InvalidResult_Instance"/>
+        </swrl:IndividualPropertyAtom>
+      </rdf:first>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </swrl:AtomList>
+  </swrl:head>
+  <swrl2:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrl2:isRuleEnabled>
+  <rdfs:comment></rdfs:comment>
+  <rdfs:label>RULE_INVALID_BY_MEASUREMENT_INCONSISTENCY</rdfs:label>
+</swrl:Imp>
+
+
+</rdf:RDF>
