@@ -623,20 +623,68 @@ def handle_save_logic(age, weight, height, scan_res, final_bf, pipe_images, meth
 
 # --- 3. SIDEBAR ---
 with st.sidebar:
+    st.markdown("""
+    <style>
+
+    /* ===== TITLE ===== */
+
+    .main-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 0.8rem;
+    }
+
+    /* ===== MENU CARD ===== */
+
+    [data-testid="stExpander"] {
+        background: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 16px !important;
+        overflow: hidden !important;
+    }
+
+    /* header */
+    [data-testid="stExpander"] summary {
+        background: #F9FAFB !important;
+        color: #DC2626 !important;
+        padding: 14px 16px !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        border-bottom: 1px solid #E5E7EB !important;
+    }
+
+    /* content */
+    [data-testid="stExpander"] details > div {
+        background: #FFFFFF !important;
+        padding-top: 10px !important;
+    }
+
+    /* radio */
+    [data-testid="stRadio"] label {
+        background: #FFFFFF !important;
+        border-radius: 10px !important;
+        padding: 8px 10px !important;
+    }
+
+    /* selected radio text */
+    [data-testid="stRadio"] input:checked + div p {
+        color: #DC2626 !important;
+        font-weight: 700 !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
     st.markdown(
         """
-        <h1 style="
-            font-size: 32px;
-            font-weight: 800;
-            color: #111827;
-            margin-bottom: 0.5rem;
-        ">
+        <div class="main-title">
             PREDICT BODYFAT
-        </h1>
+        </div>
         """,
         unsafe_allow_html=True
     )
-            
+
     with st.expander("MENU", expanded=True):
         selection = st.radio(
             "Navigation",
