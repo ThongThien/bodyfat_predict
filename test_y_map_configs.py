@@ -1,14 +1,8 @@
-import cv2
 import os
+
+import cv2
 import numpy as np
 
-from cv_engine_v5 import process_body_measurements_v5  # sửa đúng tên file bạn đang dùng
-
-# ==============================
-# 🔧 CONFIG TEST
-# ==============================
-
-# 👉 Bạn chỉnh các config ở đây
 Y_MAP_CONFIGS = [
     {"name": "A_base", "Chest": 0.25, "Abdomen": 0.25, "Hip": 0.00},
     {"name": "B_current", "Chest": 0.27, "Abdomen": 0.30, "Hip": 0.05},
@@ -18,155 +12,172 @@ Y_MAP_CONFIGS = [
 
 IMG_DIR = "assets/anh_chuan"
 
-# 👉 giả lập chiều cao / cân nặng (cho ổn định)
 REAL_HEIGHT = 170
 WEIGHT = 65
 
 
-# ==============================
-# 🔁 PATCH y_map vào engine
-# ==============================
+def process_with_custom_y_map(front_img, side_img, real_h, weight, y_map_config):
+    """Process body measurements with a custom Y-position configuration."""
+    import core.cv_engine_v5 as engine
 
-def process_with_custom_y_map(front_img, side_img, real_h, weight, y_map_cfg):
-    """
-    Override y_map trong hàm gốc
-    """
+    def patched_process(front_img, side_img, real_h, weight, use_long_pants=False):
+        """Run the measurement pipeline using the selected custom Y-map."""
+        mask_f, _, pose_f = engine.get_body_data_v5(front_img)
+        mask_s, _, pose_s = engine.get_body_data_v5(side_img)
 
-    import cv_engine_v5 as engine
+        if not all([pose_f, pose_f.pose_landmarks, pose_s, pose_s.pose_landmarks]):
+            return None
 
-    # backup hàm gốc
-    original_func = engine.process_body_measurements_v5
+        img_h, _, _ = front_img.shape
 
-    def patched(front_img, side_img, real_h, weight, use_long_pants=False):
-        mask_f, mask_raw_f, res_f = engine.get_body_data_v5(front_img)
-        mask_s, mask_raw_s, res_s = engine.get_body_data_v5(side_img)
+        lm_f = pose_f.pose_landmarks.landmark
+        lm_s = pose_s.pose_landmarks.landmark
 
-        if not all([res_f, res_f.pose_landmarks, res_s, res_s.pose_landmarks]):
-            return None, None, None, None
+        # Calculate pixel-to-centimeter scale from estimated body height.
+        nose_y = lm_f[0].y * img_h
+        heel_y = ((lm_f[29].y + lm_f[30].y) / 2) * img_h
+        head_offset = abs(nose_y - (lm_f[1].y * img_h)) * 2.5
+        ratio = real_h / abs(heel_y - (nose_y - head_offset))
 
-        h_img, w_img, _ = front_img.shape
-        lm_f = res_f.pose_landmarks.landmark
-        lm_s = res_s.pose_landmarks.landmark
-
-        # ===== SCALE =====
-        y_nose = lm_f[0].y * h_img
-        y_heel = ((lm_f[29].y + lm_f[30].y) / 2) * h_img
-        head_offset = abs(y_nose - (lm_f[1].y * h_img)) * 2.5
-        ratio = real_h / abs(y_heel - (y_nose - head_offset))
-
-        # ===== BMI =====
+        # Calculate BMI-based calibration factor.
         bmi = weight / ((real_h / 100) ** 2)
-        f_calib = 1.12 if bmi < 18.5 else (1.204 if bmi < 25 else 1.25)
 
-        shoulder = lm_f[11].y
-        hip = lm_f[23].y
-        torso = hip - shoulder
+        if bmi < 18.5:
+            calibration_factor = 1.12
+        elif bmi < 25:
+            calibration_factor = 1.204
+        else:
+            calibration_factor = 1.25
 
-        # 🔥 DÙNG CONFIG
+        shoulder_y = lm_f[11].y
+        hip_y = lm_f[23].y
+        torso_height = hip_y - shoulder_y
+
+        # Apply the custom Y-map configuration.
         y_map_front = {
-            'Chest': shoulder + torso * y_map_cfg['Chest'],
-            'Abdomen': hip - torso * y_map_cfg['Abdomen'],
-            'Hip': hip + torso * y_map_cfg['Hip']
+            "Chest": shoulder_y + torso_height * y_map_config["Chest"],
+            "Abdomen": hip_y - torso_height * y_map_config["Abdomen"],
+            "Hip": hip_y + torso_height * y_map_config["Hip"],
         }
 
         results = {}
 
-        for part in ['Chest', 'Abdomen', 'Hip']:
+        for part_name in ["Chest", "Abdomen", "Hip"]:
+            y_front = y_map_front[part_name]
+            iterator = engine.get_iterator(bmi, part_name)
 
-            y_f = y_map_front[part]
-            iterator = engine.get_iterator(bmi, part)
-
-            w_v, _, _ = engine.get_dimension_at_y_v5(
-                mask_f, y_f, lm_f, part, ratio, iterator
+            width, _, _ = engine.get_dimension_at_y_v5(
+                mask_f,
+                y_front,
+                lm_f,
+                part_name,
+                ratio,
+                iterator,
             )
 
-            d_v, _, _, _ = engine.find_best_depth(
-                mask_s, y_f, lm_s, part, ratio, iterator
+            depth, _, _, _ = engine.find_best_depth(
+                mask_s,
+                y_front,
+                lm_s,
+                part_name,
+                ratio,
+                iterator,
             )
 
-            if w_v == 0 or d_v == 0:
+            if width == 0 or depth == 0:
                 continue
 
-            a, b = w_v / 2, d_v / 2
-            h_el = ((a - b)**2) / ((a + b)**2) if (a + b) != 0 else 0
+            a = width / 2
+            b = depth / 2
 
-            circum = np.pi * (a + b) * (
-                1 + (3 * h_el) / (10 + np.sqrt(4 - 3 * h_el))
-            ) if (a + b) != 0 else 0
+            if a + b == 0:
+                circumference = 0
+            else:
+                h_el = ((a - b) ** 2) / ((a + b) ** 2)
+                circumference = np.pi * (a + b) * (
+                    1 + (3 * h_el) / (10 + np.sqrt(4 - 3 * h_el))
+                )
 
-            results[part] = circum * f_calib
+            results[part_name] = circumference * calibration_factor
 
         return results
 
-    # chạy
-    result = patched(front_img, side_img, real_h, weight)
+    return patched_process(front_img, side_img, real_h, weight)
 
-    return result
-
-
-# ==============================
-# 📊 RUN TEST
-# ==============================
 
 def run_test():
-    images = [f for f in os.listdir(IMG_DIR) if f.endswith(".jpg") or f.endswith(".png")]
+    """Run Y-map configuration tests on all images in the target folder."""
+    images = [
+        file_name
+        for file_name in os.listdir(IMG_DIR)
+        if file_name.endswith((".jpg", ".png"))
+    ]
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print(" TEST Y_MAP CONFIGS ".center(80, "="))
 
-    for img_name in images:
+    for image_name in images:
+        image_path = os.path.join(IMG_DIR, image_name)
 
-        img_path = os.path.join(IMG_DIR, img_name)
+        front_img = cv2.imread(image_path)
+        side_img = front_img.copy()
 
-        front = cv2.imread(img_path)
-        side = front.copy()  # 👉 tạm dùng front làm side nếu bạn chưa có
-
-        print(f"\n🖼 IMAGE: {img_name}")
+        print(f"\nIMAGE: {image_name}")
 
         results_table = []
 
-        for cfg in Y_MAP_CONFIGS:
-
-            res = process_with_custom_y_map(
-                front, side,
+        for config in Y_MAP_CONFIGS:
+            result = process_with_custom_y_map(
+                front_img,
+                side_img,
                 REAL_HEIGHT,
                 WEIGHT,
-                cfg
+                config,
             )
 
-            if res is None:
+            if result is None:
                 continue
 
-            chest = res.get("Chest", 0)
-            abdomen = res.get("Abdomen", 0)
-            hip = res.get("Hip", 0)
+            chest = result.get("Chest", 0)
+            abdomen = result.get("Abdomen", 0)
+            hip = result.get("Hip", 0)
 
-            score = chest + abdomen + hip  # 👉 metric đơn giản
+            score = chest + abdomen + hip
 
-            results_table.append({
-                "name": cfg["name"],
-                "Chest": chest,
-                "Abdomen": abdomen,
-                "Hip": hip,
-                "Score": score
-            })
+            results_table.append(
+                {
+                    "name": config["name"],
+                    "Chest": chest,
+                    "Abdomen": abdomen,
+                    "Hip": hip,
+                    "Score": score,
+                }
+            )
 
-        # ===== SORT =====
-        results_table = sorted(results_table, key=lambda x: x["Score"], reverse=True)
+        results_table = sorted(
+            results_table,
+            key=lambda item: item["Score"],
+            reverse=True,
+        )
 
-        # ===== PRINT =====
         print("\nCONFIG COMPARISON:")
-        print(f"{'Name':<12} | {'Chest':<8} | {'Abdomen':<10} | {'Hip':<8} | {'Score'}")
-        print("-"*60)
+        print(f"{'Name':<12} | {'Chest':<8} | {'Abdomen':<10} | {'Hip':<8} | Score")
+        print("-" * 60)
 
-        for r in results_table:
-            print(f"{r['name']:<12} | {r['Chest']:<8.1f} | {r['Abdomen']:<10.1f} | {r['Hip']:<8.1f} | {r['Score']:.1f}")
+        for row in results_table:
+            print(
+                f"{row['name']:<12} | "
+                f"{row['Chest']:<8.1f} | "
+                f"{row['Abdomen']:<10.1f} | "
+                f"{row['Hip']:<8.1f} | "
+                f"{row['Score']:.1f}"
+            )
 
-        best = results_table[0]["name"]
-        print(f"\n👉 BEST CONFIG: {best}")
+        if results_table:
+            best_config = results_table[0]["name"]
+            print(f"\nBEST CONFIG: {best_config}")
 
-        # show image
-        cv2.imshow("Test Image", front)
+        cv2.imshow("Test Image", front_img)
         cv2.waitKey(0)
 
     cv2.destroyAllWindows()

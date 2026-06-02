@@ -10,11 +10,10 @@ import pandas as pd
 import time
 
 # --- IMPORT MODULES V5 ---
-from core.database import (
+from database.database import (
     get_current_user, get_user_history, save_complete_measurement, 
     sign_up, sign_in, supabase 
 )
-from core.visualizer import get_custom_css
 from core.info_content_v5 import show_info_page_v5
 
 # Sử dụng các bản nâng cấp v5
@@ -28,7 +27,6 @@ st.set_page_config(page_title="Predict Body Fat AI", layout="wide")
 model_v5 = load_model_v5("models/bodyfat_ai_super_clean_v5.pkl")
 
 # CSS Setup
-st.markdown(f"{get_custom_css()}", unsafe_allow_html=True)
 st.markdown("""
 <style>
 /* ===== SIMPLE CLEAN RED LIGHT THEME ===== */

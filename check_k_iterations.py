@@ -1,98 +1,136 @@
-import numpy as np
 import cv2
 import mediapipe as mp
-import math
+import numpy as np
 import pandas as pd
 
-# --- KHỞI TẠO MODEL CV CỦA ÔNG ---
+# Initialize MediaPipe models.
 mp_pose = mp.solutions.pose
 mp_segmentation = mp.solutions.selfie_segmentation
 
+
 def get_body_data_research(img_bgr):
-    """Sử dụng logic Model CV của ông để lấy Mask sạch"""
+    """Extract segmentation mask and pose landmarks from an image."""
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+
     with mp_segmentation.SelfieSegmentation(model_selection=1) as seg, \
-         mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5) as pose:
-        res_seg = seg.process(img_rgb)
-        res_pose = pose.process(img_rgb)
-        mask = res_seg.segmentation_mask > 0.5
-        return mask, res_pose
+            mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.5) as pose:
+        seg_result = seg.process(img_rgb)
+        pose_result = pose.process(img_rgb)
 
-def refine_body_mask_research(mask_raw, landmarks, h_img, iterations_lower):
-    """Hàm phân vùng quét biên của anh em mình"""
-    y_hip_px = int(((landmarks[23].y + landmarks[24].y) / 2) * h_img)
+        mask = seg_result.segmentation_mask > 0.5
+
+    return mask, pose_result
+
+
+def refine_body_mask_research(mask_raw, landmarks, img_h, lower_iterations):
+    """Refine body mask by applying different erosion levels to upper and lower body."""
+    hip_y_px = int(((landmarks[23].y + landmarks[24].y) / 2) * img_h)
     kernel = np.ones((3, 3), np.uint8)
-    
-    mask_upper = mask_raw.copy().astype(np.uint8)
-    mask_upper[y_hip_px:, :] = 0
-    mask_upper_refined = cv2.erode(mask_upper, kernel, iterations=1)
 
-    mask_lower = mask_raw.copy().astype(np.uint8)
-    mask_lower[:y_hip_px, :] = 0
-    mask_lower_refined = cv2.erode(mask_lower, kernel, iterations=iterations_lower)
+    upper_mask = mask_raw.copy().astype(np.uint8)
+    upper_mask[hip_y_px:, :] = 0
+    upper_mask_refined = cv2.erode(upper_mask, kernel, iterations=1)
 
-    return cv2.bitwise_or(mask_upper_refined, mask_lower_refined)
+    lower_mask = mask_raw.copy().astype(np.uint8)
+    lower_mask[:hip_y_px, :] = 0
+    lower_mask_refined = cv2.erode(lower_mask, kernel, iterations=lower_iterations)
 
-def calculate_ramanujan(w_cm, d_cm):
-    a, b = w_cm / 2, d_cm / 2
-    if a <= 0 or b <= 0: return 0
-    h_el = ((a - b)**2) / ((a + b)**2)
-    return np.pi * (a + b) * (1 + (3 * h_el) / (10 + np.sqrt(4 - 3 * h_el)))
+    return cv2.bitwise_or(upper_mask_refined, lower_mask_refined)
 
-# --- CẤU HÌNH DỮ LIỆU ---
+
+def calculate_ramanujan(width_cm, depth_cm):
+    """Estimate ellipse circumference using Ramanujan approximation."""
+    a = width_cm / 2
+    b = depth_cm / 2
+
+    if a <= 0 or b <= 0:
+        return 0
+
+    h_el = ((a - b) ** 2) / ((a + b) ** 2)
+
+    return np.pi * (a + b) * (
+        1 + (3 * h_el) / (10 + np.sqrt(4 - 3 * h_el))
+    )
+
+
 SAMPLES = {
-    "D": {"f": "front_D_new.jpg", "s": "side_D_new.jpg", "h": 167.0, "real_hip": 93.0},
-    "H": {"f": "front_H_new.jpg", "s": "side_H_new.jpg", "h": 158.0, "real_hip": 86.0},
-    "L": {"f": "front_L_new.jpg", "s": "side_L_new.jpg", "h": 169.0, "real_hip": 90.0},
-    "T": {"f": "front_T_new.jpg", "s": "side_T_new.jpg", "h": 163.0, "real_hip": 86.0},
-    "K": {"f": "front_K_new.jpg", "s": "side_K_new.jpg", "h": 165.0, "real_hip": 93.0},
+    "D": {"front": "front_D_new.jpg", "side": "side_D_new.jpg", "height": 167.0, "real_hip": 93.0},
+    "H": {"front": "front_H_new.jpg", "side": "side_H_new.jpg", "height": 158.0, "real_hip": 86.0},
+    "L": {"front": "front_L_new.jpg", "side": "side_L_new.jpg", "height": 169.0, "real_hip": 90.0},
+    "T": {"front": "front_T_new.jpg", "side": "side_T_new.jpg", "height": 163.0, "real_hip": 86.0},
+    "K": {"front": "front_K_new.jpg", "side": "side_K_new.jpg", "height": 165.0, "real_hip": 93.0},
 }
 
 K_FACTOR = 2.5
-ITER_LIST = [0, 2, 4, 6]
+ITERATION_LIST = [0, 2, 4, 6]
+
 results_table = []
 
-print("Đang xử lý mẫu dữ liệu bằng Model CV...")
+print("Processing research samples with the CV model...")
 
-for name, data in SAMPLES.items():
-    img_f = cv2.imread(f"assets/{data['f']}")
-    img_s = cv2.imread(f"assets/{data['s']}")
-    if img_f is None or img_s is None: continue
+for sample_name, sample_data in SAMPLES.items():
+    front_img = cv2.imread(f"assets/{sample_data['front']}")
+    side_img = cv2.imread(f"assets/{sample_data['side']}")
 
-    h_img, w_img, _ = img_f.shape
-    mask_f_raw, res_f = get_body_data_research(img_f)
-    mask_s_raw, res_s = get_body_data_research(img_s)
+    if front_img is None or side_img is None:
+        continue
 
-    if not res_f.pose_landmarks: continue
-    lm_f = res_f.pose_landmarks.landmark
-    lm_s = res_s.pose_landmarks.landmark
+    img_h, _, _ = front_img.shape
 
-    # --- TÍNH RATIO VỚI K=2.5 ---
-    y_nose = lm_f[0].y * h_img
-    y_heel = ((lm_f[29].y + lm_f[30].y) / 2) * h_img
-    head_top_offset = abs(y_nose - (lm_f[1].y * h_img)) * K_FACTOR
-    ratio = data['h'] / abs(y_heel - (y_nose - head_top_offset))
+    front_mask_raw, front_pose = get_body_data_research(front_img)
+    side_mask_raw, side_pose = get_body_data_research(side_img)
 
-    # --- TỌA ĐỘ Y CỦA MÔNG ---
-    y_hip_norm = lm_f[23].y + 0.08
-    y_hip_px = int(y_hip_norm * h_img)
+    if not front_pose.pose_landmarks or not side_pose.pose_landmarks:
+        continue
 
-    row_data = {"Mẫu": name, "Real Hip": data['real_hip']}
-    
-    for i in ITER_LIST:
-        m_f = refine_body_mask_research(mask_f_raw, lm_f, h_img, i)
-        m_s = refine_body_mask_research(mask_s_raw, lm_s, h_img, i)
+    front_landmarks = front_pose.pose_landmarks.landmark
+    side_landmarks = side_pose.pose_landmarks.landmark
 
-        # Quét chiều rộng pixel tại Y Hip
-        px_f = np.sum(m_f[y_hip_px, :] > 0)
-        px_s = np.sum(m_s[y_hip_px, :] > 0)
+    # Calculate pixel-to-centimeter scale using estimated body height.
+    nose_y = front_landmarks[0].y * img_h
+    heel_y = ((front_landmarks[29].y + front_landmarks[30].y) / 2) * img_h
+    head_top_offset = abs(nose_y - (front_landmarks[1].y * img_h)) * K_FACTOR
 
-        calc_hip = calculate_ramanujan(px_f * ratio, px_s * ratio)
-        row_data[f"Iter_{i}"] = round(calc_hip, 2)
-    
+    ratio = sample_data["height"] / abs(heel_y - (nose_y - head_top_offset))
+
+    # Define hip scanning position.
+    hip_y_norm = front_landmarks[23].y + 0.08
+    hip_y_px = int(hip_y_norm * img_h)
+
+    row_data = {
+        "Sample": sample_name,
+        "Real Hip": sample_data["real_hip"],
+    }
+
+    for iteration in ITERATION_LIST:
+        refined_front_mask = refine_body_mask_research(
+            front_mask_raw,
+            front_landmarks,
+            img_h,
+            iteration,
+        )
+
+        refined_side_mask = refine_body_mask_research(
+            side_mask_raw,
+            side_landmarks,
+            img_h,
+            iteration,
+        )
+
+        # Count body pixels at the selected hip Y position.
+        front_width_px = np.sum(refined_front_mask[hip_y_px, :] > 0)
+        side_depth_px = np.sum(refined_side_mask[hip_y_px, :] > 0)
+
+        calculated_hip = calculate_ramanujan(
+            front_width_px * ratio,
+            side_depth_px * ratio,
+        )
+
+        row_data[f"Iter_{iteration}"] = round(calculated_hip, 2)
+
     results_table.append(row_data)
 
-# --- XUẤT BẢNG SO SÁNH ---
-df = pd.DataFrame(results_table)
-print("\nBẢNG SO SÁNH CHU VI MÔNG (HIP) THEO HỆ SỐ QUÉT BIÊN")
-print(df.to_string(index=False))
+results_df = pd.DataFrame(results_table)
+
+print("\nHIP CIRCUMFERENCE COMPARISON BY MASK REFINEMENT ITERATION")
+print(results_df.to_string(index=False))

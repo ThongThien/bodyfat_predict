@@ -470,55 +470,55 @@
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidResult"/>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#session_396e45bb">
+<owl:NamedIndividual rdf:about="#session_3008b385">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_396e45bb"/>
-  <hasFeature rdf:resource="#feature_396e45bb"/>
-  <hasPrediction rdf:resource="#prediction_396e45bb"/>
-  <hasQuality rdf:resource="#quality_396e45bb"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_396e45bb"/>
-  <ont.:hasInputSource rdf:resource="#image_input_396e45bb"/>
-  <ont.:hasImageInput rdf:resource="#image_input_396e45bb"/>
+  <hasMeasurement rdf:resource="#measurement_3008b385"/>
+  <hasFeature rdf:resource="#feature_3008b385"/>
+  <hasPrediction rdf:resource="#prediction_3008b385"/>
+  <hasQuality rdf:resource="#quality_3008b385"/>
+  <ont.:usesModelOutput rdf:resource="#prediction_3008b385"/>
+  <ont.:hasInputSource rdf:resource="#image_input_3008b385"/>
+  <ont.:hasImageInput rdf:resource="#image_input_3008b385"/>
   <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_396e45bb_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_396e45bb_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_396e45bb</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:34:51</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1255.29</ont.:latencyMs>
+  <ont.:hasExplanation rdf:resource="#explanation_3008b385_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3008b385_2"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3008b385_3"/>
+  <ont.:hasRecommendation rdf:resource="#recommendation_3008b385_1"/>
+  <ont.:hasExplanation rdf:resource="#explanation_3008b385_4"/>
+  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_3008b385</ont.:sessionId>
+  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-06-02T22:53:51</ont.:timestamp>
+  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3106.09</ont.:latencyMs>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#measurement_396e45bb">
+<owl:NamedIndividual rdf:about="#measurement_3008b385">
   <rdf:type rdf:resource="#Measurement"/>
   <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
   <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
   <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
+  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">105.4</hipCm>
   <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#feature_396e45bb">
+<owl:NamedIndividual rdf:about="#feature_3008b385">
   <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_396e45bb"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_396e45bb"/>
+  <ont.:derivedFromImage rdf:resource="#image_input_3008b385"/>
+  <ont.:derivedFromMeasurement rdf:resource="#measurement_3008b385"/>
   <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
   <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
   <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
+  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.95</whrValue>
   <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#prediction_396e45bb">
+<owl:NamedIndividual rdf:about="#prediction_3008b385">
   <rdf:type rdf:resource="#Prediction"/>
   <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
+  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.94</predictedBodyFat>
+  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.94</ont.:predictedBodyFat_raw>
+  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.94</ont.:predictedBodyFat_validated>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#quality_396e45bb">
+<owl:NamedIndividual rdf:about="#quality_3008b385">
   <rdf:type rdf:resource="#QualityAssessment"/>
   <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
   <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
@@ -527,663 +527,33 @@
   <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#image_input_396e45bb">
+<owl:NamedIndividual rdf:about="#image_input_3008b385">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
   <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
   <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#explanation_396e45bb_1">
+<owl:NamedIndividual rdf:about="#explanation_3008b385_1">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
   <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#explanation_396e45bb_2">
+<owl:NamedIndividual rdf:about="#explanation_3008b385_2">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
+  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.94% indicates High.</ont.:explanationText>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#explanation_396e45bb_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_396e45bb_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_396e45bb_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_86a622d3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_86a622d3"/>
-  <hasFeature rdf:resource="#feature_86a622d3"/>
-  <hasPrediction rdf:resource="#prediction_86a622d3"/>
-  <hasQuality rdf:resource="#quality_86a622d3"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_86a622d3"/>
-  <ont.:hasInputSource rdf:resource="#image_input_86a622d3"/>
-  <ont.:hasImageInput rdf:resource="#image_input_86a622d3"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_86a622d3_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_86a622d3_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_86a622d3</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:37:55</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1475.42</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_86a622d3">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_86a622d3">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_86a622d3"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_86a622d3"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_86a622d3">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_86a622d3">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_86a622d3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_86a622d3_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_86a622d3_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_86a622d3_3">
+<owl:NamedIndividual rdf:about="#explanation_3008b385_3">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
   <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#recommendation_86a622d3_1">
+<owl:NamedIndividual rdf:about="#recommendation_3008b385_1">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
   <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#explanation_86a622d3_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_f328ccb7">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_f328ccb7"/>
-  <hasFeature rdf:resource="#feature_f328ccb7"/>
-  <hasPrediction rdf:resource="#prediction_f328ccb7"/>
-  <hasQuality rdf:resource="#quality_f328ccb7"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_f328ccb7"/>
-  <ont.:hasInputSource rdf:resource="#image_input_f328ccb7"/>
-  <ont.:hasImageInput rdf:resource="#image_input_f328ccb7"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_f328ccb7_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_f328ccb7_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_f328ccb7</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:38:20</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2598.3</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_f328ccb7">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_f328ccb7">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_f328ccb7"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_f328ccb7"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_f328ccb7">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_f328ccb7">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_f328ccb7">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_f328ccb7_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_f328ccb7_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_f328ccb7_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_f328ccb7_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_f328ccb7_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_a60fd87b">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_a60fd87b"/>
-  <hasFeature rdf:resource="#feature_a60fd87b"/>
-  <hasPrediction rdf:resource="#prediction_a60fd87b"/>
-  <hasQuality rdf:resource="#quality_a60fd87b"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_a60fd87b"/>
-  <ont.:hasInputSource rdf:resource="#image_input_a60fd87b"/>
-  <ont.:hasImageInput rdf:resource="#image_input_a60fd87b"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_a60fd87b_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a60fd87b_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_a60fd87b</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:38:42</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1325.85</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_a60fd87b">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_a60fd87b">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_a60fd87b"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_a60fd87b"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_a60fd87b">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_a60fd87b">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_a60fd87b">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a60fd87b_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a60fd87b_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a60fd87b_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_a60fd87b_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a60fd87b_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_3e22d040">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_3e22d040"/>
-  <hasFeature rdf:resource="#feature_3e22d040"/>
-  <hasPrediction rdf:resource="#prediction_3e22d040"/>
-  <hasQuality rdf:resource="#quality_3e22d040"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_3e22d040"/>
-  <ont.:hasInputSource rdf:resource="#image_input_3e22d040"/>
-  <ont.:hasImageInput rdf:resource="#image_input_3e22d040"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_3e22d040_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_3e22d040_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_3e22d040</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:39:25</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1323.65</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_3e22d040">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_3e22d040">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_3e22d040"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_3e22d040"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_3e22d040">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_3e22d040">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_3e22d040">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_3e22d040_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_3e22d040_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_3e22d040_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_3e22d040_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_3e22d040_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_7d2c9d9a">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_7d2c9d9a"/>
-  <hasFeature rdf:resource="#feature_7d2c9d9a"/>
-  <hasPrediction rdf:resource="#prediction_7d2c9d9a"/>
-  <hasQuality rdf:resource="#quality_7d2c9d9a"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_7d2c9d9a"/>
-  <ont.:hasInputSource rdf:resource="#image_input_7d2c9d9a"/>
-  <ont.:hasImageInput rdf:resource="#image_input_7d2c9d9a"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_7d2c9d9a_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_7d2c9d9a_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_7d2c9d9a</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:47:53</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1453.76</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_7d2c9d9a">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_7d2c9d9a">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_7d2c9d9a"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_7d2c9d9a"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_7d2c9d9a">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_7d2c9d9a">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_7d2c9d9a">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_7d2c9d9a_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_7d2c9d9a_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_5f2a8c2c">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_5f2a8c2c"/>
-  <hasFeature rdf:resource="#feature_5f2a8c2c"/>
-  <hasPrediction rdf:resource="#prediction_5f2a8c2c"/>
-  <hasQuality rdf:resource="#quality_5f2a8c2c"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_5f2a8c2c"/>
-  <ont.:hasInputSource rdf:resource="#image_input_5f2a8c2c"/>
-  <ont.:hasImageInput rdf:resource="#image_input_5f2a8c2c"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_5f2a8c2c_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_5f2a8c2c_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_5f2a8c2c</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:48:42</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1383.54</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_5f2a8c2c">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_5f2a8c2c">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_5f2a8c2c"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_5f2a8c2c"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_5f2a8c2c">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_5f2a8c2c">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_5f2a8c2c">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_5f2a8c2c_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_5f2a8c2c_4">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ValidationResult"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#session_a7559258">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#PredictionSession"/>
-  <hasMeasurement rdf:resource="#measurement_a7559258"/>
-  <hasFeature rdf:resource="#feature_a7559258"/>
-  <hasPrediction rdf:resource="#prediction_a7559258"/>
-  <hasQuality rdf:resource="#quality_a7559258"/>
-  <ont.:usesModelOutput rdf:resource="#prediction_a7559258"/>
-  <ont.:hasInputSource rdf:resource="#image_input_a7559258"/>
-  <ont.:hasImageInput rdf:resource="#image_input_a7559258"/>
-  <ont.:hasWarningLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumWarning_Instance"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a7559258_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a7559258_2"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a7559258_3"/>
-  <ont.:hasRecommendation rdf:resource="#recommendation_a7559258_1"/>
-  <ont.:hasExplanation rdf:resource="#explanation_a7559258_4"/>
-  <ont.:sessionId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">session_a7559258</ont.:sessionId>
-  <ont.:timestamp rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2026-05-27T10:49:19</ont.:timestamp>
-  <ont.:latencyMs rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1364.31</ont.:latencyMs>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#measurement_a7559258">
-  <rdf:type rdf:resource="#Measurement"/>
-  <heightCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">172.0</heightCm>
-  <weightKg rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">82.0</weightKg>
-  <abdomenCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100.39</abdomenCm>
-  <hipCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">116.94</hipCm>
-  <ont.:chestCm rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">102.77</ont.:chestCm>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#feature_a7559258">
-  <rdf:type rdf:resource="#Feature"/>
-  <ont.:derivedFromImage rdf:resource="#image_input_a7559258"/>
-  <ont.:derivedFromMeasurement rdf:resource="#measurement_a7559258"/>
-  <hasBMIClass rdf:resource="http://example.invalid/ontologies/ont.owl#Overweight_Instance"/>
-  <ont.:hasSemanticFlag rdf:resource="http://example.invalid/ontologies/ont.owl#AbdominalObesity_Instance"/>
-  <bmiValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">27.72</bmiValue>
-  <whrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.86</whrValue>
-  <wthrValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</wthrValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#prediction_a7559258">
-  <rdf:type rdf:resource="#Prediction"/>
-  <hasFatLevel rdf:resource="http://example.invalid/ontologies/ont.owl#HighFat_Instance"/>
-  <predictedBodyFat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</predictedBodyFat>
-  <ont.:predictedBodyFat_raw rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_raw>
-  <ont.:predictedBodyFat_validated rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">25.58</ont.:predictedBodyFat_validated>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#quality_a7559258">
-  <rdf:type rdf:resource="#QualityAssessment"/>
-  <ont.:hasConfidenceLevel rdf:resource="http://example.invalid/ontologies/ont.owl#MediumConfidence_Instance"/>
-  <poseVisibility rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.98</poseVisibility>
-  <maskConfidence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</maskConfidence>
-  <ont.:confidenceScore rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.65</ont.:confidenceScore>
-  <ont.:missingLandmarkCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</ont.:missingLandmarkCount>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#image_input_a7559258">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#ImageInput"/>
-  <ont.:sourceType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AI Scan</ont.:sourceType>
-  <ont.:imageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">front_Lo_23-172-87-102-107-101-54.jpg | side_Lo_23-172-87-102-107-101-54.jpg</ont.:imageName>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a7559258_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BMI = 27.72 indicates Overweight body state.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a7559258_2">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Predicted body fat = 25.58% indicates High.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a7559258_3">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
-  <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WtHR = 0.58 suggests central abdominal fat risk.</ont.:explanationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#recommendation_a7559258_1">
-  <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#Recommendation"/>
-  <ont.:recommendationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Reduce central fat risk through calorie control, regular cardio, and resistance training.</ont.:recommendationText>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#explanation_a7559258_4">
+<owl:NamedIndividual rdf:about="#explanation_3008b385_4">
   <rdf:type rdf:resource="http://example.invalid/ontologies/ont.owl#SemanticExplanation"/>
   <ont.:triggeredByRule rdf:resource="http://example.invalid/ontologies/ont.owl#RULE_MEDIUM_CONFIDENCE_Instance"/>
   <ont.:explanationText rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ontology confidence level is MediumConfidence based on pose visibility and mask confidence.</ont.:explanationText>
@@ -1216,210 +586,6 @@
 <swrl:Variable rdf:about="#mc"/>
 
 <swrl:Variable rdf:about="#pv"/>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)">
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)">
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)">
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_7d2c9d9a_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_396e45bb_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_3e22d040_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_86a622d3_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_a60fd87b_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-  <owl:equivalentClass rdf:resource="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_f328ccb7_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_2 http://example.invalid/ontologies/ont.owl#explanationText literal(Predicted body fat">
-  <owl:equivalentClass rdf:resource="25.58% indicates High.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_1 http://example.invalid/ontologies/ont.owl#explanationText literal(BMI">
-  <owl:equivalentClass rdf:resource="27.72 indicates Overweight body state.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="DATAPROPVAL: http://www.semanticweb.org/bodyfat#explanation_5f2a8c2c_3 http://example.invalid/ontologies/ont.owl#explanationText literal(WtHR">
-  <owl:equivalentClass rdf:resource="0.58 suggests central abdominal fat risk.,(),http://www.w3.org/2001/XMLSchema#string)"/>
-</rdf:Description>
 
 <swrl:Imp>
   <swrl:body>
