@@ -283,7 +283,68 @@ code, pre {
     color: #111827 !important;
 }
 
+/* ===== FONT SIZE GLOBAL ===== */
 
+/* chữ thường, label, mô tả */
+.stApp p,
+.stApp label,
+.stApp span,
+.stApp div {
+    font-size: 20px !important;
+}
+
+/* tiêu đề lớn */
+.stApp h1 {
+    font-size: 42px !important;
+}
+
+.stApp h2 {
+    font-size: 36px !important;
+}
+
+.stApp h3 {
+    font-size: 30px !important;
+}
+
+/* input Age, Weight, Height */
+.stNumberInput label,
+.stFileUploader label,
+.stCheckbox label {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+}
+
+/* chữ trong ô nhập */
+.stNumberInput input {
+    font-size: 22px !important;
+}
+
+/* file uploader */
+[data-testid="stFileUploader"] * {
+    font-size: 18px !important;
+}
+
+/* expander: Photo guide, Sample Images */
+[data-testid="stExpander"] summary p {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stExpander"] p,
+[data-testid="stExpander"] li {
+    font-size: 19px !important;
+    line-height: 1.55 !important;
+}
+
+/* Prediction metric */
+[data-testid="stMetricLabel"] {
+    font-size: 22px !important;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 42px !important;
+    font-weight: 800 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
